@@ -29,7 +29,9 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - Intercept requests and serve offline page if network fails
 self.addEventListener('fetch', (event) => {
-    // Only handle navigation requests (page loads)
+    const url = new URL(event.request.url);
+    
+    // Handle navigation requests (page loads)
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request).catch(async () => {
@@ -41,14 +43,32 @@ self.addEventListener('fetch', (event) => {
                 });
             })
         );
-    } else {
-        // For other assets (images, scripts), try network first
+        return;
+    }
+
+    // Cache-first strategy for Cyberfiction images to speed up 3D model sync
+    if (url.pathname.includes('/CYBERFICTION-IMAGES/')) {
         event.respondWith(
-            fetch(event.request).catch(async () => {
-                const cachedResponse = await caches.match(event.request);
-                // Return cached asset or a simple 404 if offline and not in cache
-                return cachedResponse || new Response(null, { status: 404 });
+            caches.open(CACHE_NAME).then((cache) => {
+                return cache.match(event.request).then((cachedResponse) => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    return fetch(event.request).then((networkResponse) => {
+                        cache.put(event.request, networkResponse.clone());
+                        return networkResponse;
+                    });
+                });
             })
         );
+        return;
     }
+
+    // Default strategy for other assets
+    event.respondWith(
+        fetch(event.request).catch(async () => {
+            const cachedResponse = await caches.match(event.request);
+            return cachedResponse || new Response(null, { status: 404 });
+        })
+    );
 });

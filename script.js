@@ -324,9 +324,6 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
             const frameNum = framesToLoad[index];
             return `./CYBERFICTION-IMAGES/male${frameNum.toString().padStart(4, '0')}.png`;
         }
-
-        // Progressively load images: Priority for first 50 frames
-        const PRIORITY_COUNT = Math.min(50, frameCount);
         
         function updateLoaderUI() {
             if (loaderText) {
@@ -366,22 +363,25 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         }
 
         async function startLoading() {
-            // Step 1: Load Priority Frames (first 50) sequentially for instant feedback
-            for (let i = 0; i < PRIORITY_COUNT; i++) {
-                await loadFrame(i);
+            // We'll use a concurrency-limited approach to load images as fast as possible 
+            // without choking the browser's connection pool.
+            const MAX_CONCURRENCY = isMobile ? 4 : 8;
+            let currentIndex = 0;
+
+            async function loadNext() {
+                if (currentIndex >= frameCount) return;
+                const index = currentIndex++;
+                await loadFrame(index);
+                return loadNext();
             }
 
-            // Step 2: Load remaining frames in small batches to not block main thread
-            const batchSize = 5;
-            for (let i = PRIORITY_COUNT; i < frameCount; i += batchSize) {
-                const batch = [];
-                for (let j = 0; j < batchSize && (i + j) < frameCount; j++) {
-                    batch.push(loadFrame(i + j));
-                }
-                await Promise.all(batch);
-                // Optional: delay slightly between batches on mobile
-                if (isMobile) await new Promise(r => setTimeout(r, 50));
+            // Start initial workers
+            const workers = [];
+            for (let i = 0; i < MAX_CONCURRENCY; i++) {
+                workers.push(loadNext());
             }
+
+            await Promise.all(workers);
         }
 
         startLoading();
