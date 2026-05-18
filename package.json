@@ -1,0 +1,27 @@
+{
+  "name": "cybersecure-portfolio",
+  "version": "1.0.0",
+  "description": "Modern Cybersecurity Portfolio Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 3000 -o",
+    "dev": "http-server -p 3000 -c-1",
+    "serve": "http-server"
+  },
+  "keywords": [
+    "portfolio",
+    "cybersecurity",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}

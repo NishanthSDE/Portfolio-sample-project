@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM OFFLINE | JEEVANANTHAN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --offline-bg: #1a1a1c; /* Deep Dark Grey (Almost Black) */
+            --offline-text: #ffffff;
+            --offline-accent: #ff6b00;
+        }
+
+        body.offline-mode {
+            background-color: var(--offline-bg);
+            color: var(--offline-text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Syne', sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 107, 0, 0.03) 0%, transparent 70%);
+        }
+
+        /* Pumpkin Container */
+        .pumpkin-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pumpkin-svg {
+            width: 100%;
+            height: 100%;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            animation: lazyFloat 8s ease-in-out infinite;
+            cursor: crosshair;
+            transform-origin: center;
+        }
+
+        @keyframes lazyFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes aggressiveGlitch {
+            0% { transform: translate(0, 0) scale(1); }
+            10% { transform: translate(-4px, 2px) scale(1.01); }
+            20% { transform: translate(4px, -2px) scale(0.99); }
+            30% { transform: translate(-6px, -4px) scale(1.03); }
+            40% { transform: translate(6px, 4px) scale(0.97); }
+            50% { transform: translate(-1px, 1px) scale(1.05); }
+            60% { transform: translate(1px, -1px) scale(0.95); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes angryShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            10% { transform: translate(-4px, 2px) rotate(-1.8deg) scale(1.02); }
+            20% { transform: translate(4px, -2px) rotate(1.8deg) scale(1.02); }
+            30% { transform: translate(-5px, 2px) rotate(-2.2deg) scale(1.025); }
+            40% { transform: translate(5px, -2px) rotate(2.2deg) scale(1.025); }
+            50% { transform: translate(-4px, 3px) rotate(-1.7deg) scale(1.03); }
+            60% { transform: translate(4px, -3px) rotate(1.7deg) scale(1.03); }
+            70% { transform: translate(-3px, 2px) rotate(-1.1deg) scale(1.02); }
+            80% { transform: translate(3px, -2px) rotate(1.1deg) scale(1.02); }
+            90% { transform: translate(-2px, 1px) rotate(-0.8deg) scale(1.01); }
+        }
+
+        @keyframes angryPulse {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2)); }
+            50% { filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.42)); }
+        }
+
+        @keyframes eyeTwitch {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, 0); }
+        }
+
+        /* Interactive Paths */
+        .pumpkin-svg path {
+            transition: d 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), fill 0.3s ease;
+        }
+
+        /* Initial "Cute Round" State */
+        .eye-l { d: path("M 42 46 A 9 9 0 1 1 42 64 A 9 9 0 1 1 42 46"); }
+        .eye-r { d: path("M 85 46 A 9 9 0 1 1 85 64 A 9 9 0 1 1 85 46"); }
+
+        .highlight, .freckle, .tooth {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .angry-tooth {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        /* Nose and Aggressive Mouth - hidden by default, shown on hover */
+        .aggressive-feature {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            fill: #000;
+        }
+
+        /* Keep hover clean: prevent aggressive morph/glitch state */
+        .pumpkin-container:hover .pumpkin-svg {
+            animation: angryShake 0.22s infinite;
+        }
+
+        .pumpkin-container:hover .body-path,
+        .pumpkin-container:hover #discord-clip-path {
+            d: path("M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.39,80.21a105.73,105.73,0,0,0,24.72,16.15,77.7,77.7,0,0,0,7.37-12,67.6,67.6,0,0,1-11.89-5.68c.9-.66,1.8-1.34,2.66-2a75.1,75.1,0,0,0,80.76,0c.86.69,1.76,1.37,2.66,2a67.4,67.4,0,0,1-11.89,5.68,77.67,77.67,0,0,0,7.36,12,105.9,105.9,0,0,0,24.73-16.15C129.5,50.49,125.1,26.51,107.7,8.07Z");
+        }
+
+        .pumpkin-container:hover .eye-l {
+            d: path("M30 55 L39 44 L52 48 L47 52 L60 53 L50 59 L39 58 Z");
+            fill: #000;
+            animation: eyeTwitch 0.22s steps(2, end) infinite;
+        }
+
+        .pumpkin-container:hover .eye-r {
+            d: path("M97 55 L88 44 L75 48 L80 52 L67 53 L77 59 L88 58 Z");
+            fill: #000;
+            animation: eyeTwitch 0.24s steps(2, end) infinite reverse;
+        }
+
+        .pumpkin-container:hover .aggressive-feature {
+            opacity: 1;
+            fill: #000;
+            animation: eyeTwitch 0.28s steps(2, end) infinite;
+        }
+
+        .pumpkin-container:hover .jawline {
+            opacity: 1 !important;
+            d: path("M33 83 Q63.5 103 94 83 L90 96 Q63.5 113 37 96 Z");
+            fill: #fff !important;
+            stroke: none !important;
+            animation: jawBite 0.2s infinite alternate;
+        }
+
+        .jaw-stripe {
+            opacity: 0;
+            stroke: var(--offline-bg);
+            stroke-width: 1.3;
+            fill: none;
+            pointer-events: none;
+        }
+
+        .pumpkin-container:hover .jaw-stripe {
+            opacity: 1;
+            animation: jawBite 0.2s infinite alternate;
+        }
+
+        .pumpkin-container:hover .highlight {
+            opacity: 1;
+            transform: none;
+        }
+
+        .pumpkin-container:hover .highlight:nth-of-type(1) {
+            opacity: 1;
+            transform: translate(2px, 1px) scale(1.15);
+        }
+        .pumpkin-container:hover .highlight:nth-of-type(2) {
+            opacity: 1;
+            transform: translate(4px, -6px) scale(1.05);
+        }
+        .pumpkin-container:hover .highlight:nth-of-type(3) {
+            opacity: 1;
+            transform: translate(-2px, 1px) scale(1.15);
+        }
+        .pumpkin-container:hover .highlight:nth-of-type(4) {
+            opacity: 1;
+            transform: translate(4px, -6px) scale(1.05);
+        }
+
+        .pumpkin-container:hover .freckle {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: visible !important;
+        }
+
+        .pumpkin-container:hover .jagged-cheek {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .pumpkin-container:hover .tooth {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .pumpkin-container:hover .smile-tooth {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .pumpkin-container:hover .angry-tooth {
+            opacity: 1;
+            transform: scale(1);
+            animation: jawBite 0.2s infinite alternate;
+        }
+
+        @keyframes jawBite {
+            from { transform: translateY(0); }
+            to { transform: translateY(2px); }
+        }
+
+        /* Pumpkin Segments - Carved look matching background */
+        .segment {
+            fill: none;
+            stroke: var(--offline-bg);
+            stroke-width: 1.5;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        /* Text Section */
+        .offline-content {
+            text-align: center;
+            max-width: 90%;
+            z-index: 2;
+        }
+
+        .offline-content h1 {
+            font-size: 14px;
+            letter-spacing: 0.5em;
+            margin-bottom: 10px;
+            color: var(--offline-accent);
+            text-transform: uppercase;
+            animation: flicker 2s infinite;
+        }
+
+        .offline-content p {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .sub-text {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-top: 20px;
+            letter-spacing: 0.2em;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+            52% { opacity: 1; }
+            54% { opacity: 0.4; }
+            56% { opacity: 1; }
+        }
+
+        /* Removed Scanline effect */
+
+    </style>
+</head>
+<body class="offline-mode">
+
+    <!-- Main Visual -->
+    <div class="pumpkin-container">
+        <svg class="pumpkin-svg" viewBox="0 0 127 127">
+            <defs>
+                <clipPath id="discord-clip">
+                    <path id="discord-clip-path" d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.39,80.21a105.73,105.73,0,0,0,24.72,16.15,77.7,77.7,0,0,0,7.37-12,67.6,67.6,0,0,1-11.89-5.68c.9-.66,1.8-1.34,2.66-2a75.1,75.1,0,0,0,80.76,0c.86.69,1.76,1.37,2.66,2a67.4,67.4,0,0,1-11.89,5.68,77.67,77.67,0,0,0,7.36,12,105.9,105.9,0,0,0,24.73-16.15C129.5,50.49,125.1,26.51,107.7,8.07Z" />
+                </clipPath>
+            </defs>
+
+            <g transform="translate(0, 15)">
+                <!-- Discord Body Fill -->
+                <path class="body-path" d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.39,80.21a105.73,105.73,0,0,0,24.72,16.15,77.7,77.7,0,0,0,7.37-12,67.6,67.6,0,0,1-11.89-5.68c.9-.66,1.8-1.34,2.66-2a75.1,75.1,0,0,0,80.76,0c.86.69,1.76,1.37,2.66,2a67.4,67.4,0,0,1-11.89,5.68,77.67,77.67,0,0,0,7.36,12,105.9,105.9,0,0,0,24.73-16.15C129.5,50.49,125.1,26.51,107.7,8.07Z" />
+                
+                <!-- Clipped Ridges (Stripes) -->
+                <g clip-path="url(#discord-clip)">
+                    <path class="segment" d="M20 -20 Q 0 50, 20 120" />
+                    <path class="segment" d="M35 -20 Q 15 50, 35 120" />
+                    <path class="segment" d="M50 -20 Q 35 50, 50 120" />
+                    <path class="segment" d="M63.5 -20 V 120" />
+                    <path class="segment" d="M77 -20 Q 92 50, 77 120" />
+                    <path class="segment" d="M92 -20 Q 112 50, 92 120" />
+                    <path class="segment" d="M107 -20 Q 127 50, 107 120" />
+                </g>
+                
+                <!-- Stem -->
+                <path d="M60 -10 Q 63.5 -15, 67 -10 L 65 5 Q 63.5 2, 62 5 Z" fill="#fff" />
+                
+                <!-- Eyes -->
+                <path class="eye-l" fill="#000" />
+                <path class="eye-r" fill="#000" />
+
+                <!-- Left Eye Highlights -->
+                <circle class="highlight" cx="45" cy="51" r="3.2" fill="#fff" />
+                <circle class="highlight" cx="38" cy="58" r="2" fill="#fff" />
+
+                <!-- Right Eye Highlights -->
+                <circle class="highlight" cx="88" cy="51" r="3.2" fill="#fff" />
+                <circle class="highlight" cx="81" cy="58" r="2" fill="#fff" />
+
+                <!-- Left Cheek Freckles -->
+                <circle class="freckle" cx="30" cy="66" r="1.2" fill="#000" />
+                <circle class="freckle" cx="34" cy="69" r="1.2" fill="#000" />
+                <circle class="freckle" cx="32" cy="72" r="1.2" fill="#000" />
+
+                <!-- Right Cheek Freckles -->
+                <circle class="freckle" cx="97" cy="66" r="1.2" fill="#000" />
+                <circle class="freckle" cx="93" cy="69" r="1.2" fill="#000" />
+                <circle class="freckle" cx="95" cy="72" r="1.2" fill="#000" />
+
+                <!-- Aggressive Features (Hover only) -->
+                <!-- Nose -->
+                <path class="aggressive-feature" d="M63.5,67 L55,77 L63.5,82 L72,77 Z" />
+                <!-- Jagged Sides (Cheeks) -->
+                <path class="aggressive-feature jagged-cheek" d="M15,60 L22,70 L15,80 L25,85 L20,70 L25,60 Z" />
+                <path class="aggressive-feature jagged-cheek" d="M112,60 L105,70 L112,80 L102,85 L107,70 L102,60 Z" />
+                <!-- Sharp Jawline (Smooth Full Width Curve) -->
+                <path class="aggressive-feature jawline" d="M0,95 C30,125 97,125 127,95 L127,110 C97,140 30,140 0,110 Z" />
+                <path class="jaw-stripe" d="M38 85 Q36 92 37 100" />
+                <path class="jaw-stripe" d="M52 84 Q50 93 51 103" />
+                <path class="jaw-stripe" d="M63.5 84 V104" />
+                <path class="jaw-stripe" d="M75 84 Q77 93 76 103" />
+                <path class="jaw-stripe" d="M89 85 Q91 92 90 100" />
+
+                <!-- Teeth -->
+                <path class="tooth smile-tooth" d="M44,86 Q50,98 56,86 Z" fill="#fff" />
+                <path class="tooth smile-tooth" d="M72,86 Q78,98 84,86 Z" fill="#fff" />
+                <path class="tooth angry-tooth" d="M43 84 L46 91 L49 84 Z" fill="#fff" />
+                <path class="tooth angry-tooth" d="M51 84 L54 92 L57 84 Z" fill="#fff" />
+                <path class="tooth angry-tooth" d="M60 84 L63.5 93 L67 84 Z" fill="#fff" />
+                <path class="tooth angry-tooth" d="M70 84 L73 92 L76 84 Z" fill="#fff" />
+                <path class="tooth angry-tooth" d="M78 84 L81 91 L84 84 Z" fill="#fff" />
+            </g>
+        </svg>
+    </div>
+
+    <!-- Content -->
+     
+    <div class="offline-content">
+        <h1>Signal Lost</h1>
+        <p>Dimension Disconnect</p>
+        <div class="sub-text">RE-ESTABLISHING CONNECTION... PLEASE STAND BY</div>
+    </div>
+
+    <script>
+        // Background lines removed
+    </script>
+</body>
+
+</html>

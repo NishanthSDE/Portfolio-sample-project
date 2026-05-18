@@ -1,0 +1,386 @@
+/* --- MARVEL SLIDER PROJECTS (Typography Focused) --- */
+.marvel-slider-section {
+    background: #050505;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding: 120px 0;
+}
+
+.marvel-slider-section .section-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.marvel-slider-section .section-container h1 {
+    margin-bottom: 50px;
+}
+
+.marvel-slider-section .projects-main-title {
+    font-size: clamp(32px, 4.8vw, 64px) !important;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 14px !important;
+}
+
+.marvel-slider-section .highlight {
+    font-size: clamp(16px, 1.7vw, 24px);
+    letter-spacing: 0.25em;
+}
+
+.slider-wrapper {
+    width: 100%;
+    height: 75vh;
+    background: transparent;
+    border-radius: 0;
+    position: relative;
+    overflow: visible;
+    border: none;
+    box-shadow: none;
+    display: flex;
+}
+
+.slider-sidebar {
+    display: none;
+    width: 0;
+    background: transparent;
+    flex-shrink: 0;
+    transition: background-color 0.5s ease;
+}
+
+.slider-container {
+    flex: 1;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.8s;
+    display: flex;
+    align-items: center;
+    padding: 0 5%; /* Slightly reduced padding */
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.slide-bg-text {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.02); /* Adjusted for dark theme */
+    pointer-events: none;
+    line-height: 1;
+    z-index: 1;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.05em;
+    will-change: transform, opacity;
+}
+
+.slide-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+    will-change: transform;
+}
+
+.slide-left-info {
+    width: 40%;
+    text-align: left;
+    will-change: transform, opacity;
+}
+
+.project-01-info {
+    width: 55%; /* Widened to reduce the gap and extend text further right */
+}
+
+.project-03-info,
+.project-04-info {
+    width: 55%;
+}
+
+.slide-subtitle {
+    font-family: 'Teko', sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--p7-3); /* Using project accent */
+    margin-bottom: 20px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.slide-desc {
+    font-size: clamp(19px, 1.45vw, 24px);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 40px;
+    font-weight: 300;
+    max-width: 98%;
+    word-break: normal;
+    overflow-wrap: normal;
+    hyphens: none;
+}
+
+.slide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.slide-tags span {
+    font-family: 'Teko', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+}
+
+.slide-tags span:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.slide-right-heading {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    will-change: transform, opacity;
+}
+
+.slide-title {
+    font-family: 'Sharkbit Demo', sans-serif;
+    font-size: clamp(24px, 3.2vw, 42px);
+    font-weight: 800;
+    line-height: 0.95;
+    margin: 0;
+    color: #a8a3e3;
+    text-align: right;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    transform: translateX(40px);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1s ease;
+    white-space: nowrap;
+    will-change: transform, opacity;
+}
+
+.marvel-slider-section .slide-title.font-shark {
+    font-family: 'Sharkbit Demo', sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: 1px !important;
+}
+
+.dust-char {
+    display: inline-block;
+    font-family: inherit !important;
+    font-weight: inherit;
+    font-style: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    will-change: transform, opacity, filter;
+    transform-origin: 50% 50%;
+}
+
+.slide.active .slide-title {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.slider-nav {
+    position: absolute;
+    bottom: 50px;
+    left: 6%;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+.marvel-slider-section .nav-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    color: #fff;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.marvel-slider-section .nav-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+.marvel-slider-section .nav-btn::after {
+    content: "";
+    position: absolute;
+    inset: -35%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, transparent 62%);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+}
+
+.marvel-slider-section .nav-btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.marvel-slider-section .nav-indicator {
+    display: flex;
+    gap: 12px;
+}
+
+.marvel-slider-section .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform;
+}
+
+.marvel-slider-section .dot.active {
+    background: #fff;
+    transform: scale(1.4);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+    .marvel-slider-section {
+        padding: 78px 0 52px;
+        min-height: auto;
+    }
+
+    .marvel-slider-section .section-container {
+        padding: 0 4%;
+    }
+
+    .marvel-slider-section .section-container h1 {
+        margin-bottom: 28px;
+    }
+
+    .slider-wrapper {
+        width: 100%;
+        height: auto;
+        min-height: 72vh;
+        flex-direction: column-reverse;
+        background: #0a0a0c;
+    }
+
+    .slide {
+        padding: 0 4%;
+    }
+
+    .slide-content {
+        flex-direction: column;
+        padding: 28px 0 96px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .slide-left-info, .slide-right-heading {
+        width: 100%;
+    }
+
+    .slide-left-info {
+        order: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .slide-right-heading {
+        order: 1;
+        justify-content: center;
+        height: auto;
+        margin-bottom: 18px;
+    }
+
+    .slide-title {
+        text-align: center;
+        font-family: 'Sharkbit Demo', sans-serif !important;
+        font-size: clamp(22px, 6vw, 36px) !important;
+        font-weight: 400 !important;
+        letter-spacing: 1px;
+        line-height: 1.02;
+        transform: translateY(20px);
+        white-space: normal;
+    }
+
+    .slide.active .slide-title {
+        transform: translateY(0);
+    }
+
+    .slide-subtitle {
+        margin-bottom: 12px;
+    }
+
+    .slide-desc {
+        max-width: min(100%, 920px);
+        font-size: clamp(16px, 2.3vw, 22px);
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .slide-tags {
+        justify-content: center;
+    }
+
+    .slide-bg-text {
+        right: 2%;
+        top: auto;
+        bottom: 8%;
+        transform: none;
+        font-size: 22vw;
+        opacity: 0.8;
+    }
+
+    .slider-nav {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 18px;
+        gap: 24px;
+    }
+}
+

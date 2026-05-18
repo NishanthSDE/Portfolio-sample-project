@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# AI Tooling configuration
+.claude/
+.gemini/
+
+# OS specific files
+.DS_Store
+Thumbs.db

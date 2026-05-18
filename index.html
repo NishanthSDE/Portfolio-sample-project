@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sections/projects_v2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+</head>
+
+<body>
+    <div id="interactive-cursor" aria-hidden="true"></div>
+    <div id="site-loader" aria-live="polite" aria-label="Loading website">
+        <div class="site-loader-atmo"></div>
+        <div class="site-loader-noise"></div>
+        <div class="site-loader-bg-text-wrap" aria-hidden="true">
+            <div class="site-loader-bg-text">Yokoso... watashi no Souru Sosaeti e. &nbsp; &nbsp; Yokoso... watashi no Souru Sosaeti e.</div>
+        </div>
+
+        <div class="site-loader-stage" id="site-loader-stage">
+            <div class="site-loader-door site-loader-door-left"></div>
+            <div class="site-loader-door site-loader-door-right"></div>
+            <div class="site-loader-crack" id="site-loader-crack"></div>
+        </div>
+
+        <div class="site-loader-core">
+            <p class="site-loader-kicker">SECURITY GATEWAY</p>
+            <h1 class="site-loader-title" id="site-loader-title">CYBER SECURITY</h1>
+            <p class="site-loader-sub" id="site-loader-sub">System booting... <span id="site-loader-percent">1%</span></p>
+            <div class="site-loader-progress" id="site-loader-progress">
+                <div class="site-loader-progress-fill" id="site-loader-progress-fill"></div>
+            </div>
+            <div class="site-loader-slider" id="site-loader-slider" aria-label="Slide to enter">
+                <div class="site-loader-slider-track">DOMAIN UNLOCKED â€” SWIPE TO ENTER</div>
+                <div class="site-loader-slider-fill" id="site-loader-slider-fill"></div>
+                <button class="site-loader-slider-thumb" id="site-loader-slider-thumb" type="button" aria-label="Swipe to enter"></button>
+            </div>
+        </div>
+    </div>
+    <div class="corner-scroll-controls" id="corner-scroll-controls" aria-label="Page scroll controls">
+        <button type="button" class="corner-scroll-btn up" id="scroll-to-top" aria-label="Scroll to home">&#8593;</button>
+        <button type="button" class="corner-scroll-btn down" id="scroll-to-footer" aria-label="Scroll to footer">&#8595;</button>
+    </div>
+    <div id="nav">
+        <h3 class="nav-logo"><b class="p7-accent">JEEVA</b>NANTHAN*</h3>
+        <div class="nav-links">
+            <a href="#page" data-scroll-to>HOME</a>
+            <a href="#about-section" data-scroll-to>ABOUT</a>
+            <a href="#education-section" data-scroll-to>EDUCATION</a>
+            <a href="#skills-section" data-scroll-to>SKILLS</a>
+            <a href="#experience-section" data-scroll-to>EXPERIENCE</a>
+            <a href="#projects-section" data-scroll-to>PROJECTS</a>            <a href="#contact-section" data-scroll-to>CONTACT</a>
+        </div>
+        <div id="menu-toggle">
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-arrow-wrap">
+            <span class="nav-arrow-hint">Click the arrow to wake up the navbar</span>
+            <button id="nav-arrow-toggle" class="nav-arrow-btn" aria-label="Toggle navigation links" aria-expanded="false" type="button">&#8592;</button>
+        </div>
+    </div>
+    <div id="main">
+        <div id="page">
+            <div id="loop">
+                <h1><b>SECURING</b> DIGITAL <b><i>DIMENSIONS</i></b> WITH <span>NETWORK</span>
+                    <span><i>DEFENSE.</i></span></h1>
+                <h1><b>SECURING</b> DIGITAL <b><i>DIMENSIONS</i></b> WITH <span>NETWORK</span>
+                    <span><i>DEFENSE.</i></span></h1>
+                <h1><b>SECURING</b> DIGITAL <b><i>DIMENSIONS</i></b> WITH <span>NETWORK</span>
+                    <span><i>DEFENSE.</i></span></h1>
+            </div>
+            <div id="hero-footer">
+                <h3 class="transmission-reveal">SEO SPECIALIST TRANSITIONING INTO CYBERSECURITY WITH A FOCUS ON ETHICAL HACKING, NETWORK DEFENSE, AND SECURE DIGITAL EXPERIENCES.</h3>
+                <div class="loader-wrap">
+                    <h4 class="transmission-reveal">..INITIALIZING SYNC</h4>
+                    <div class="scroll-arrow" id="hero-scroll-arrow">
+                        <span class="arrow-icon">â†“</span>
+                    </div>
+                </div>
+            </div>
+            <canvas></canvas>
+        </div>
+        <div id="page1">
+            <div id="left-text" class="transmission-reveal">
+                <h3 class="p7-accent">THE MISSION</h3>
+                <h1 class="font-druk">SECURE SYSTEMS</h1>
+                <p>BUILDING <span class="p7-light">SCALABLE</span> AND <span class="p7-accent">RESILIENT</span>
+                    DIGITAL <span class="p7-light">INFRASTRUCTURES</span> THROUGH PRACTICAL CYBERSECURITY KNOWLEDGE.</p>
+            </div>
+            <div id="right-text" class="transmission-reveal">
+                <h3 class="p7-accent">CAPABILITIES</h3>
+                <h1 class="font-druk">THREAT DEFENSE</h1>
+                <p>APPLYING <span class="p7-light">VAPT</span> METHODS TO <span class="p7-accent">IDENTIFY</span> RISKS, <span class="p7-light">STRENGTHEN</span> CONTROLS, AND PROTECT NETWORKS.</p>
+            </div>
+        </div>
+        <div data-section="sections/about.html"></div>
+        <div data-section="sections/education.html"></div>
+        <div data-section="sections/skills.html"></div>
+        <div data-section="sections/tools.html"></div>
+        <div data-section="sections/certificates.html"></div>
+        <div data-section="sections/experience.html"></div>
+        <div data-section="sections/projects.html"></div>        <div data-section="sections/contact.html"></div>
+    <div data-section="sections/footer.html"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"
+        integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"
+        integrity="sha512-AMl4wfwAmDM1lsQvVBBRHYENn1FR8cfOTpt8QVbb/P55mYOdahHD4LmHM1W55pNe3j/3od8ELzPf/8eNkkjISQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+    <script src="section-loader.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Register Service Worker for Offline Fallback
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker Registered'))
+                    .catch(err => console.log('Service Worker Failed', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,288 @@
+<div id="tools-section" class="fluid-page pair-blue-muted tools-v2">
+    <div class="section-container">
+        <h1 class="font-theater transmission-reveal project-heading-match" style="font-size: clamp(32px, 4.8vw, 64px); letter-spacing: 1px; line-height: 1; margin-bottom: 14px;">TOOLS</h1>
+        <h1 class="font-moho transmission-reveal">TOOLS & FRAMEWORKS</h1>
+
+        <div class="tools-orbit-wrap transmission-reveal">
+            <div class="tools-bg-noise"></div>
+            <div class="tools-orbit-core">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="tools-core-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#a8a3e3"></stop>
+                            <stop offset="100%" stop-color="#363b6c"></stop>
+                        </linearGradient>
+                    </defs>
+                    <polyline points="16 18 22 12 16 6" stroke="url(#tools-core-grad)" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"></polyline>
+                    <polyline points="8 6 2 12 8 18" stroke="url(#tools-core-grad)" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"></polyline>
+                </svg>
+            </div>
+
+            <div class="tools-orbit-ring tools-orbit-ring--inner"></div>
+            <div class="tools-orbit-ring tools-orbit-ring--outer"></div>
+            <div class="tools-orbit-items" id="tools-orbit-items" aria-label="Orbiting frontend tool icons"></div>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-tag highlight transmission-reveal">NMAP</div>
+            <div class="tool-tag transmission-reveal">BURP SUITE</div>
+            <div class="tool-tag highlight transmission-reveal">WIRESHARK</div>
+            <div class="tool-tag transmission-reveal">KALI LINUX</div>
+            <div class="tool-tag highlight transmission-reveal">PYTHON</div>
+            <div class="tool-tag transmission-reveal">BASH</div>
+            <div class="tool-tag highlight transmission-reveal">GOOGLE ANALYTICS</div>
+            <div class="tool-tag transmission-reveal">SEMRUSH</div>
+            <div class="tool-tag highlight transmission-reveal">AHREFS</div>
+            <div class="tool-tag transmission-reveal">SEARCH CONSOLE</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tools-v2 .tools-orbit-wrap {
+        --inner-orbit: 100px;
+        --outer-orbit: 180px;
+        position: relative;
+        width: min(92vw, 470px);
+        height: min(92vw, 470px);
+        margin: 24px auto 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01) 45%, rgba(5, 5, 5, 0.45) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .tools-v2 .tools-bg-noise {
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(circle at 20% 20%, rgba(55, 65, 81, 0.25) 0%, transparent 45%),
+            radial-gradient(circle at 80% 80%, rgba(75, 85, 99, 0.25) 0%, transparent 45%);
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    .tools-v2 .tools-orbit-core {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(145deg, #4c5188, #2b305a);
+        box-shadow: 0 0 22px rgba(168, 163, 227, 0.28), 0 0 36px rgba(54, 59, 108, 0.3);
+    }
+
+    .tools-v2 .tools-orbit-ring {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .tools-v2 .tools-orbit-ring--inner {
+        width: calc(var(--inner-orbit) * 2);
+        height: calc(var(--inner-orbit) * 2);
+        border: 1px solid rgba(168, 163, 227, 0.35);
+        box-shadow: inset 0 0 22px rgba(168, 163, 227, 0.16), 0 0 28px rgba(168, 163, 227, 0.12);
+    }
+
+    .tools-v2 .tools-orbit-ring--outer {
+        width: calc(var(--outer-orbit) * 2);
+        height: calc(var(--outer-orbit) * 2);
+        border: 1px solid rgba(198, 201, 231, 0.36);
+        box-shadow: inset 0 0 22px rgba(198, 201, 231, 0.16), 0 0 28px rgba(198, 201, 231, 0.12);
+    }
+
+    .tools-v2 .tools-orbit-items {
+        position: absolute;
+        inset: 0;
+        z-index: 9;
+    }
+
+    .tools-v2 .orbit-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: rgba(17, 24, 39, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        pointer-events: auto;
+    }
+
+    .tools-v2 .orbit-item-logo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+
+    .tools-v2 .orbit-item:hover .orbit-item-logo {
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .tools-v2 .orbit-item img {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .tools-v2 .orbit-item:hover img {
+        transform: scale(1.1);
+    }
+
+    .tools-v2 .orbit-item:hover {
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .tools-v2 .orbit-item-label {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 11px;
+        letter-spacing: 0.8px;
+        padding: 4px 8px;
+        border-radius: 8px;
+        background: rgba(3, 7, 18, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #e5e7eb;
+        opacity: 0;
+        white-space: nowrap;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+    }
+
+    .tools-v2 .orbit-item:hover .orbit-item-label {
+        opacity: 1;
+    }
+
+    @media (max-width: 700px) {
+        .tools-v2 .tools-orbit-wrap {
+            --inner-orbit: 70px;
+            --outer-orbit: 112px;
+            width: min(88vw, 320px);
+            height: min(88vw, 320px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tools-v2 .tools-orbit-core {
+            width: 56px;
+            height: 56px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tools-v2 .orbit-item {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    (function () {
+        const orbitContainer = document.getElementById('tools-orbit-items');
+        const wrap = document.querySelector('#tools-section .tools-orbit-wrap');
+        if (!orbitContainer || !wrap || orbitContainer.dataset.initialized === 'true') return;
+        orbitContainer.dataset.initialized = 'true';
+
+        const skills = [
+            // Inner Orbit (Radius 100)
+            { id: 'nmap', orbitRadius: 100, size: 42, speed: 0.8, phaseShift: 0, color: '#a8a3e3', label: 'Nmap' },
+            { id: 'burpsuite', orbitRadius: 100, size: 42, speed: 0.8, phaseShift: (Math.PI / 2), color: '#eaedfe', label: 'Burp Suite' },
+            { id: 'wireshark', orbitRadius: 100, size: 42, speed: 0.8, phaseShift: Math.PI, color: '#c6c9e7', label: 'Wireshark' },
+            { id: 'python', orbitRadius: 100, size: 42, speed: 0.8, phaseShift: (3 * Math.PI / 2), color: '#363b6c', label: 'Python' },
+            
+            // Outer Orbit (Radius 180)
+            { id: 'kalilinux', orbitRadius: 180, size: 48, speed: -0.5, phaseShift: 0, color: '#a8a3e3', label: 'Kali Linux' },
+            { id: 'googleanalytics', orbitRadius: 180, size: 45, speed: -0.5, phaseShift: (Math.PI / 3), color: '#c6c9e7', label: 'Analytics' },
+            { id: 'semrush', orbitRadius: 180, size: 45, speed: -0.5, phaseShift: (2 * Math.PI / 3), color: '#eaedfe', label: 'SEMrush' },
+            { id: 'ahrefs', orbitRadius: 180, size: 45, speed: -0.5, phaseShift: Math.PI, color: '#363b6c', label: 'Ahrefs' },
+            { id: 'googlesearchconsole', orbitRadius: 180, size: 45, speed: -0.5, phaseShift: (4 * Math.PI / 3), color: '#a8a3e3', label: 'Search Console' },
+            { id: 'gnubash', orbitRadius: 180, size: 45, speed: -0.5, phaseShift: (5 * Math.PI / 3), color: '#c6c9e7', label: 'Bash' }
+        ];
+
+        const iconMap = {
+            nmap: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 80%; height: 80%;"><path d="M10 50 C10 50 30 20 50 20 C70 20 90 50 90 50 C90 50 70 80 50 80 C30 80 10 50 10 50 Z" fill="none" stroke="#2d5a9e" stroke-width="4"/><circle cx="50" cy="50" r="22" fill="#2d5a9e" /><path d="M35 50 H65 M50 35 V65 M39 39 L61 61 M39 61 L61 39" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="50" cy="50" r="6" fill="white" /></svg>',
+            burpsuite: '<img src="https://cdn.simpleicons.org/burpsuite" alt="Burp Suite" loading="lazy">',
+            wireshark: '<img src="https://cdn.simpleicons.org/wireshark" alt="Wireshark" loading="lazy">',
+            python: '<img src="https://cdn.simpleicons.org/python" alt="Python" loading="lazy">',
+            kalilinux: '<img src="https://cdn.simpleicons.org/kalilinux" alt="Kali Linux" loading="lazy">',
+            googleanalytics: '<img src="https://cdn.simpleicons.org/googleanalytics" alt="Google Analytics" loading="lazy">',
+            semrush: '<img src="https://cdn.simpleicons.org/semrush" alt="SEMrush" loading="lazy">',
+            ahrefs: '<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 70%; height: 70%;"><path d="m24 8v24h64v16l-26.104 0.456c-35.096 3.256-45.896 11.624-45.896 36.504v6.512c0 19.064 14.328 28.528 32 28.528 7.984 0 16.32-1.56 25.04-5.976l14.96-6.024v12h24v-112zm64 76-18.112 7.472c-6.296 3.488-12.832 5.344-17.92 5.344-6.288 0-11.968-1.136-11.968-8.816v-5.12c0.48-8.136 7.376-11.176 26.256-13.032l21.744-1.848z" fill="#FF8000"/></svg>',
+            googlesearchconsole: '<img src="https://cdn.simpleicons.org/googlesearchconsole" alt="Google Search Console" loading="lazy">',
+            gnubash: '<img src="https://cdn.simpleicons.org/gnubash" alt="Bash" loading="lazy">'
+        };
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isMobile = window.innerWidth <= 700;
+        const radiusScale = isMobile ? 0.62 : 1;
+        const sizeScale = isMobile ? 0.84 : 1;
+
+        const items = skills.map((skill) => {
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'orbit-item';
+            item.setAttribute('aria-label', skill.label);
+            item.style.width = Math.round(skill.size * sizeScale) + 'px';
+            item.style.height = Math.round(skill.size * sizeScale) + 'px';
+            item.style.color = skill.color;
+            item.style.boxShadow = '0 0 24px ' + skill.color + '30, 0 8px 20px rgba(0,0,0,0.32)';
+            item.innerHTML = '<span class="orbit-item-logo">' + iconMap[skill.id] + '</span><span class="orbit-item-label">' + skill.label + '</span>';
+            orbitContainer.appendChild(item);
+            return { el: item, config: skill };
+        });
+
+        let paused = false;
+        let rafId = null;
+        let time = 0;
+        let last = performance.now();
+
+        wrap.addEventListener('mouseenter', function () { paused = true; });
+        wrap.addEventListener('mouseleave', function () { paused = false; last = performance.now(); });
+
+        function render() {
+            if (!paused && !prefersReduced) {
+                const now = performance.now();
+                const dt = (now - last) / 1000;
+                last = now;
+                time += dt;
+            }
+
+            items.forEach(function (entry) {
+                const c = entry.config;
+                const angle = time * c.speed + c.phaseShift;
+                const x = Math.cos(angle) * (c.orbitRadius * radiusScale);
+                const y = Math.sin(angle) * (c.orbitRadius * radiusScale);
+                entry.el.style.transform = 'translate(-50%, -50%) translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px)';
+            });
+
+            rafId = requestAnimationFrame(render);
+        }
+
+        render();
+
+        window.addEventListener('beforeunload', function () {
+            if (rafId) cancelAnimationFrame(rafId);
+        });
+    })();
+</script>
