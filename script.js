@@ -285,12 +285,25 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
     function initCanvas() {
         const canvas = document.querySelector("canvas");
         if (!canvas) return;
+
+        // AGGRESSIVE OPTIMIZATION: Disable 3D model on mobile/small tablets completely 
+        // to ensure instant performance and eliminate GPU-related lag.
+        const isMobileDevice = window.innerWidth < 1024;
+        if (isMobileDevice) {
+            canvas.style.display = "none";
+            const loaderText = document.querySelector("#hero-footer h4");
+            if (loaderText) {
+                loaderText.innerText = "SYSTEM OPTIMIZED";
+                gsap.to("#hero-scroll-arrow", { opacity: 1, y: 0, duration: 0.8 });
+            }
+            return;
+        }
+
         const context = canvas.getContext("2d");
-        const isMobile = window.innerWidth < 1030;
-        const getDpr = () => isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        const getDpr = () => Math.min(window.devicePixelRatio || 1, 2);
         const totalFrames = 150;
         const desktopPinPercent = Math.round((totalFrames / 300) * 600); // keep original pacing relative to 300-frame setup
-        const heroPinEnd = isMobile ? "100% top" : `${desktopPinPercent}% top`;
+        const heroPinEnd = `${desktopPinPercent}% top`;
         const loaderText = document.querySelector("#hero-footer h4");
 
         function resizeCanvas() {
@@ -305,12 +318,17 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         resizeCanvas();
 
         window.addEventListener("resize", () => {
-            resizeCanvas();
-            requestRender();
+            if (window.innerWidth < 1024) {
+                canvas.style.display = "none";
+            } else {
+                canvas.style.display = "block";
+                resizeCanvas();
+                requestRender();
+            }
         });
 
-        // Optimization: Mobile uses fewer frames to save memory (every 2nd frame)
-        const frameStep = isMobile ? 2 : 1;
+        // Optimization: Standardize frame loading
+        const frameStep = 1;
         const framesToLoad = [];
         
         for (let i = 1; i <= totalFrames; i += frameStep) {
@@ -366,9 +384,8 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         }
 
         async function startLoading() {
-            // We'll use a concurrency-limited approach to load images as fast as possible 
-            // without choking the browser's connection pool.
-            const MAX_CONCURRENCY = isMobile ? 4 : 8;
+            // High concurrency for faster loading
+            const MAX_CONCURRENCY = 8;
             let currentIndex = 0;
 
             async function loadNext() {
