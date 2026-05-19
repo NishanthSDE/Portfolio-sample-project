@@ -1,5 +1,5 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
-console.log(">>> [MOBILE STABILITY FIX] RESTORING 3D & NATIVE TOUCH SCROLL <<<");
+console.log(">>> [VISUAL REDESIGN ACTIVE] 3D REMOVED & HERO OPTIMIZED <<<");
 
 window.sectionsReady = window.sectionsReady || Promise.resolve();
 
@@ -9,89 +9,49 @@ function initInteractiveCursor() {
 
     const cursor = document.querySelector("#interactive-cursor");
     if (!cursor) return;
-    let lastX = 0;
-    let lastY = 0;
+    let lastX = 0, lastY = 0;
     let isOverInteractive = false;
 
-    const interactiveSelector = "a, button, [role='button'], input, textarea, select, .site-loader-slider, .site-loader-slider-thumb, .nav-links a";
+    const interactiveSelector = "a, button, [role='button'], .site-loader-slider, .nav-links a";
 
-    const onMove = (e) => {
+    document.addEventListener("pointermove", (e) => {
         if (!document.body.classList.contains("is-loading")) {
             cursor.style.opacity = "0";
             return;
         }
-        lastX = e.clientX;
-        lastY = e.clientY;
+        lastX = e.clientX; lastY = e.clientY;
         cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate3d(-50%, -50%, 0)`;
         cursor.style.opacity = "1";
-    };
+    }, { passive: true });
 
-    document.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("mouseover", (e) => {
-        if (!document.body.classList.contains("is-loading")) {
-            cursor.classList.remove("is-active", "is-hidden");
-            cursor.style.opacity = "0";
-            return;
-        }
+        if (!document.body.classList.contains("is-loading")) return;
         const nowInteractive = !!(e.target && e.target.closest(interactiveSelector));
         if (nowInteractive === isOverInteractive) return;
         isOverInteractive = nowInteractive;
-
-        if (nowInteractive) {
-            cursor.classList.add("is-active", "is-hidden");
-        } else {
-            cursor.classList.remove("is-active", "is-hidden");
-            cursor.style.transform = `translate3d(${lastX}px, ${lastY}px, 0) translate3d(-50%, -50%, 0)`;
-            cursor.style.opacity = "1";
-        }
+        cursor.classList.toggle("is-active", nowInteractive);
     });
-    document.addEventListener("mousedown", () => cursor.classList.add("is-pressed"));
-    document.addEventListener("mouseup", () => cursor.classList.remove("is-pressed"));
-    document.addEventListener("mouseleave", () => { cursor.style.opacity = "0"; });
 }
 
 function initSiteLoader() {
     const loader = document.querySelector("#site-loader");
-    const stage = document.querySelector("#site-loader-stage");
-    const crack = document.querySelector("#site-loader-crack");
-    const title = document.querySelector("#site-loader-title");
     const sub = document.querySelector("#site-loader-sub");
     const percentEl = document.querySelector("#site-loader-percent");
     const progressFill = document.querySelector("#site-loader-progress-fill");
     const slider = document.querySelector("#site-loader-slider");
-    const sliderFill = document.querySelector("#site-loader-slider-fill");
     const sliderThumb = document.querySelector("#site-loader-slider-thumb");
-    const doorLeft = document.querySelector(".site-loader-door-left");
-    const doorRight = document.querySelector(".site-loader-door-right");
-    if (!loader || !window.gsap) return Promise.resolve();
+    const sliderFill = document.querySelector("#site-loader-slider-fill");
+
+    if (!loader) return Promise.resolve();
 
     document.body.classList.add("is-loading");
 
-    gsap.set([doorLeft, doorRight], { autoAlpha: 0 });
-    gsap.set(crack, { opacity: 0, scaleY: 0 });
-    gsap.set(title, { y: 0, scale: 1 });
-
-    gsap.to(".site-loader-atmo", {
-        scale: 1.08,
-        xPercent: -2,
-        yPercent: 2,
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-    });
-
-    let isReady = false;
-    let entered = false;
-    let progressValue = 1;
-    let dragX = 0;
-    let dragging = false;
+    let isReady = false, entered = false, progressValue = 1;
     const progressState = { p: 1 };
-    let bootTween = null;
 
     return new Promise((resolve) => {
         const updateProgress = (v) => {
-            progressValue = Math.max(1, Math.min(100, Math.round(v)));
+            progressValue = Math.round(v);
             if (percentEl) percentEl.textContent = `${progressValue}%`;
             if (progressFill) progressFill.style.width = `${progressValue}%`;
         };
@@ -105,100 +65,51 @@ function initSiteLoader() {
         const runOpenAnimation = () => {
             if (entered) return;
             entered = true;
+            gsap.to(".site-loader-core, .site-loader-bg-text-wrap", { opacity: 0, y: -20, duration: 0.5 });
             const tl = gsap.timeline({
-                defaults: { ease: "power3.inOut" },
                 onComplete: () => {
                     document.body.classList.remove("is-loading");
-                    document.body.classList.add("site-loader-done");
-                    const customCursor = document.querySelector("#interactive-cursor");
-                    if (customCursor) {
-                        customCursor.style.opacity = "0";
-                    }
                     loader.remove();
                     resolve();
                 }
             });
-
-            tl.to(slider, { y: 8, opacity: 0, duration: 0.35 }, 0)
-              .to(".site-loader-progress", { opacity: 0, duration: 0.25 }, 0)
-              .to(sub, { opacity: 0, duration: 0.25 }, 0)
-              .to(title, { scale: 1.08, y: 0, duration: 0.55 }, 0.05)
-              .to(stage, { autoAlpha: 1, duration: 0.01 }, 0.22)
-              .to([doorLeft, doorRight], { autoAlpha: 1, duration: 0.2 }, 0.22)
-              .to(crack, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power2.out" }, 0.25)
-              .to(crack, { opacity: 0.65, duration: 0.12, yoyo: true, repeat: 1 }, 0.56)
-              .to(title, { opacity: 0, duration: 0.25 }, 0.62)
-              .to(doorLeft, { rotationY: -78, xPercent: -8, duration: 1.05, ease: "power4.inOut" }, 0.62)
-              .to(doorRight, { rotationY: 78, xPercent: 8, duration: 1.05, ease: "power4.inOut" }, 0.62)
-              .to("#site-loader", { opacity: 0, duration: 0.48, ease: "power2.out" }, 1.28);
+            tl.to(".site-loader-door-left", { xPercent: -100, duration: 1.2, ease: "power4.inOut" }, 0)
+              .to(".site-loader-door-right", { xPercent: 100, duration: 1.2, ease: "power4.inOut" }, 0)
+              .to(loader, { opacity: 0, duration: 0.5 }, 0.8);
         };
 
-        const setSliderPos = (x) => {
-            if (!slider || !sliderThumb || !sliderFill) return;
-            const max = slider.clientWidth - sliderThumb.clientWidth - 8;
-            dragX = Math.max(0, Math.min(max, x));
-            sliderThumb.style.transform = `translateX(${dragX}px)`;
-            sliderFill.style.width = `${dragX + sliderThumb.clientWidth / 2 + 4}px`;
-        };
-
-        const resetSlider = () => {
-            gsap.to({ x: dragX }, {
-                x: 0,
-                duration: 0.35,
-                ease: "power2.out",
-                onUpdate() { setSliderPos(this.targets()[0].x); }
-            });
-        };
-
-        const bindSlider = () => {
-            if (!slider || !sliderThumb) return;
-            const onPointerMove = (e) => {
-                if (!dragging || !isReady || entered) return;
+        // Slider logic
+        if (sliderThumb) {
+            let dragging = false, dragX = 0;
+            const onStart = () => { if (isReady) dragging = true; };
+            const onMove = (e) => {
+                if (!dragging) return;
                 const rect = slider.getBoundingClientRect();
-                const x = e.clientX - rect.left - sliderThumb.clientWidth / 2 - 4;
-                setSliderPos(x);
+                const x = (e.clientX || e.touches[0].clientX) - rect.left - 25;
+                const max = rect.width - 60;
+                dragX = Math.max(0, Math.min(max, x));
+                sliderThumb.style.transform = `translateX(${dragX}px)`;
+                sliderFill.style.width = `${dragX + 30}px`;
+                if (dragX >= max * 0.95) { dragging = false; runOpenAnimation(); }
             };
-
-            const onPointerUp = () => {
+            const onEnd = () => {
                 if (!dragging) return;
                 dragging = false;
-                const max = slider.clientWidth - sliderThumb.clientWidth - 8;
-                const ratio = max > 0 ? dragX / max : 0;
-                if (ratio > 0.92 && isReady) {
-                    setSliderPos(max);
-                    runOpenAnimation();
-                } else {
-                    resetSlider();
-                }
-                window.removeEventListener("pointermove", onPointerMove);
-                window.removeEventListener("pointerup", onPointerUp);
+                gsap.to(sliderThumb, { x: 0, duration: 0.3 });
+                gsap.to(sliderFill, { width: 0, duration: 0.3 });
             };
+            sliderThumb.addEventListener("mousedown", onStart);
+            sliderThumb.addEventListener("touchstart", onStart);
+            window.addEventListener("mousemove", onMove);
+            window.addEventListener("touchmove", onMove);
+            window.addEventListener("mouseup", onEnd);
+            window.addEventListener("touchend", onEnd);
+        }
 
-            sliderThumb.addEventListener("pointerdown", () => {
-                if (!isReady || entered) return;
-                dragging = true;
-                window.addEventListener("pointermove", onPointerMove);
-                window.addEventListener("pointerup", onPointerUp);
-            });
-        };
-
-        bindSlider();
-
-        // Standard boot progress
-        bootTween = gsap.to(progressState, {
-            p: 100,
-            duration: 1.5,
-            ease: "power1.inOut",
-            onUpdate() { updateProgress(progressState.p); },
-            onComplete: () => {
-                updateProgress(100);
-                setTimeout(armEntry, 100);
-            }
-        });
-
-        // Ensure sections are loaded at least minimally
-        window.sectionsReady.then(() => {
-            if (progressValue >= 90) armEntry();
+        gsap.to(progressState, {
+            p: 100, duration: 1.2, ease: "power1.inOut",
+            onUpdate: () => updateProgress(progressState.p),
+            onComplete: armEntry
         });
     });
 }
@@ -206,13 +117,9 @@ function initSiteLoader() {
 initInteractiveCursor();
 
 initSiteLoader().finally(() => {
-    // 1. Locomotive Scroll & ScrollTrigger Proxy
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     function initScroll() {
-        // ACTUAL MOBILE DEVICE FIX: 
-        // Virtual smooth scroll often breaks on real phones. 
-        // We only enable it if NOT on a touch device.
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
             smooth: !isTouchDevice,
@@ -222,294 +129,70 @@ initSiteLoader().finally(() => {
             tablet: { smooth: false }
         });
 
-        const cornerControls = document.querySelector("#corner-scroll-controls");
-        const scrollTopBtn = document.querySelector("#scroll-to-top");
-        const scrollFooterBtn = document.querySelector("#scroll-to-footer");
-
         locoScroll.on("scroll", ScrollTrigger.update);
-        locoScroll.on("scroll", (args) => {
-            if (!cornerControls) return;
-            const y = args && args.scroll ? args.scroll.y : (window.pageYOffset || document.documentElement.scrollTop);
-            cornerControls.classList.toggle("visible", y > 120);
-        });
-
         ScrollTrigger.scrollerProxy("#main", {
             scrollTop(value) {
-                if (arguments.length) {
-                    locoScroll.scrollTo(value, 0, 0);
-                }
+                if (arguments.length) locoScroll.scrollTo(value, 0, 0);
                 return isTouchDevice ? (window.pageYOffset || document.documentElement.scrollTop) : locoScroll.scroll.instance.scroll.y;
             },
-            getBoundingClientRect() {
-                return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-            },
+            getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; },
             pinType: document.querySelector("#main").style.transform ? "transform" : "fixed"
         });
 
         ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
         ScrollTrigger.refresh();
 
-        if (typeof window.resolveScrollerReady === "function") {
-            window.resolveScrollerReady();
-        }
-
         document.querySelectorAll("[data-scroll-to]").forEach(link => {
             link.addEventListener("click", (e) => {
                 e.preventDefault();
-                const target = link.getAttribute("href");
-                locoScroll.scrollTo(target);
+                locoScroll.scrollTo(link.getAttribute("href"));
             });
         });
-
-        if (scrollTopBtn) {
-            scrollTopBtn.addEventListener("click", () => { locoScroll.scrollTo("#page"); });
-        }
-
-        if (scrollFooterBtn) {
-            scrollFooterBtn.addEventListener("click", () => { locoScroll.scrollTo("#footer"); });
-        }
-    }
-
-    // 2. RESTORED: Canvas Animation
-    function initCanvas() {
-        const canvas = document.querySelector("canvas");
-        if (!canvas) return;
-        const context = canvas.getContext("2d");
-        const getDpr = () => isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-        const totalFrames = 150;
-        const heroPinEnd = isTouchDevice ? "100% top" : "600% top";
-        const loaderText = document.querySelector("#hero-footer h4");
-
-        function resizeCanvas() {
-            const dpr = getDpr();
-            canvas.width = Math.ceil(window.innerWidth * dpr);
-            canvas.height = Math.ceil(window.innerHeight * dpr);
-            canvas.style.width = "100vw";
-            canvas.style.height = "100vh";
-            context.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-
-        resizeCanvas();
-        window.addEventListener("resize", () => {
-            resizeCanvas();
-            render();
-        });
-
-        const images = [];
-        const imageSeq = { frame: 0 };
-        let loadedCount = 0;
-
-        function getFilePath(index) {
-            return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
-        }
-
-        function loadFrame(index) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    loadedCount++;
-                    if (index === 0) render(); 
-                    resolve();
-                };
-                img.onerror = resolve; 
-                img.src = getFilePath(index);
-                images[index] = img;
-            });
-        }
-
-        async function startLoading() {
-            // Load first 10 frames fast, then rest in bg
-            for (let i = 0; i < 10; i++) await loadFrame(i);
-            for (let i = 10; i < totalFrames; i++) loadFrame(i);
-        }
-
-        startLoading();
-
-        gsap.to(imageSeq, {
-            frame: totalFrames - 1,
-            snap: "frame",
-            ease: "none",
-            scrollTrigger: {
-                scrub: 0.15,
-                trigger: "#page",
-                start: "top top",
-                end: heroPinEnd,
-                scroller: "#main",
-            },
-            onUpdate: render
-        });
-
-        function render() {
-            const img = images[imageSeq.frame];
-            if (img && img.complete) {
-                const hRatio = canvas.width / (isTouchDevice ? 1 : getDpr()) / img.width;
-                const vRatio = canvas.height / (isTouchDevice ? 1 : getDpr()) / img.height;
-                const ratio = Math.max(hRatio, vRatio);
-                const centerShift_x = (canvas.width / (isTouchDevice ? 1 : getDpr()) - img.width * ratio) / 2;
-                const centerShift_y = (canvas.height / (isTouchDevice ? 1 : getDpr()) - img.height * ratio) / 2;
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
-            }
-        }
-
-        ScrollTrigger.create({
-            trigger: "#page canvas",
-            pin: true,
-            scroller: "#main",
-            start: "top top",
-            end: heroPinEnd,
+        
+        const cornerControls = document.querySelector("#corner-scroll-controls");
+        locoScroll.on("scroll", (args) => {
+            const y = args && args.scroll ? args.scroll.y : (window.pageYOffset || document.documentElement.scrollTop);
+            if (cornerControls) cornerControls.classList.toggle("visible", y > 120);
         });
     }
 
-    // 3. Pinning Pages & Reveal Animations
-    function initAnimations() {
-        if (!isTouchDevice) {
-            ["#page1"].forEach(id => {
-                const el = document.querySelector(id);
-                if (el) {
-                    ScrollTrigger.create({
-                        trigger: el,
-                        pin: true,
-                        scroller: "#main",
-                        start: "top top",
-                        end: "bottom top"
-                    });
-                }
-            });
-        }
-
+    function initHeroAnimations() {
+        gsap.from(".hero-visual-bg", { opacity: 0, duration: 2, ease: "power2.out" });
+        gsap.from(".hero-glow-orb", { scale: 0, opacity: 0, duration: 2.5, stagger: 0.3, ease: "elastic.out(1, 0.5)" });
+        
         gsap.utils.toArray(".transmission-reveal").forEach(el => {
-            gsap.fromTo(el, {
-                opacity: 0,
-                y: 40,
-                clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
-            }, {
-                opacity: 1,
-                y: 0,
-                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                duration: 1.2,
-                ease: "power4.out",
-                scrollTrigger: {
-                    trigger: el,
-                    scroller: "#main",
-                    start: "top 90%",
-                    toggleActions: "play none none reverse"
-                }
+            gsap.fromTo(el, { opacity: 0, y: 30 }, {
+                opacity: 1, y: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: el, scroller: "#main", start: "top 90%" }
             });
         });
+
+        gsap.to("#hero-scroll-arrow", { opacity: 1, y: 0, duration: 1, delay: 1 });
     }
 
     function initMobileMenu() {
-        const nav = document.querySelector("#nav");
         const toggle = document.querySelector("#menu-toggle");
         const linksContainer = document.querySelector(".nav-links");
-        const links = document.querySelectorAll(".nav-links a");
-
-        if(toggle && linksContainer) {
-            toggle.addEventListener("click", () => {
-                toggle.classList.toggle("active");
-                linksContainer.classList.toggle("active");
-                document.body.classList.toggle("menu-open");
-            });
-
-            links.forEach(link => {
-                link.addEventListener("click", () => {
-                    toggle.classList.remove("active");
-                    linksContainer.classList.remove("active");
-                    document.body.classList.remove("menu-open");
-                });
-            });
-        }
-    }
-
-    // 5. Project Slider
-    function initProjectStack() {
-        const slider = document.querySelector(".marvel-slider-section");
-        if (!slider) return;
-
-        const slides = slider.querySelectorAll(".slide");
-        const nextBtn = slider.querySelector(".next");
-        const prevBtn = slider.querySelector(".prev");
-        const dots = slider.querySelectorAll(".dot");
-        if (!slides.length || !nextBtn || !prevBtn || !dots.length) return;
-        
-        let currentIdx = 0;
-        let isAnimating = false;
-
-        function updateSlider(index) {
-            if (isAnimating) return;
-            isAnimating = true;
-            slides[currentIdx].classList.remove("active");
-            dots[currentIdx].classList.remove("active");
-            currentIdx = index;
-            slides[currentIdx].classList.add("active");
-            dots[currentIdx].classList.add("active");
-            setTimeout(() => { isAnimating = false; }, 500);
-        }
-
-        nextBtn.addEventListener("click", () => updateSlider((currentIdx + 1) % slides.length));
-        prevBtn.addEventListener("click", () => updateSlider((currentIdx - 1 + slides.length) % slides.length));
-        dots.forEach((dot, idx) => dot.addEventListener("click", () => updateSlider(idx)));
-    }
-
-    // 6. Experience Showcase
-    function initExperienceShowcase() {
-        const section = document.querySelector("#experience-section");
-        if (!section) return;
-        const items = section.querySelectorAll("[data-exp-item]");
-        
-        items.forEach(item => {
-            const toggle = item.querySelector("[data-exp-toggle]");
-            const close = item.querySelector("[data-exp-close]");
-            
-            if(toggle) {
-                toggle.addEventListener("click", () => {
-                    items.forEach(it => { if(it !== item) it.classList.remove("is-open"); });
-                    item.classList.toggle("is-open");
-                });
-            }
-            if(close) {
-                close.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    item.classList.remove("is-open");
-                });
-            }
+        if (!toggle || !linksContainer) return;
+        toggle.addEventListener("click", () => {
+            toggle.classList.toggle("active");
+            linksContainer.classList.toggle("active");
         });
-
-        gsap.fromTo(section.querySelectorAll(".expx-item"),
-            { autoAlpha: 0, y: 30 },
-            {
-                autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.6,
-                scrollTrigger: {
-                    trigger: section,
-                    scroller: "#main",
-                    start: "top 80%",
-                }
-            }
-        );
+        linksContainer.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                toggle.classList.remove("active");
+                linksContainer.classList.remove("active");
+            });
+        });
     }
 
-    // Initialize all
+    // Standard initializers
     initScroll();
-    initCanvas();
-    initAnimations();
+    initHeroAnimations();
     initMobileMenu();
-    initProjectStack();
-    initExperienceShowcase();
 
-    function initFooterAnimation() {
-        if (document.querySelector('#footer')) {
-            gsap.fromTo('#footer', 
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1, y: 0, duration: 0.8,
-                    scrollTrigger: { trigger: '#footer', scroller: '#main', start: "top 95%" }
-                }
-            );
-        }
-    }
-    initFooterAnimation();
-    
-    // FINAL REFRESH
-    setTimeout(() => { ScrollTrigger.refresh(); }, 1000);
+    // Refresh everything
+    window.sectionsReady.then(() => {
+        setTimeout(() => { ScrollTrigger.refresh(); }, 1000);
+    });
 });
