@@ -1916,6 +1916,51 @@ body.is-loading {
     color: var(--section-accent);
 }
 
+/* About Section Grid Layout */
+.about-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    align-items: flex-start;
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .about-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-left p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .about-right {
+        justify-content: center !important;
+        width: 100%;
+    }
+
+    .profile-card-wrapper {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .about-actions {
+        justify-content: center;
+    }
+}
+
 /* Typographic Color Utilities */
 .text-glow {
     color: var(--section-accent);

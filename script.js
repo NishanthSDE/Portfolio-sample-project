@@ -224,7 +224,9 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
             el: document.querySelector("#main"),
             smooth: true,
             multiplier: 1,
-            lerp: 0.1
+            lerp: 0.1,
+            smartphone: { smooth: false },
+            tablet: { smooth: false }
         });
 
         const cornerControls = document.querySelector("#corner-scroll-controls");
@@ -284,8 +286,8 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         const canvas = document.querySelector("canvas");
         if (!canvas) return;
         const context = canvas.getContext("2d");
-        const getDpr = () => Math.min(window.devicePixelRatio || 1, 2);
         const isMobile = window.innerWidth < 1030;
+        const getDpr = () => isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
         const totalFrames = 150;
         const desktopPinPercent = Math.round((totalFrames / 300) * 600); // keep original pacing relative to 300-frame setup
         const heroPinEnd = isMobile ? "100% top" : `${desktopPinPercent}% top`;
@@ -304,7 +306,7 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
 
         window.addEventListener("resize", () => {
             resizeCanvas();
-            render();
+            requestRender();
         });
 
         // Optimization: Mobile uses fewer frames to save memory (every 2nd frame)
@@ -319,6 +321,7 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         const images = [];
         const imageSeq = { frame: 0 };
         let loadedCount = 0;
+        let renderRequested = false;
 
         function getFilePath(index) {
             const frameNum = framesToLoad[index];
@@ -353,7 +356,7 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
                 img.onload = () => {
                     loadedCount++;
                     updateLoaderUI();
-                    if (index === 0) render(); // Render first frame immediately
+                    if (index === 0) requestRender(); // Render first frame immediately
                     resolve();
                 };
                 img.onerror = resolve; // Continue even if one fails
@@ -398,10 +401,18 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
                 end: heroPinEnd,
                 scroller: "#main",
             },
-            onUpdate: render
+            onUpdate: requestRender
         });
 
+        function requestRender() {
+            if (!renderRequested) {
+                renderRequested = true;
+                requestAnimationFrame(render);
+            }
+        }
+
         function render() {
+            renderRequested = false;
             const img = images[imageSeq.frame];
             if (img && img.complete) {
                 scaleImage(img, context);
