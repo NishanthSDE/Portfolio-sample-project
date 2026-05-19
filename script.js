@@ -1,5 +1,5 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
-console.log(">>> [STABLE VERSION 2.1] HEAVY ASSETS REMOVED <<<");
+console.log(">>> [MOBILE STABILITY FIX] RESTORING 3D & NATIVE TOUCH SCROLL <<<");
 
 window.sectionsReady = window.sectionsReady || Promise.resolve();
 
@@ -184,44 +184,38 @@ function initSiteLoader() {
 
         bindSlider();
 
+        // Standard boot progress
         bootTween = gsap.to(progressState, {
             p: 100,
-            duration: 0.8, // VERY FAST BOOT
-            ease: "power2.out",
+            duration: 1.5,
+            ease: "power1.inOut",
             onUpdate() { updateProgress(progressState.p); },
             onComplete: () => {
                 updateProgress(100);
-                if (progressFill) progressFill.style.width = "100%";
-                setTimeout(armEntry, 50);
+                setTimeout(armEntry, 100);
             }
         });
 
-        function onReady() {
-            // No longer artificial delay
-        }
-
-        Promise.all([
-            window.sectionsReady,
-            new Promise((done) => {
-                if (document.readyState === "complete") done();
-                else window.addEventListener("load", done, { once: true });
-            })
-        ])
-            .then(onReady)
-            .catch(() => {
-                onReady();
-            });
+        // Ensure sections are loaded at least minimally
+        window.sectionsReady.then(() => {
+            if (progressValue >= 90) armEntry();
+        });
     });
 }
 
 initInteractiveCursor();
 
-initSiteLoader().finally(() => window.sectionsReady.then(() => {
+initSiteLoader().finally(() => {
     // 1. Locomotive Scroll & ScrollTrigger Proxy
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     function initScroll() {
+        // ACTUAL MOBILE DEVICE FIX: 
+        // Virtual smooth scroll often breaks on real phones. 
+        // We only enable it if NOT on a touch device.
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
-            smooth: true,
+            smooth: !isTouchDevice,
             multiplier: 1,
             lerp: 0.1,
             smartphone: { smooth: false },
@@ -235,18 +229,21 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         locoScroll.on("scroll", ScrollTrigger.update);
         locoScroll.on("scroll", (args) => {
             if (!cornerControls) return;
-            const y = args && args.scroll ? args.scroll.y : 0;
+            const y = args && args.scroll ? args.scroll.y : (window.pageYOffset || document.documentElement.scrollTop);
             cornerControls.classList.toggle("visible", y > 120);
         });
 
         ScrollTrigger.scrollerProxy("#main", {
             scrollTop(value) {
-                return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+                if (arguments.length) {
+                    locoScroll.scrollTo(value, 0, 0);
+                }
+                return isTouchDevice ? (window.pageYOffset || document.documentElement.scrollTop) : locoScroll.scroll.instance.scroll.y;
             },
             getBoundingClientRect() {
                 return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
             },
-            pinType: "transform"
+            pinType: document.querySelector("#main").style.transform ? "transform" : "fixed"
         });
 
         ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
@@ -265,23 +262,108 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         });
 
         if (scrollTopBtn) {
-            scrollTopBtn.addEventListener("click", () => {
-                locoScroll.scrollTo("#page");
-            });
+            scrollTopBtn.addEventListener("click", () => { locoScroll.scrollTo("#page"); });
         }
 
         if (scrollFooterBtn) {
-            scrollFooterBtn.addEventListener("click", () => {
-                locoScroll.scrollTo("#footer");
-            });
+            scrollFooterBtn.addEventListener("click", () => { locoScroll.scrollTo("#footer"); });
         }
     }
 
-    // 2. Pinning Pages & Reveal Animations
-    function initAnimations() {
-        const isMobile = window.innerWidth < 1030;
+    // 2. RESTORED: Canvas Animation
+    function initCanvas() {
+        const canvas = document.querySelector("canvas");
+        if (!canvas) return;
+        const context = canvas.getContext("2d");
+        const getDpr = () => isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        const totalFrames = 150;
+        const heroPinEnd = isTouchDevice ? "100% top" : "600% top";
+        const loaderText = document.querySelector("#hero-footer h4");
 
-        if (!isMobile) {
+        function resizeCanvas() {
+            const dpr = getDpr();
+            canvas.width = Math.ceil(window.innerWidth * dpr);
+            canvas.height = Math.ceil(window.innerHeight * dpr);
+            canvas.style.width = "100vw";
+            canvas.style.height = "100vh";
+            context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", () => {
+            resizeCanvas();
+            render();
+        });
+
+        const images = [];
+        const imageSeq = { frame: 0 };
+        let loadedCount = 0;
+
+        function getFilePath(index) {
+            return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
+        }
+
+        function loadFrame(index) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedCount++;
+                    if (index === 0) render(); 
+                    resolve();
+                };
+                img.onerror = resolve; 
+                img.src = getFilePath(index);
+                images[index] = img;
+            });
+        }
+
+        async function startLoading() {
+            // Load first 10 frames fast, then rest in bg
+            for (let i = 0; i < 10; i++) await loadFrame(i);
+            for (let i = 10; i < totalFrames; i++) loadFrame(i);
+        }
+
+        startLoading();
+
+        gsap.to(imageSeq, {
+            frame: totalFrames - 1,
+            snap: "frame",
+            ease: "none",
+            scrollTrigger: {
+                scrub: 0.15,
+                trigger: "#page",
+                start: "top top",
+                end: heroPinEnd,
+                scroller: "#main",
+            },
+            onUpdate: render
+        });
+
+        function render() {
+            const img = images[imageSeq.frame];
+            if (img && img.complete) {
+                const hRatio = canvas.width / (isTouchDevice ? 1 : getDpr()) / img.width;
+                const vRatio = canvas.height / (isTouchDevice ? 1 : getDpr()) / img.height;
+                const ratio = Math.max(hRatio, vRatio);
+                const centerShift_x = (canvas.width / (isTouchDevice ? 1 : getDpr()) - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height / (isTouchDevice ? 1 : getDpr()) - img.height * ratio) / 2;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            }
+        }
+
+        ScrollTrigger.create({
+            trigger: "#page canvas",
+            pin: true,
+            scroller: "#main",
+            start: "top top",
+            end: heroPinEnd,
+        });
+    }
+
+    // 3. Pinning Pages & Reveal Animations
+    function initAnimations() {
+        if (!isTouchDevice) {
             ["#page1"].forEach(id => {
                 const el = document.querySelector(id);
                 if (el) {
@@ -293,23 +375,6 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
                         end: "bottom top"
                     });
                 }
-            });
-        }
-
-        const certCards = gsap.utils.toArray(".card-sticky");
-
-        if(certCards.length > 0) {
-            certCards.forEach((card, index) => {
-                ScrollTrigger.create({
-                    trigger: card,
-                    scroller: "#main",
-                    start: () => isMobile ? "top 10%" : "top " + (15 + (index * 5)) + "%",
-                    endTrigger: ".card-container",
-                    end: "bottom bottom",
-                    pin: !isMobile,
-                    pinSpacing: false,
-                    invalidateOnRefresh: true,
-                });
             });
         }
 
@@ -334,49 +399,11 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         });
     }
 
-    // 3. Interactive HUD Elements
-    function initMagneticButtons() {
-        const btn = document.querySelector(".nav-btn");
-        if(!btn) return;
-        
-        btn.addEventListener("mousemove", (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            gsap.to(btn, {
-                x: x * 0.4,
-                y: y * 0.4,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-        
-        btn.addEventListener("mouseleave", () => {
-            gsap.to(btn, {
-                x: 0,
-                y: 0,
-                duration: 0.8,
-                ease: "elastic.out(1, 0.3)"
-            });
-        });
-    }
-
-    // 4. Mobile Menu Logic - FIXED
     function initMobileMenu() {
         const nav = document.querySelector("#nav");
-        const navArrow = document.querySelector("#nav-arrow-toggle");
         const toggle = document.querySelector("#menu-toggle");
         const linksContainer = document.querySelector(".nav-links");
         const links = document.querySelectorAll(".nav-links a");
-
-        if (navArrow) {
-            navArrow.addEventListener("click", () => {
-                nav.classList.toggle("nav-open");
-                const expanded = nav.classList.contains("nav-open");
-                navArrow.setAttribute("aria-expanded", expanded ? "true" : "false");
-            });
-        }
 
         if(toggle && linksContainer) {
             toggle.addEventListener("click", () => {
@@ -390,10 +417,6 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
                     toggle.classList.remove("active");
                     linksContainer.classList.remove("active");
                     document.body.classList.remove("menu-open");
-                    if (nav) {
-                        nav.classList.remove("nav-open");
-                        if (navArrow) navArrow.setAttribute("aria-expanded", "false");
-                    }
                 });
             });
         }
@@ -412,7 +435,6 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         
         let currentIdx = 0;
         let isAnimating = false;
-        const isMobile = window.innerWidth <= 1024;
 
         function updateSlider(index) {
             if (isAnimating) return;
@@ -429,7 +451,6 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
         prevBtn.addEventListener("click", () => updateSlider((currentIdx - 1 + slides.length) % slides.length));
         dots.forEach((dot, idx) => dot.addEventListener("click", () => updateSlider(idx)));
     }
-
 
     // 6. Experience Showcase
     function initExperienceShowcase() {
@@ -470,8 +491,8 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
 
     // Initialize all
     initScroll();
+    initCanvas();
     initAnimations();
-    initMagneticButtons();
     initMobileMenu();
     initProjectStack();
     initExperienceShowcase();
@@ -482,26 +503,13 @@ initSiteLoader().finally(() => window.sectionsReady.then(() => {
                 { opacity: 0, y: 30 },
                 {
                     opacity: 1, y: 0, duration: 0.8,
-                    scrollTrigger: {
-                        trigger: '#footer',
-                        scroller: '#main',
-                        start: "top 95%",
-                    }
+                    scrollTrigger: { trigger: '#footer', scroller: '#main', start: "top 95%" }
                 }
             );
         }
     }
-
-    function updateFooterTime() {
-        const timeEl = document.getElementById('footer-time');
-        if (!timeEl) return;
-        const now = new Date();
-        timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    setInterval(updateFooterTime, 60000);
-    updateFooterTime();
     initFooterAnimation();
     
-    setTimeout(() => { ScrollTrigger.refresh(); }, 500);
-}));
+    // FINAL REFRESH
+    setTimeout(() => { ScrollTrigger.refresh(); }, 1000);
+});
