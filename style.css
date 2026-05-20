@@ -5206,3 +5206,9 @@ img, video, svg, canvas {
     backface-visibility: hidden;
     will-change: transform;
 }
+
+.about-name-heading {
+    font-family: 'Oswald', sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+}
