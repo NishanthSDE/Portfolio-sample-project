@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;700;900&family=Syne:wght@700;800&family=Teko:wght@300;400;500;600;700&family=Oswald:wght@200;300;400;500;600;700&family=Michroma&family=Lobster&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;700;900&family=Syne:wght@700;800&family=Teko:wght@300;400;500;600;700&family=Oswald:wght@200;300;400;500;600;700&family=Michroma&family=Lobster&display=swap');
 @import url('https://fonts.cdnfonts.com/css/sharkbit-demo');
 
 :root {
@@ -2609,7 +2609,7 @@ body.is-loading {
 }
 
 /* ============================================================
-   ABOUT SECTION — Glassmorphism Profile Card
+   ABOUT SECTION â€” Glassmorphism Profile Card
    ============================================================ */
 
 #about-section {
@@ -2976,11 +2976,11 @@ body.is-loading {
     .about-left h1, .about-left p { text-align: center !important; margin-left: auto !important; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   EDUCATION V4 — HOLOGRAPHIC CYBER TIMELINE
-═══════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   EDUCATION V4 â€” HOLOGRAPHIC CYBER TIMELINE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── Section wrapper ── */
+/* â”€â”€ Section wrapper â”€â”€ */
 .edu-v4-section {
     position: relative;
     min-height: 100vh;
@@ -2989,7 +2989,7 @@ body.is-loading {
     overflow: hidden;
 }
 
-/* ── Grid BG ── */
+/* â”€â”€ Grid BG â”€â”€ */
 .edu-grid-bg {
     position: absolute;
     inset: 0;
@@ -2999,7 +2999,7 @@ body.is-loading {
     mask-image: none;
 }
 
-/* ── Orbs ── */
+/* â”€â”€ Orbs â”€â”€ */
 .edu-orb {
     position: absolute;
     border-radius: 50%;
@@ -3019,7 +3019,7 @@ body.is-loading {
     background: rgba(198,201,231,0.045);
 }
 
-/* ── Container ── */
+/* â”€â”€ Container â”€â”€ */
 .edu-v4-container {
     position: relative;
     z-index: 2;
@@ -3027,7 +3027,7 @@ body.is-loading {
     margin: 0 auto;
 }
 
-/* ── Header ── */
+/* â”€â”€ Header â”€â”€ */
 .edu-header {
     margin-bottom: 70px;
 }
@@ -3072,7 +3072,7 @@ body.is-loading {
     opacity: 0;
 }
 
-/* ── Stats Row ── */
+/* â”€â”€ Stats Row â”€â”€ */
 .edu-stats-row {
     display: flex;
     align-items: center;
@@ -3120,13 +3120,13 @@ body.is-loading {
     background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
 }
 
-/* ── Timeline ── */
+/* â”€â”€ Timeline â”€â”€ */
 .edu-timeline {
     position: relative;
     padding: 20px 0 40px;
 }
 
-/* ── Spine ── */
+/* â”€â”€ Spine â”€â”€ */
 .edu-spine {
     position: absolute;
     left: 50%;
@@ -3148,7 +3148,7 @@ body.is-loading {
     transform-origin: top center;
 }
 
-/* ── Timeline Node ── */
+/* â”€â”€ Timeline Node â”€â”€ */
 .edu-node {
     position: relative;
     display: flex;
@@ -3167,7 +3167,7 @@ body.is-loading {
     padding-left: 60px;
 }
 
-/* ── Node Dot ── */
+/* â”€â”€ Node Dot â”€â”€ */
 .edu-node__dot {
     position: absolute;
     width: 44px; height: 44px;
@@ -3199,7 +3199,7 @@ body.is-loading {
     100% { transform: scale(1.9); opacity: 0; }
 }
 
-/* ── Card ── */
+/* â”€â”€ Card â”€â”€ */
 .edu-card {
     position: relative;
     background: rgba(8,8,12,0.85);
@@ -3401,10 +3401,10 @@ body.is-loading {
     margin-top: 1px;
 }
 
-/* ── SVG Defs (injected inline for ring gradient) ── */
+/* â”€â”€ SVG Defs (injected inline for ring gradient) â”€â”€ */
 .edu-ring-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* ── Responsive ── */
+/* â”€â”€ Responsive â”€â”€ */
 @media (max-width: 900px) {
     .edu-node, .edu-node--left, .edu-node--right {
         width: 100%;
@@ -3437,7 +3437,7 @@ body.is-loading {
 /* Project Stack Section */
 
 /* ============================================================
-   MODERN CARD FOOTER — Inspired by Faizur's Design
+   MODERN CARD FOOTER â€” Inspired by Faizur's Design
    ============================================================ */
 .modern-card-footer {
     padding: 100px var(--side-padding) 40px;
@@ -5194,1457 +5194,54 @@ img, video, svg, canvas {
 }
 
 
+
 /* ============================================================
-   COMPREHENSIVE MOBILE RESPONSIVENESS PATCH
-   Covers: 320px | 375px | 390px | 414px | 480px | 768px | 1024px
-   Sections: Nav, Hero, About, Education, Skills, Tools,
-             Certificates, Experience, Projects, Contact, Footer
+   SAFE MOBILE PATCH — only applies to max-width: 768px and below
+   Desktop (769px+) is completely untouched
    ============================================================ */
 
-/* ── Global overflow / box-model safety ── */
-*, *::before, *::after {
-    box-sizing: border-box;
-    min-width: 0; /* prevents flex-children from overflowing */
-}
-
-html, body {
-    overflow-x: hidden;
-    max-width: 100%;
-}
-
-/* ── Prevent any element from causing horizontal scroll ── */
-#main, .fluid-page, .section-container,
-.edu-v4-section, .edu-v4-container,
-.expx-container, .expx-stage,
-.footer-card, .modern-card-footer,
-.contact-wrapper, .about-left,
-.skills-grid, .tools-orbit-wrap,
-.card-container, .slider-wrapper {
-    max-width: 100%;
-}
-
-/* ── About grid container — desktop: 2 col, collapses on mobile ── */
-.about-grid-container {
-    display: grid !important;
-    grid-template-columns: 1fr 400px !important;
-    align-items: flex-start !important;
-    gap: 60px !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-}
-
-/* ================================================================
-   MAX-WIDTH 1024px  —  Tablet landscape
-   ================================================================ */
-@media (max-width: 1024px) {
-
-    /* ── Nav ── */
-    #nav {
-        padding: 14px 5% !important;
-    }
-
-    .nav-logo {
-        font-size: clamp(11px, 1.6vw, 14px) !important;
-    }
-
-    /* Hide arrow-toggle on tablet (menu-toggle hamburger takes over) */
-    .nav-arrow-wrap,
-    .nav-arrow-btn {
-        display: none !important;
-    }
-
-    /* ── Hero loop text ── */
-    #loop > h1 {
-        font-size: clamp(38px, 7vw, 96px) !important;
-    }
-
-    /* ── Page-1 intro panels (hidden on tablet via existing rule but keep safe) ── */
-    #page1, #page2, #page3 {
-        display: none !important;
-    }
-
-    /* ── Hero footer ── */
-    #hero-footer {
-        max-width: 72% !important;
-    }
-
-    #hero-footer h3 {
-        font-size: clamp(11px, 1.6vw, 14px) !important;
-    }
-
-    /* ── Section headings ── */
-    .fluid-page h1,
-    .project-heading-match {
-        font-size: clamp(28px, 5vw, 52px) !important;
-    }
-
-    /* ── About two-column → single column ── */
-    #about-section .section-container {
-        grid-template-columns: 1fr !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 40px !important;
-        padding: 0 5% !important;
-    }
-
-    .about-left {
-        max-width: 100% !important;
-    }
-
-    .about-right,
-    .profile-card-wrapper {
-        width: 100% !important;
-        max-width: 380px !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: center !important;
-    }
-
-    /* ── Skills grid ── */
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
-        gap: 20px !important;
-    }
-
-    /* ── Footer ── */
-    .footer-top {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 40px !important;
-    }
-
-    .footer-brand-name {
-        font-size: clamp(30px, 8vw, 60px) !important;
-    }
-
-    /* ── Projects slider ── */
-    .slider-wrapper {
-        min-height: 68vh !important;
-    }
-
-    /* ── Contact wrapper ── */
-    .contact-wrapper {
-        flex-direction: column !important;
-        gap: 40px !important;
-    }
-
-    .contact-info,
-    .contact-form-wrapper {
-        max-width: 100% !important;
-        width: 100% !important;
-    }
-
-    /* ── Cert cards ── */
-    .card-inner {
-        padding: 36px 28px !important;
-    }
-
-    .cert-title {
-        font-size: clamp(18px, 3vw, 28px) !important;
-    }
-
-    /* ── Section label font (Oswald theater headings) ── */
-    .about-left h3,
-    .edu-header__label,
-    #skills-section h3,
-    #tools-section h3,
-    #experience-section > .section-container > h2,
-    .contact-info > h3 {
-        font-size: clamp(22px, 3.5vw, 44px) !important;
-        letter-spacing: 3px !important;
-    }
-}
-
-/* ================================================================
-   MAX-WIDTH 768px  —  Phones / small tablets
-   ================================================================ */
 @media (max-width: 768px) {
-
-    /* ── Root padding ── */
-    :root {
-        --side-padding: 5%;
-    }
-
-    /* ── Nav ── */
-    #nav {
-        padding: 13px 5% !important;
-    }
-
-    .nav-logo {
-        font-size: 12px !important;
-        letter-spacing: 1.2px !important;
-    }
-
-    /* mobile menu overlay links */
-    .nav-links a {
-        font-size: clamp(18px, 4vw, 24px) !important;
-        letter-spacing: 2px !important;
-    }
-
-    /* ── Hero loop heading ── */
-    #loop > h1 {
-        font-size: clamp(32px, 9vw, 68px) !important;
-        letter-spacing: -2px !important;
-        padding-right: 60px !important;
-    }
-
-    /* ── Hero footer ── */
-    #hero-footer {
-        max-width: 90% !important;
-        bottom: auto !important;
-        padding-bottom: 6vh !important;
-    }
-
-    #hero-footer h3 {
-        font-size: clamp(10px, 2.8vw, 13px) !important;
-        line-height: 1.7 !important;
-    }
-
-    #hero-footer h4 {
-        font-size: clamp(13px, 3.2vw, 17px) !important;
-    }
-
-    /* ── Section fluid-page spacing ── */
-    .fluid-page {
-        padding: 70px 5% !important;
-        min-height: auto !important;
-    }
-
-    /* ── Section headings ── */
-    .fluid-page h1,
-    .project-heading-match {
-        font-size: clamp(24px, 7.5vw, 40px) !important;
-        letter-spacing: 0.5px !important;
-        line-height: 1.05 !important;
-        margin: 12px 0 18px 0 !important;
-    }
-
-    /* ── Section label theater-style headings ── */
-    .about-left h3,
-    .edu-header__label,
-    #skills-section h3,
-    #tools-section h3,
-    #experience-section > .section-container > h2,
-    .contact-info > h3 {
-        font-size: clamp(20px, 5.5vw, 34px) !important;
-        letter-spacing: 2px !important;
-        line-height: 1.1 !important;
-    }
-
-    /* ── About section ── */
-    #about-section {
-        padding: 80px 0 !important;
-    }
-
-    #about-section .section-container {
-        grid-template-columns: 1fr !important;
-        flex-direction: column !important;
-        gap: 36px !important;
-        padding: 0 5% !important;
-    }
-
-    .about-left {
-        text-align: left !important;
-        max-width: 100% !important;
-    }
-
-    .about-left h1 {
-        font-size: clamp(18px, 5.5vw, 28px) !important;
-        line-height: 1.15 !important;
-    }
-
-    .about-left p {
-        font-size: clamp(14px, 3.8vw, 17px) !important;
-        line-height: 1.75 !important;
-    }
-
-    .about-right,
-    .profile-card-wrapper {
-        width: 280px !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-    }
-
-    .profile-card {
-        padding: 16px 22px !important;
-    }
-
-    .profile-name {
-        font-size: 19px !important;
-    }
-
-    .profile-bio {
-        font-size: 12px !important;
-    }
-
-    .about-actions {
-        flex-direction: column !important;
-        gap: 12px !important;
-        align-items: flex-start !important;
-    }
-
-    /* ── Education section ── */
-    .edu-v4-section {
-        padding: 70px 5% 80px !important;
-    }
-
-    .edu-header {
-        margin-bottom: 36px !important;
-    }
-
-    .edu-header__title {
-        font-size: clamp(24px, 7.5vw, 38px) !important;
-        line-height: 1 !important;
-        letter-spacing: -1px !important;
-    }
-
-    .edu-header__sub {
-        font-size: clamp(12px, 3.2vw, 15px) !important;
-    }
-
-    .edu-stats-row {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 16px !important;
-        padding: 18px !important;
-        margin-bottom: 40px !important;
-    }
-
-    .edu-stat-divider {
-        display: none !important;
-    }
-
-    .edu-stat-num {
-        font-size: clamp(28px, 8vw, 44px) !important;
-    }
-
-    /* timeline → single column */
-    .edu-node,
-    .edu-node--left,
-    .edu-node--right {
-        width: 100% !important;
-        left: 0 !important;
-        padding-left: 64px !important;
-        padding-right: 0 !important;
-        justify-content: flex-start !important;
-    }
-
-    .edu-spine {
-        left: 20px !important;
-        transform: none !important;
-    }
-
-    .edu-node__dot {
-        left: -20px !important;
-        right: auto !important;
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 14px !important;
-    }
-
-    .edu-card {
-        max-width: 100% !important;
-        min-height: 0 !important;
-        padding: 18px 16px 16px !important;
-    }
-
-    .edu-card__title {
-        font-size: clamp(16px, 5.5vw, 22px) !important;
-        white-space: normal !important;
-    }
-
-    .edu-card__score-ring {
-        position: static !important;
-        width: 56px !important;
-        height: 56px !important;
-        display: inline-block !important;
-        margin-bottom: 10px !important;
-    }
-
-    .edu-card__header {
-        padding-right: 0 !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
-
-    /* ── Skills section ── */
-    #skills-section .skills-grid {
-        margin-top: 50px !important;
-    }
-
-    .skills-grid {
-        grid-template-columns: 1fr !important;
-        gap: 18px !important;
-    }
-
-    .skill-card {
-        padding: 24px 20px !important;
-    }
-
-    .skill-category h2 {
-        font-size: clamp(18px, 4.5vw, 24px) !important;
-    }
-
-    .skill-name {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-    }
-
-    .soft-skills-flex {
-        grid-template-columns: 1fr !important;
-    }
-
-    /* ── Tools section ── */
-    #tools-section .tools-orbit-wrap {
-        margin-top: 40px !important;
-    }
-
-    .tools-grid {
-        gap: 10px !important;
-        margin-top: 40px !important;
-    }
-
-    .tool-tag {
-        padding: 9px 16px !important;
-        font-size: clamp(13px, 3.5vw, 16px) !important;
-    }
-
-    /* ── Certificates ── */
-    #certificates-section .certs-list {
-        margin-top: 50px !important;
-    }
-
-    .card-container {
-        margin-top: 50px !important;
-    }
-
-    .card-inner {
-        padding: 28px 20px !important;
-    }
-
-    .cert-header {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 8px !important;
-    }
-
-    .cert-title {
-        font-size: clamp(17px, 5.5vw, 26px) !important;
-    }
-
-    .cert-number {
-        font-size: clamp(24px, 6vw, 36px) !important;
-    }
-
-    .cert-org {
-        font-size: clamp(14px, 3.5vw, 18px) !important;
-    }
-
-    .cert-details {
-        flex-direction: column !important;
-        gap: 12px !important;
-    }
-
-    .cert-desc {
-        font-size: clamp(12px, 3.2vw, 14px) !important;
-    }
-
-    /* ── Experience section ── */
-    .expx-section {
-        min-height: auto !important;
-    }
-
-    .expx-stage {
-        min-height: auto !important;
-        margin-top: 36px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 16px !important;
-        overflow: visible !important;
-    }
-
-    .expx-item {
-        position: relative !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        bottom: auto !important;
-        width: 100% !important;
-        height: auto !important;
-        min-height: 72px !important;
-        overflow: visible !important;
-        margin: 0 !important;
-    }
-
-    .expx-pill {
-        border-radius: 22px !important;
-        padding: 10px 14px !important;
-        min-height: 72px !important;
-    }
-
-    .expx-pill-icon {
-        width: 46px !important;
-        height: 46px !important;
-        font-size: 28px !important;
-    }
-
-    .expx-pill-text {
-        font-size: clamp(20px, 6.5vw, 32px) !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
-
-    .expx-inline {
-        position: static !important;
-        inset: auto !important;
-        height: auto !important;
-        max-height: none !important;
-        padding: 14px 14px 16px !important;
-        border-radius: 18px !important;
-        margin-top: 8px !important;
-    }
-
-    .expx-inline h2 {
-        font-size: clamp(18px, 5.5vw, 26px) !important;
-        max-width: 100% !important;
-    }
-
-    .expx-inline h4 {
-        font-size: clamp(13px, 3.5vw, 16px) !important;
-    }
-
-    .expx-inline p {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-    }
-
-    .expx-bg-orb {
-        display: none !important;
-    }
-
-    .expx-ring {
-        display: none !important;
-    }
-
-    /* ── Projects slider ── */
-    .marvel-slider-section {
-        padding: 70px 0 52px !important;
-    }
-
-    .marvel-slider-section .section-container {
-        padding: 0 5% !important;
-    }
-
-    .slider-wrapper {
-        min-height: 60vh !important;
-        height: auto !important;
-    }
-
-    .slide-content {
-        flex-direction: column !important;
-        padding: 20px 0 90px !important;
-        text-align: center !important;
-    }
-
-    .slide-left-info,
-    .slide-right-heading,
-    .project-01-info,
-    .project-03-info,
-    .project-04-info {
-        width: 100% !important;
-    }
-
-    .slide-left-info {
-        order: 2 !important;
-        align-items: center !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    .slide-right-heading {
-        order: 1 !important;
-        justify-content: center !important;
-        height: auto !important;
-        margin-bottom: 14px !important;
-    }
-
-    .slide-title {
-        font-size: clamp(20px, 7vw, 32px) !important;
-        text-align: center !important;
-        white-space: normal !important;
-    }
-
-    .slide-desc {
-        font-size: clamp(14px, 3.8vw, 17px) !important;
-        text-align: center !important;
-        margin-bottom: 18px !important;
-    }
-
-    .slide-subtitle {
-        font-size: clamp(13px, 3.5vw, 16px) !important;
-    }
-
-    .slide-tags {
-        justify-content: center !important;
-    }
-
-    .slider-nav {
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        bottom: 14px !important;
-        gap: 20px !important;
-    }
-
-    /* ── Contact section ── */
-    #contact-section {
-        padding: 70px 5% !important;
-    }
-
-    .contact-wrapper {
-        flex-direction: column !important;
-        gap: 36px !important;
-    }
-
-    .contact-info,
-    .contact-form-wrapper {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin-top: 0 !important;
-    }
-
-    .contact-info .contact-title {
-        font-size: clamp(22px, 7vw, 34px) !important;
-        margin-top: 0.6rem !important;
-    }
-
-    .contact-info .contact-desc {
-        font-size: clamp(13px, 3.8vw, 16px) !important;
-    }
-
-    .contact-details-item p {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-        word-break: break-word !important;
-    }
-
-    .form-input-styled {
-        font-size: clamp(14px, 3.5vw, 16px) !important;
-        padding: 0.7rem 0.85rem !important;
-    }
-
-    .form-field-label {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-    }
-
-    .form-submit-btn {
-        font-size: clamp(15px, 4vw, 18px) !important;
-        padding: 0.85rem !important;
-    }
-
-    /* ── Footer ── */
-    .modern-card-footer {
-        padding: 60px 4% 30px !important;
-    }
-
-    .footer-card {
-        padding: 48px 20px 28px !important;
-        border-radius: 24px !important;
-    }
-
-    .footer-top {
-        grid-template-columns: 1fr !important;
-        gap: 32px !important;
-    }
-
-    .footer-bio {
-        font-size: clamp(16px, 4.5vw, 22px) !important;
-        max-width: 100% !important;
-    }
-
-    .footer-brand-name {
-        font-size: clamp(28px, 9vw, 52px) !important;
-        line-height: 0.88 !important;
-    }
-
-    .footer-bottom {
-        flex-direction: column !important;
-        gap: 18px !important;
-        align-items: flex-start !important;
-        padding-top: 24px !important;
-    }
-
-    .bottom-right {
-        width: 100% !important;
-        justify-content: space-between !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
-
-    .footer-actions {
-        align-items: flex-start !important;
-        gap: 24px !important;
-    }
-
-    .action-heading {
-        font-size: clamp(18px, 5vw, 24px) !important;
-        justify-content: flex-start !important;
-    }
-
-    #footer .explore-column .column-links {
-        grid-template-columns: 1fr 1fr !important;
-        grid-auto-flow: row !important;
-        grid-template-rows: none !important;
-        row-gap: 8px !important;
-        column-gap: 16px !important;
-    }
-
-    .column-links a {
-        font-size: clamp(14px, 3.5vw, 16px) !important;
-    }
-
-    /* ── Corner scroll controls ── */
-    .corner-scroll-controls {
-        right: 10px !important;
-    }
-
-    .corner-scroll-btn {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 15px !important;
-    }
-}
-
-/* ================================================================
-   MAX-WIDTH 480px  —  Small phones (iPhone SE, etc.)
-   ================================================================ */
-@media (max-width: 480px) {
-
-    /* ── Root ── */
-    :root {
-        --side-padding: 4%;
-    }
-
-    /* ── Nav ── */
-    #nav {
-        padding: 11px 4% !important;
-    }
-
-    .nav-logo {
-        font-size: 11px !important;
-        letter-spacing: 1px !important;
-    }
-
-    #menu-toggle span {
-        width: 22px !important;
-    }
-
-    /* ── Hero loop heading ── */
-    #loop > h1 {
-        font-size: clamp(26px, 10vw, 56px) !important;
-        letter-spacing: -1px !important;
-        padding-right: 40px !important;
-    }
-
-    /* ── Hero footer ── */
-    #hero-footer {
-        max-width: 94% !important;
-    }
-
-    #hero-footer h3 {
-        font-size: clamp(10px, 2.6vw, 12px) !important;
-    }
-
-    #hero-footer h4 {
-        font-size: clamp(12px, 3vw, 15px) !important;
-        letter-spacing: 3px !important;
-    }
-
-    /* ── Fluid sections ── */
-    .fluid-page {
-        padding: 60px 4% !important;
-    }
-
-    /* ── Section headings ── */
-    .fluid-page h1,
-    .project-heading-match {
-        font-size: clamp(22px, 7.5vw, 34px) !important;
-        line-height: 1.08 !important;
-        letter-spacing: 0.5px !important;
-    }
-
-    /* ── Theater-style section labels ── */
-    .about-left h3,
-    .edu-header__label,
-    #skills-section h3,
-    #tools-section h3,
-    #experience-section > .section-container > h2,
-    .contact-info > h3 {
-        font-size: clamp(18px, 5vw, 26px) !important;
-        letter-spacing: 1.5px !important;
-    }
-
-    /* ── About section ── */
-    #about-section {
-        padding: 65px 0 !important;
-    }
-
-    .about-left h1 {
-        font-size: clamp(16px, 5vw, 24px) !important;
-    }
-
-    .about-left p {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-    }
-
-    .about-right,
-    .profile-card-wrapper {
-        width: 100% !important;
-        max-width: 280px !important;
-    }
-
-    .profile-name {
-        font-size: 17px !important;
-    }
-
-    .profile-bio {
-        font-size: 11.5px !important;
-    }
-
-    .about-actions {
-        gap: 10px !important;
-    }
-
-    /* ── Education ── */
-    .edu-v4-section {
-        padding: 65px 4% 70px !important;
-    }
-
-    .edu-header {
-        margin-bottom: 28px !important;
-    }
-
-    .edu-header__title {
-        font-size: clamp(22px, 8vw, 32px) !important;
-    }
-
-    .edu-stats-row {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-        padding: 14px !important;
-    }
-
-    .edu-stat-num {
-        font-size: clamp(26px, 9vw, 38px) !important;
-    }
-
-    .edu-node,
-    .edu-node--left,
-    .edu-node--right {
-        padding-left: 52px !important;
-    }
-
-    .edu-spine { left: 16px !important; }
-
-    .edu-node__dot {
-        left: -16px !important;
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 12px !important;
-    }
-
-    .edu-card {
-        padding: 14px 12px 14px !important;
-        border-radius: 12px !important;
-    }
-
-    .edu-card__title {
-        font-size: clamp(14px, 5.5vw, 18px) !important;
-    }
-
-    .edu-card__desc {
-        font-size: clamp(11px, 3.2vw, 13px) !important;
-    }
-
-    /* ── Skills ── */
-    .skill-card {
-        padding: 20px 16px !important;
-    }
-
-    .skill-category h2 {
-        font-size: clamp(17px, 4.5vw, 21px) !important;
-    }
-
-    .skill-bar-container {
-        width: 72px !important;
-    }
-
-    /* ── Tools ── */
-    .tools-grid {
-        gap: 8px !important;
-    }
-
-    .tool-tag {
-        padding: 7px 12px !important;
-        font-size: clamp(12px, 3.2vw, 14px) !important;
-    }
-
-    /* ── Certificates ── */
-    .card-inner {
-        padding: 22px 14px !important;
-        border-radius: 12px !important;
-    }
-
-    .cert-title {
-        font-size: clamp(15px, 5vw, 22px) !important;
-    }
-
-    .cert-number {
-        font-size: clamp(20px, 6vw, 30px) !important;
-    }
-
-    .cert-org {
-        font-size: clamp(12px, 3.2vw, 15px) !important;
-        margin-bottom: 14px !important;
-    }
-
-    .cert-desc {
-        font-size: clamp(11px, 3vw, 13px) !important;
-    }
-
-    .cert-skill-tag {
-        font-size: clamp(10px, 2.8vw, 12px) !important;
-        padding: 3px 8px !important;
-    }
-
-    /* ── Experience ── */
-    .expx-pill {
-        min-height: 64px !important;
-        padding: 8px 12px !important;
-        border-radius: 18px !important;
-    }
-
-    .expx-pill-icon {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 24px !important;
-    }
-
-    .expx-pill-text {
-        font-size: clamp(18px, 6vw, 28px) !important;
-    }
-
-    .expx-inline h2 {
-        font-size: clamp(16px, 5.5vw, 22px) !important;
-    }
-
-    .expx-inline h4 {
-        font-size: clamp(12px, 3.2vw, 14px) !important;
-        letter-spacing: 1px !important;
-    }
-
-    .expx-inline p {
-        font-size: clamp(12px, 3.2vw, 13.5px) !important;
-    }
-
-    .expx-inline-close,
-    .expx-close {
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 26px !important;
-        top: 10px !important;
-        right: 10px !important;
-    }
-
-    /* ── Projects slider ── */
-    .marvel-slider-section {
-        padding: 60px 0 48px !important;
-    }
-
-    .slider-wrapper {
-        min-height: 55vh !important;
-    }
-
-    .slide-title {
-        font-size: clamp(18px, 7.5vw, 28px) !important;
-    }
-
-    .slide-desc {
-        font-size: clamp(13px, 3.5vw, 16px) !important;
-        margin-bottom: 14px !important;
-    }
-
-    .slide-subtitle {
-        font-size: clamp(11px, 3.2vw, 14px) !important;
-        letter-spacing: 2px !important;
-    }
-
-    .slide-tags span {
-        font-size: 11px !important;
-        padding: 3px 9px !important;
-    }
-
-    .marvel-slider-section .nav-btn {
-        width: 44px !important;
-        height: 44px !important;
-        font-size: 17px !important;
-    }
-
-    /* ── Contact ── */
-    #contact-section {
-        padding: 60px 4% !important;
-    }
-
-    .contact-info .contact-title {
-        font-size: clamp(20px, 6.5vw, 28px) !important;
-    }
-
-    .contact-info .contact-desc {
-        font-size: clamp(12px, 3.5vw, 14px) !important;
-    }
-
-    .contact-details-item p {
-        font-size: clamp(12px, 3.2vw, 14px) !important;
-    }
-
-    .form-submit-btn {
-        font-size: clamp(14px, 3.8vw, 16px) !important;
-    }
-
-    /* ── Footer ── */
-    .modern-card-footer {
-        padding: 48px 3% 24px !important;
-    }
-
-    .footer-card {
-        padding: 36px 16px 22px !important;
-        border-radius: 18px !important;
-    }
-
-    .footer-bio {
-        font-size: clamp(15px, 4.2vw, 19px) !important;
-    }
-
-    .footer-brand-name {
-        font-size: clamp(22px, 10vw, 42px) !important;
-    }
-
-    .action-heading {
-        font-size: clamp(16px, 4.5vw, 20px) !important;
-    }
-
-    #footer .explore-column .column-links {
-        grid-template-columns: 1fr !important;
-    }
-
-    .column-links a {
-        font-size: clamp(13px, 3.5vw, 15px) !important;
-    }
-
-    /* ── Corner scroll controls ── */
-    .corner-scroll-btn {
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 13px !important;
-    }
-}
-
-/* ================================================================
-   MAX-WIDTH 390px  —  iPhone 14 / standard mid-sized phones
-   ================================================================ */
-@media (max-width: 390px) {
-
-    /* ── Nav ── */
-    .nav-logo {
-        font-size: 10px !important;
-    }
-
-    /* ── Hero loop heading ── */
-    #loop > h1 {
-        font-size: clamp(22px, 10.5vw, 44px) !important;
-    }
-
-    /* ── Section headings ── */
-    .fluid-page h1,
-    .project-heading-match {
-        font-size: clamp(20px, 7vw, 30px) !important;
-    }
-
-    /* ── About left heading ── */
-    .about-left h1 {
-        font-size: clamp(15px, 4.8vw, 22px) !important;
-    }
-
-    /* ── Education card title ── */
-    .edu-card__title {
-        font-size: clamp(13px, 5vw, 17px) !important;
-    }
-
-    /* ── Experience pill ── */
-    .expx-pill-text {
-        font-size: clamp(16px, 6vw, 24px) !important;
-    }
-
-    /* ── Projects slide title ── */
-    .slide-title {
-        font-size: clamp(16px, 7.5vw, 24px) !important;
-    }
-
-    /* ── Contact title ── */
-    .contact-info .contact-title {
-        font-size: clamp(18px, 6vw, 24px) !important;
-    }
-
-    /* ── Footer brand ── */
-    .footer-brand-name {
-        font-size: clamp(20px, 10.5vw, 36px) !important;
-    }
-
-    /* ── Cert title ── */
-    .cert-title {
-        font-size: clamp(14px, 4.8vw, 19px) !important;
-    }
-
-    /* ── Skills bar container shrink ── */
-    .skill-bar-container {
-        width: 60px !important;
-    }
-}
-
-/* ================================================================
-   MAX-WIDTH 320px  —  Very small devices (iPhone SE 1st gen, etc.)
-   ================================================================ */
-@media (max-width: 320px) {
-
-    /* ── Root ── */
-    :root {
-        --side-padding: 3%;
-    }
-
-    /* ── Nav ── */
-    #nav {
-        padding: 10px 3% !important;
-    }
-
-    .nav-logo {
-        font-size: 9.5px !important;
-        letter-spacing: 0.8px !important;
-    }
-
-    /* ── Hero loop ── */
-    #loop > h1 {
-        font-size: clamp(18px, 11vw, 38px) !important;
-    }
-
-    /* ── Section headings ── */
-    .fluid-page h1,
-    .project-heading-match {
-        font-size: clamp(18px, 7vw, 26px) !important;
-    }
-
-    /* ── About ── */
-    .about-left h1 {
-        font-size: clamp(14px, 5vw, 20px) !important;
-    }
-
-    .about-left p {
-        font-size: clamp(12px, 3.5vw, 14px) !important;
-    }
-
-    .profile-card-wrapper,
-    .about-right {
-        max-width: 260px !important;
-    }
-
-    /* ── Education ── */
-    .edu-header__title {
-        font-size: clamp(18px, 9vw, 28px) !important;
-    }
-
-    .edu-card__title {
-        font-size: clamp(12px, 5vw, 16px) !important;
-    }
-
-    .edu-node,
-    .edu-node--left,
-    .edu-node--right {
-        padding-left: 44px !important;
-    }
-
-    .edu-spine { left: 12px !important; }
-
-    .edu-node__dot {
-        left: -14px !important;
-        width: 28px !important;
-        height: 28px !important;
-    }
-
-    /* ── Skills ── */
-    .skill-card {
-        padding: 16px 12px !important;
-    }
-
-    /* ── Experience ── */
-    .expx-pill-text {
-        font-size: clamp(14px, 6.5vw, 20px) !important;
-    }
-
-    .expx-pill-icon {
-        width: 34px !important;
-        height: 34px !important;
-        font-size: 20px !important;
-    }
-
-    /* ── Projects ── */
-    .slide-title {
-        font-size: clamp(14px, 8vw, 20px) !important;
-    }
-
-    .slide-desc {
-        font-size: clamp(12px, 3.5vw, 14px) !important;
-    }
-
-    /* ── Contact ── */
-    .contact-info .contact-title {
-        font-size: clamp(16px, 6vw, 22px) !important;
-    }
-
-    /* ── Footer ── */
-    .footer-brand-name {
-        font-size: clamp(16px, 10.5vw, 28px) !important;
-    }
-
-    .footer-card {
-        padding: 28px 12px 18px !important;
-        border-radius: 14px !important;
-    }
-
-    /* ── Certs ── */
-    .cert-title {
-        font-size: clamp(13px, 5vw, 17px) !important;
-    }
-
-    /* ── Tool tags ── */
-    .tool-tag {
-        padding: 6px 10px !important;
-        font-size: 11px !important;
-    }
-}
-
-/* ================================================================
-   ABOUT.HTML — Fix inline grid style on small screens
-   (The section-container uses grid-template-columns: 1fr 400px inline)
-   Override with responsive single column
-   ================================================================ */
-@media (max-width: 1024px) {
-    #about-section .section-container {
-        grid-template-columns: 1fr !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-}
-
-/* ================================================================
-   CONTACT.HTML — section-container inline padding fix
-   ================================================================ */
-@media (max-width: 768px) {
-    #contact-section .section-container {
-        padding: 20px 0 !important;
-    }
-}
-
-/* ================================================================
-   PROJECTS v2 CSS — additional small phone overrides
-   ================================================================ */
-@media (max-width: 480px) {
-    .marvel-slider-section .section-container {
-        padding: 0 4% !important;
-    }
-
-    .marvel-slider-section .projects-main-title {
-        font-size: clamp(22px, 7.5vw, 32px) !important;
-    }
-
-    .marvel-slider-section .highlight {
-        font-size: clamp(12px, 3.5vw, 16px) !important;
-    }
-
-    .slide {
-        padding: 0 4% !important;
-    }
-
-    .slider-nav {
-        gap: 16px !important;
-    }
-}
-
-/* ================================================================
-   FONT DISPLAY CLASSES — ensure clamp values are sane at 320px
-   .font-druk, .font-shark, .font-theater must not be huge on mobile
-   ================================================================ */
-@media (max-width: 768px) {
-    /* font-druk (Syne 800) used in #page1 h1 and about name */
-    .font-druk {
-        letter-spacing: -1px !important;
-    }
-
-    /* font-shark (Sharkbit Demo) used in slide titles, edu cards */
-    .font-shark {
-        letter-spacing: 0.5px !important;
-    }
-
-    /* font-theater (Oswald) used in section heading labels */
-    .font-theater {
-        letter-spacing: 2px !important;
-    }
+    #main { overflow-x: hidden; }
+    #nav { padding: 14px 4%; }
+    .nav-logo { font-size: 13px; letter-spacing: 1.5px; }
+    #loop h1 { font-size: clamp(28px, 8vw, 48px) !important; letter-spacing: -1px; }
+    #page1 { flex-direction: column !important; justify-content: center !important; gap: 32px !important; padding-top: 80px !important; height: auto !important; min-height: 100vh !important; }
+    #left-text, #right-text { width: 100% !important; text-align: left; }
+    .fluid-page h1, .project-heading-match { font-size: clamp(26px, 8vw, 40px) !important; line-height: 1.05 !important; }
+    .about-grid-container { display: flex !important; flex-direction: column !important; gap: 40px !important; }
+    .about-right { justify-content: center !important; }
+    .profile-card { width: min(90vw, 360px) !important; }
+    .about-name-heading { font-size: clamp(13px, 4vw, 22px) !important; letter-spacing: 0px !important; line-height: 1.2 !important; white-space: nowrap !important; }
+    .timeline-v3-item { width: 100% !important; left: 0 !important; right: 0 !important; padding-left: 40px !important; padding-right: 0 !important; text-align: left !important; }
+    .edu-header { margin-bottom: 36px !important; }
+    .timeline-spine { left: 12px !important; }
+    .spine-anchor { left: 12px !important; right: auto !important; }
+    .skills-grid { grid-template-columns: 1fr !important; }
+    .slide-content { flex-direction: column !important; gap: 20px; }
+    .slide-left-info, .slide-right-heading { width: 100% !important; }
+    .slide-title { font-size: clamp(20px, 7vw, 32px) !important; white-space: normal !important; }
+    .contact-wrapper { flex-direction: column !important; gap: 32px !important; }
+    .contact-form-wrapper { width: 100% !important; }
+    .footer-top { flex-direction: column !important; gap: 32px !important; }
+    .footer-bottom { flex-direction: column !important; gap: 8px !important; text-align: center; }
+    .footer-brand-name { font-size: clamp(20px, 10vw, 42px) !important; }
+    .corner-scroll-btn { width: 36px !important; height: 36px !important; font-size: 15px !important; }
 }
 
 @media (max-width: 480px) {
-    .font-druk {
-        letter-spacing: -0.5px !important;
-        line-height: 1 !important;
-    }
-
-    .font-theater {
-        letter-spacing: 1.5px !important;
-        line-height: 1.05 !important;
-    }
-}
-
-/* ================================================================
-   NAV LINKS — mobile menu overlay font sizes
-   ================================================================ */
-@media (max-width: 480px) {
-    .nav-links a {
-        font-size: clamp(20px, 5.5vw, 26px) !important;
-        letter-spacing: 2.5px !important;
-    }
-}
-
-/* ================================================================
-   HERO SCROLL ARROW — keep visible on mobile
-   ================================================================ */
-@media (max-width: 768px) {
-    .loader-wrap {
-        gap: 10px !important;
-        flex-wrap: wrap !important;
-    }
-
-    .scroll-arrow .arrow-icon {
-        font-size: 20px !important;
-    }
-}
-
-/* ================================================================
-   SECTION CONTAINER — prevent double padding issues
-   ================================================================ */
-@media (max-width: 480px) {
-    .section-container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .fluid-page .section-container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-}
-
-/* ================================================================
-   SKILLS SECTION — label/header spacing tightening
-   ================================================================ */
-@media (max-width: 768px) {
-    #skills-section .skills-header {
-        margin-bottom: 0 !important;
-    }
-
-    #skills-section .skills-grid {
-        margin-top: 36px !important;
-    }
-
-    #tools-section .tools-orbit-wrap {
-        margin-top: 36px !important;
-    }
-
-    #certificates-section .certs-list {
-        margin-top: 36px !important;
-    }
-
-    #education-section .edu-header {
-        margin-bottom: 30px !important;
-    }
-}
-
-/* ================================================================
-   EXPERIENCE SECTION — ensure expanded state works at all sizes
-   ================================================================ */
-@media (max-width: 768px) {
-    .expx-item.is-open,
-    .expx-item.is-open:not(.expx-item--three),
-    .expx-item--three.is-open {
-        height: auto !important;
-        min-height: 180px !important;
-        overflow: visible !important;
-    }
-
-    .expx-item.is-open .expx-inline {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-        transform: none !important;
-    }
-
-    .expx-item--three .expx-inline {
-        position: static !important;
-        bottom: auto !important;
-    }
-}
-
-/* ================================================================
-   ABOUT SECTION — actions button row on very small screens
-   ================================================================ */
-@media (max-width: 360px) {
-    .about-actions {
-        flex-direction: column !important;
-        align-items: stretch !important;
-    }
-
-    .about-actions a {
-        text-align: center !important;
-        justify-content: center !important;
-    }
-}
-
-/* ================================================================
-   ABOUT NAME HEADING — force single line on all small screens
-   ================================================================ */
-.about-name-heading {
-    font-size: clamp(13px, 4vw, 30px) !important;
-    letter-spacing: 0px !important;
-    line-height: 1.2 !important;
-    white-space: nowrap !important;
-}
-
-@media (max-width: 480px) {
-    .about-name-heading {
-        font-size: clamp(12px, 3.8vw, 20px) !important;
-        letter-spacing: 0px !important;
-        white-space: nowrap !important;
-    }
+    #loop h1 { font-size: clamp(22px, 7vw, 36px) !important; }
+    #hero-footer h3 { font-size: clamp(9px, 2.8vw, 12px) !important; }
+    .fluid-page h1, .project-heading-match { font-size: clamp(22px, 7.5vw, 34px) !important; }
+    .about-name-heading { font-size: clamp(12px, 3.8vw, 18px) !important; white-space: nowrap !important; }
+    .fluid-page { padding: 70px 4% !important; }
+    .about-actions { flex-direction: column !important; gap: 12px !important; }
+    .about-actions a { width: 100% !important; text-align: center !important; justify-content: center !important; }
+    .footer-brand-name { font-size: clamp(16px, 10.5vw, 28px) !important; }
+    .column-links { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 390px) {
-    .about-name-heading {
-        font-size: clamp(11px, 3.5vw, 18px) !important;
-        letter-spacing: -0.5px !important;
-        white-space: nowrap !important;
-    }
+    .about-name-heading { font-size: clamp(11px, 3.5vw, 16px) !important; white-space: nowrap !important; }
 }
 
-@media (max-width: 320px) {
-    .about-name-heading {
-        font-size: clamp(10px, 3.2vw, 16px) !important;
-        letter-spacing: -0.5px !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
-}
-
-/* END OF MOBILE RESPONSIVENESS PATCH */
+/* END OF SAFE MOBILE PATCH */
