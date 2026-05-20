@@ -764,7 +764,18 @@ body.is-loading {
 }
 
 
-#page,
+#page {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-color: #050505; /* Changed from transparent to hide elements behind */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 10;
+}
+
 #page1,
 #page2,
 #page3 {
@@ -779,13 +790,13 @@ body.is-loading {
     z-index: 10;
 }
 
-#page canvas {
+#hero-canvas {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 5;
-    width: 100vw;
-    height: 100vh;
+    width: 100% !important;
+    height: 100% !important;
     pointer-events: none;
     display: block;
     transform: translateZ(0);
@@ -2233,7 +2244,19 @@ body.is-loading {
         display: none;
     }
 
-    #page, #page1, #page2, #page3 {
+    #page {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        height: 100vh !important;
+        padding: 0 !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    #page1, #page2, #page3 {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -2278,8 +2301,8 @@ body.is-loading {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100% !important;
+        height: 100% !important;
         z-index: 5 !important;
         pointer-events: none;
     }
@@ -5198,8 +5221,8 @@ img, video, svg, canvas {
     top: 0;
     left: 0;
     z-index: 5;
-    width: 100vw;
-    height: 100vh;
+    width: 100% !important;
+    height: 100% !important;
     pointer-events: none;
     display: block;
     transform: translateZ(0);

@@ -282,10 +282,14 @@ initSiteLoader().finally(() => {
 
         function resizeCanvas() {
             const dpr = getDpr();
-            canvas.width = Math.ceil(window.innerWidth * dpr);
-            canvas.height = Math.ceil(window.innerHeight * dpr);
-            canvas.style.width = "100vw";
-            canvas.style.height = "100vh";
+            const parent = canvas.parentElement || document.body;
+            const width = parent.clientWidth;
+            const height = parent.clientHeight;
+            
+            canvas.width = Math.ceil(width * dpr);
+            canvas.height = Math.ceil(height * dpr);
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
             context.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
 
