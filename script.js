@@ -218,8 +218,8 @@ initSiteLoader().finally(() => {
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
             smooth: !isTouchDevice,
-            multiplier: 1,
-            lerp: 0.1,
+            multiplier: isTouchDevice ? 0.8 : 1,  // Smoother scroll speed on mobile
+            lerp: isTouchDevice ? 0.05 : 0.1,  // Faster lerp on mobile for responsiveness
             smartphone: { smooth: false },
             tablet: { smooth: false }
         });
@@ -288,9 +288,15 @@ initSiteLoader().finally(() => {
         if (!canvas) return;
         const context = canvas.getContext("2d");
         const getDpr = () => isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-        const totalFrames = 150;
+        
+        // PERFORMANCE FIX: Reduce frames on mobile, optimize memory
+        const totalFrames = isTouchDevice ? 60 : 150;  // 60 frames on mobile, 150 on desktop
         const heroPinEnd = isTouchDevice ? "100% top" : "600% top";
         const loaderText = document.querySelector("#hero-footer h4");
+        
+        // Frame cache to prevent memory bloat
+        const frameCache = new Map();
+        const maxCacheSize = isTouchDevice ? 30 : 100;
 
         function resizeCanvas() {
             const dpr = getDpr();
@@ -314,6 +320,7 @@ initSiteLoader().finally(() => {
         const images = [];
         const imageSeq = { frame: 0 };
         let loadedCount = 0;
+        let renderThrottle = false;
 
         function getFilePath(index) {
             return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
@@ -321,9 +328,24 @@ initSiteLoader().finally(() => {
 
         function loadFrame(index) {
             return new Promise((resolve) => {
+                // Check cache first
+                if (frameCache.has(index)) {
+                    images[index] = frameCache.get(index);
+                    resolve();
+                    return;
+                }
+                
                 const img = new Image();
                 img.onload = () => {
                     loadedCount++;
+                    frameCache.set(index, img);
+                    
+                    // Clear old frames from cache if too large
+                    if (frameCache.size > maxCacheSize) {
+                        const firstKey = frameCache.keys().next().value;
+                        frameCache.delete(firstKey);
+                    }
+                    
                     if (index === 0) render(); 
                     resolve();
                 };
@@ -334,9 +356,24 @@ initSiteLoader().finally(() => {
         }
 
         async function startLoading() {
-            // Load first 10 frames fast, then rest in bg
-            for (let i = 0; i < 10; i++) await loadFrame(i);
-            for (let i = 10; i < totalFrames; i++) loadFrame(i);
+            // Load first 15 frames immediately, rest on demand
+            const initialFrames = Math.min(15, totalFrames);
+            for (let i = 0; i < initialFrames; i++) await loadFrame(i);
+            
+            // Load remaining frames in chunks on mobile, background on desktop
+            if (isTouchDevice) {
+                // Load in smaller chunks on mobile to avoid blocking
+                for (let i = initialFrames; i < totalFrames; i += 10) {
+                    setTimeout(() => {
+                        for (let j = i; j < Math.min(i + 10, totalFrames); j++) {
+                            loadFrame(j);
+                        }
+                    }, 100);
+                }
+            } else {
+                // Load all in background on desktop
+                for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
+            }
         }
 
         startLoading();
@@ -346,7 +383,7 @@ initSiteLoader().finally(() => {
             snap: "frame",
             ease: "none",
             scrollTrigger: {
-                scrub: 0.15,
+                scrub: isTouchDevice ? 0.25 : 0.15,  // Higher scrub on mobile for smoother feel
                 trigger: "#page",
                 start: "top top",
                 end: heroPinEnd,
@@ -356,7 +393,10 @@ initSiteLoader().finally(() => {
         });
 
         function render() {
-            const img = images[imageSeq.frame];
+            // Throttle renders on mobile
+            if (isTouchDevice && renderThrottle) return;
+            
+            const img = images[imageSeq.frame] || frameCache.get(imageSeq.frame);
             if (img && img.complete) {
                 const dprFactor = isTouchDevice ? 1 : getDpr();
                 const hRatio = canvas.width / dprFactor / img.width;
@@ -373,6 +413,12 @@ initSiteLoader().finally(() => {
                 const centerShift_y = (canvas.height / dprFactor - img.height * ratio) / 2;
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+                
+                // Enable next render after a short delay on mobile
+                if (isTouchDevice) {
+                    renderThrottle = true;
+                    requestAnimationFrame(() => { renderThrottle = false; });
+                }
             }
         }
 
@@ -397,7 +443,13 @@ initSiteLoader().finally(() => {
                 start: "bottom 60%",
                 end: "bottom top",
                 scrub: true,
-                onLeave: () => { canvas.style.display = "none"; },
+                onLeave: () => { 
+                    canvas.style.display = "none";
+                    // PERFORMANCE: Clear frame cache when canvas is hidden
+                    if (isTouchDevice) {
+                        frameCache.clear();
+                    }
+                },
                 onEnterBack: () => { canvas.style.display = "block"; }
             }
         });
@@ -436,22 +488,23 @@ initSiteLoader().finally(() => {
             });
         }
 
+        // PERFORMANCE: Optimize reveal animations for mobile
         gsap.utils.toArray(".transmission-reveal").forEach(el => {
             gsap.fromTo(el, {
                 opacity: 0,
                 y: 40,
-                clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)"
+                clipPath: isTouchDevice ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)" : "polygon(0 0, 100% 0, 100% 0, 0 0)"
             }, {
                 opacity: 1,
                 y: 0,
                 clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                duration: 1.2,
-                ease: "power4.out",
+                duration: isTouchDevice ? 0.8 : 1.2,
+                ease: isTouchDevice ? "power2.out" : "power4.out",
                 scrollTrigger: {
                     trigger: el,
                     scroller: "#main",
                     start: "top 90%",
-                    toggleActions: "play none none reverse"
+                    toggleActions: isTouchDevice ? "play none" : "play none none reverse"
                 }
             });
         });
@@ -565,7 +618,9 @@ initSiteLoader().finally(() => {
         gsap.fromTo(items,
             { autoAlpha: 0, y: 30 },
             {
-                autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.6,
+                autoAlpha: 1, y: 0, 
+                stagger: isTouchDevice ? 0.05 : 0.1,  // Reduce stagger on mobile
+                duration: isTouchDevice ? 0.5 : 0.6,
                 scrollTrigger: {
                     trigger: section,
                     scroller: "#main",
@@ -577,6 +632,9 @@ initSiteLoader().finally(() => {
 
     // 7. Certificate 3D Tilt
     function initCertificateTilt() {
+        // Skip 3D tilt effects on mobile devices for performance
+        if (isTouchDevice) return;
+        
         const cards = document.querySelectorAll(".card-inner");
         if (!cards.length) return;
 
@@ -637,8 +695,12 @@ initSiteLoader().finally(() => {
             gsap.fromTo('#footer', 
                 { opacity: 0, y: 30 },
                 {
-                    opacity: 1, y: 0, duration: 0.8,
-                    scrollTrigger: { trigger: '#footer', scroller: '#main', start: "top 95%" }
+                    opacity: 1, y: 0, duration: isTouchDevice ? 0.5 : 0.8,  // Faster on mobile
+                    scrollTrigger: { 
+                        trigger: '#footer', 
+                        scroller: '#main', 
+                        start: "top 95%"
+                    }
                 }
             );
         }
