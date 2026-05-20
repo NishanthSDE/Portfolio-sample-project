@@ -210,9 +210,11 @@ initSiteLoader().finally(() => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     function initScroll() {
-        // ACTUAL MOBILE DEVICE FIX: 
-        // Virtual smooth scroll often breaks on real phones. 
-        // We only enable it if NOT on a touch device.
+        const nav = document.querySelector("#nav");
+        const cornerControls = document.querySelector("#corner-scroll-controls");
+        const scrollTopBtn = document.querySelector("#scroll-to-top");
+        const scrollFooterBtn = document.querySelector("#scroll-to-footer");
+
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
             smooth: !isTouchDevice,
@@ -222,15 +224,11 @@ initSiteLoader().finally(() => {
             tablet: { smooth: false }
         });
 
-        const cornerControls = document.querySelector("#corner-scroll-controls");
-        const scrollTopBtn = document.querySelector("#scroll-to-top");
-        const scrollFooterBtn = document.querySelector("#scroll-to-footer");
-
         locoScroll.on("scroll", ScrollTrigger.update);
         locoScroll.on("scroll", (args) => {
-            if (!cornerControls) return;
             const y = args && args.scroll ? args.scroll.y : (window.pageYOffset || document.documentElement.scrollTop);
-            cornerControls.classList.toggle("visible", y > 120);
+            if (cornerControls) cornerControls.classList.toggle("visible", y > 120);
+            if (nav) nav.classList.toggle("scrolled", y > 50);
         });
 
         ScrollTrigger.scrollerProxy("#main", {
@@ -253,13 +251,27 @@ initSiteLoader().finally(() => {
             window.resolveScrollerReady();
         }
 
-        document.querySelectorAll("[data-scroll-to]").forEach(link => {
-            link.addEventListener("click", (e) => {
-                e.preventDefault();
-                const target = link.getAttribute("href");
+        // Global scroll-to handler
+        const handleScrollTo = (e) => {
+            const link = e.target.closest("[data-scroll-to]");
+            if (!link) return;
+
+            e.preventDefault();
+            const target = link.getAttribute("href");
+            if (target) {
                 locoScroll.scrollTo(target);
-            });
-        });
+                
+                // Close any open menus
+                const menuToggle = document.querySelector("#menu-toggle");
+                const linksContainer = document.querySelector(".nav-links");
+                if (menuToggle) menuToggle.classList.remove("active");
+                if (linksContainer) linksContainer.classList.remove("active");
+                if (nav) nav.classList.remove("nav-open");
+                document.body.classList.remove("menu-open");
+            }
+        };
+
+        document.addEventListener("click", handleScrollTo);
 
         if (scrollTopBtn) {
             scrollTopBtn.addEventListener("click", () => { locoScroll.scrollTo("#page"); });
@@ -445,25 +457,29 @@ initSiteLoader().finally(() => {
         });
     }
 
-    function initMobileMenu() {
+    function initNavbar() {
         const nav = document.querySelector("#nav");
-        const toggle = document.querySelector("#menu-toggle");
+        const menuToggle = document.querySelector("#menu-toggle");
+        const arrowToggle = document.querySelector("#nav-arrow-toggle");
         const linksContainer = document.querySelector(".nav-links");
-        const links = document.querySelectorAll(".nav-links a");
 
-        if(toggle && linksContainer) {
-            toggle.addEventListener("click", () => {
-                toggle.classList.toggle("active");
+        // Mobile Menu Toggle
+        if(menuToggle && linksContainer) {
+            menuToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                menuToggle.classList.toggle("active");
                 linksContainer.classList.toggle("active");
                 document.body.classList.toggle("menu-open");
             });
+        }
 
-            links.forEach(link => {
-                link.addEventListener("click", () => {
-                    toggle.classList.remove("active");
-                    linksContainer.classList.remove("active");
-                    document.body.classList.remove("menu-open");
-                });
+        // Desktop Arrow Toggle
+        if(arrowToggle && nav) {
+            arrowToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                nav.classList.toggle("nav-open");
+                const expanded = nav.classList.contains("nav-open");
+                arrowToggle.setAttribute("aria-expanded", expanded);
             });
         }
     }
@@ -503,47 +519,113 @@ initSiteLoader().finally(() => {
         const section = document.querySelector("#experience-section");
         if (!section) return;
         const items = section.querySelectorAll("[data-exp-item]");
+        if (!items.length) return;
         
         items.forEach(item => {
+            // Use mouseenter for automatic opening
+            item.addEventListener("mouseenter", () => {
+                // Close others to keep it clean
+                items.forEach(it => { if(it !== item) it.classList.remove("is-open"); });
+                // Open current
+                item.classList.add("is-open");
+            });
+
+            // Use mouseleave for automatic closing
+            item.addEventListener("mouseleave", () => {
+                item.classList.remove("is-open");
+            });
+
+            // Keep click for mobile support
             const toggle = item.querySelector("[data-exp-toggle]");
             const close = item.querySelector("[data-exp-close]");
             
             if(toggle) {
-                toggle.addEventListener("click", () => {
-                    items.forEach(it => { if(it !== item) it.classList.remove("is-open"); });
+                toggle.addEventListener("click", (e) => {
+                    e.preventDefault();
                     item.classList.toggle("is-open");
+                    // Refresh is only really needed on mobile where they are relative
+                    if (window.innerWidth <= 1024) {
+                        setTimeout(() => { ScrollTrigger.refresh(); }, 400);
+                    }
                 });
             }
+
             if(close) {
                 close.addEventListener("click", (e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     item.classList.remove("is-open");
+                    if (window.innerWidth <= 1024) {
+                        setTimeout(() => { ScrollTrigger.refresh(); }, 400);
+                    }
                 });
             }
         });
 
-        gsap.fromTo(section.querySelectorAll(".expx-item"),
+        gsap.fromTo(items,
             { autoAlpha: 0, y: 30 },
             {
                 autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.6,
                 scrollTrigger: {
                     trigger: section,
                     scroller: "#main",
-                    start: "top 80%",
+                    start: "top 85%",
                 }
             }
         );
     }
 
+    // 7. Certificate 3D Tilt
+    function initCertificateTilt() {
+        const cards = document.querySelectorAll(".card-inner");
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            card.addEventListener("mousemove", (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Gentler tilt for subtle feel
+                const rotateX = (centerY - y) / 15;
+                const rotateY = (x - centerX) / 15;
+                
+                gsap.to(card, {
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    scale: 1.03,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            });
+
+            card.addEventListener("mouseleave", () => {
+                gsap.to(card, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    scale: 1,
+                    duration: 0.6,
+                    ease: "elastic.out(1, 0.7)",
+                    overwrite: "auto"
+                });
+            });
+        });
+    }
+
     // Initialize all
     initScroll();
     initCanvas();
-    initMobileMenu();
+    initNavbar();
 
     window.sectionsReady.then(() => {
         initAnimations();
         initProjectStack();
         initExperienceShowcase();
+        initCertificateTilt();
         initFooterAnimation();
         
         // Refresh ScrollTrigger to account for newly injected elements

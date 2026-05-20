@@ -19,7 +19,7 @@
     <div class="edu-v4-container">
 
         <!-- ── HEADER ── -->
-        <div class="edu-header">
+        <div class="edu-header transmission-reveal">
             <div class="edu-header__label" id="edu-label">
                 <h1 class="font-theater project-heading-match" style="font-size: clamp(32px, 4.8vw, 64px); letter-spacing: 1px; line-height: 1; margin-bottom: 14px;">EDUCATION</h1>
             </div>
@@ -33,7 +33,7 @@
         </div>
 
         <!-- ── STATS ROW ── -->
-        <div class="edu-stats-row" id="edu-stats">
+        <div class="edu-stats-row transmission-reveal" id="edu-stats">
             <div class="edu-stat-chip">
                 <span class="edu-stat-num" data-target="2023">0</span>
                 <span class="edu-stat-unit"></span>
@@ -67,7 +67,7 @@
                     <div class="edu-node__pulse"></div>
                     <span class="edu-node__icon">🛡️</span>
                 </div>
-                <div class="edu-card" data-tilt>
+                <div class="edu-card transmission-reveal" data-tilt>
                     <div class="edu-card__stripe" style="--stripe-color: #a8a3e3;"></div>
                     <div class="edu-card__header">
                         <span class="edu-card__period">2019 — 2023</span>
@@ -93,7 +93,7 @@
                     <div class="edu-node__pulse"></div>
                     <span class="edu-node__icon">🎓</span>
                 </div>
-                <div class="edu-card" data-tilt>
+                <div class="edu-card transmission-reveal" data-tilt>
                     <div class="edu-card__stripe" style="--stripe-color: #eaedfe;"></div>
                     <div class="edu-card__header">
                         <span class="edu-card__period">2023 — 2024</span>
@@ -128,7 +128,7 @@
                     <div class="edu-node__pulse"></div>
                     <span class="edu-node__icon">⚗️</span>
                 </div>
-                <div class="edu-card" data-tilt>
+                <div class="edu-card transmission-reveal" data-tilt>
                     <div class="edu-card__stripe" style="--stripe-color: #a8a3e3;"></div>
                     <div class="edu-card__header">
                         <span class="edu-card__period">2023 — 2024</span>
@@ -156,7 +156,7 @@
                     <div class="edu-node__pulse"></div>
                     <span class="edu-node__icon">📚</span>
                 </div>
-                <div class="edu-card" data-tilt>
+                <div class="edu-card transmission-reveal" data-tilt>
                     <div class="edu-card__stripe" style="--stripe-color: #c6c9e7;"></div>
                     <div class="edu-card__header">
                         <span class="edu-card__period">2024</span>
@@ -354,24 +354,42 @@
         document.querySelectorAll('.edu-card[data-tilt]').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
-                const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
-                const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Consistent gentle tilt logic
+                const rotateX = (centerY - y) / 18;
+                const rotateY = (x - centerX) / 18;
+                
                 gsap.to(card, {
-                    rotateY: dx * 10, rotateX: -dy * 10,
-                    duration: 0.4, ease: 'power2.out',
-                    transformPerspective: 900
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    scale: 1.02,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    transformPerspective: 1000,
+                    overwrite: "auto"
                 });
             });
+            
             card.addEventListener('mouseleave', () => {
                 gsap.to(card, {
-                    rotateY: 0, rotateX: 0,
-                    duration: 0.8, ease: 'elastic.out(1, 0.4)',
-                    transformPerspective: 900
+                    rotateX: 0,
+                    rotateY: 0,
+                    scale: 1,
+                    duration: 0.7,
+                    ease: "elastic.out(1, 0.6)",
+                    transformPerspective: 1000,
+                    overwrite: "auto"
                 });
             });
         });
 
-        ScrollTrigger.refresh();
+        // Ensure everything is aligned after injection
+        setTimeout(() => { ScrollTrigger.refresh(); }, 500);
     }
 
     // Wait for scrollerReady (proxy is set up in script.js)
