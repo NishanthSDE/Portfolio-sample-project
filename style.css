@@ -800,7 +800,7 @@ body.is-loading {
     width: 100%;
     white-space: nowrap;
     z-index: 2;
-    opacity: 0.1; /* Reduced */
+    opacity: 0.35;
     pointer-events: none;
     user-select: none;
 }
@@ -808,20 +808,20 @@ body.is-loading {
 #loop>h1 {
     font-family: 'Sharkbit Demo', sans-serif;
     font-weight: 400;
-    font-size: 12vw; 
+    font-size: 8vw; /* Reduced from 12vw */
     animation: anim 40s linear infinite;
     padding-right: 120px;
     letter-spacing: 2px;
     background: none !important;
     color: transparent !important;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 1);
     -webkit-text-fill-color: transparent !important;
 }
 
 #loop span {
-    -webkit-text-stroke: 1px var(--p7-3);
+    -webkit-text-stroke: 1.5px var(--p7-3);
     color: var(--p7-3) !important;
-    -webkit-text-fill-color: var(--p7-3) !important;
+    -webkit-text-fill-color: var(--p7-3) !important; /* Filled text for high contrast readability */
 }
 
 @keyframes anim {
@@ -1317,7 +1317,6 @@ body.is-loading {
         transform: translate(0);
     }
 }
-
 #loop {
     display: flex;
     position: absolute;
@@ -1325,7 +1324,7 @@ body.is-loading {
     width: 100%;
     white-space: nowrap;
     z-index: 2;
-    opacity: 0.1; /* Reduced */
+    opacity: 0.35; /* Brighter visibility */
     pointer-events: none;
     user-select: none;
 }
@@ -1333,19 +1332,20 @@ body.is-loading {
 #loop>h1 {
     font-family: 'Sharkbit Demo', sans-serif;
     font-weight: 400;
-    font-size: 8vw; /* Reduced from 12vw */
+    font-size: 8vw;
     animation: anim 40s linear infinite;
     padding-right: 120px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     background: none !important;
     color: transparent !important;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.7);
     -webkit-text-fill-color: transparent !important;
 }
 
 #loop span {
-    -webkit-text-stroke: 1px var(--p7-3);
-    color: transparent;
+    -webkit-text-stroke: 1.5px var(--p7-3);
+    color: var(--p7-3) !important;
+    -webkit-text-fill-color: var(--p7-3) !important;
 }
 
 @keyframes anim {
@@ -2545,7 +2545,7 @@ body.is-loading {
 }
 
 /* ============================================================
-   ABOUT SECTION â€” Glassmorphism Profile Card
+   ABOUT SECTION Ã¢â‚¬â€ Glassmorphism Profile Card
    ============================================================ */
 
 #about-section {
@@ -2912,11 +2912,11 @@ body.is-loading {
     .about-left h1, .about-left p { text-align: center !important; margin-left: auto !important; }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   EDUCATION V4 â€” HOLOGRAPHIC CYBER TIMELINE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   EDUCATION V4 Ã¢â‚¬â€ HOLOGRAPHIC CYBER TIMELINE
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
-/* â”€â”€ Section wrapper â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Section wrapper Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-v4-section {
     position: relative;
     z-index: 30; /* Higher than canvas (z:5) and hero (z:10) */
@@ -2926,7 +2926,7 @@ body.is-loading {
     overflow: hidden;
 }
 
-/* â”€â”€ Grid BG â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Grid BG Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-grid-bg {
     position: absolute;
     inset: 0;
@@ -2936,7 +2936,7 @@ body.is-loading {
     mask-image: none;
 }
 
-/* â”€â”€ Orbs â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Orbs Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-orb {
     position: absolute;
     border-radius: 50%;
@@ -2956,7 +2956,7 @@ body.is-loading {
     background: rgba(198,201,231,0.045);
 }
 
-/* â”€â”€ Container â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Container Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-v4-container {
     position: relative;
     z-index: 2;
@@ -2964,7 +2964,7 @@ body.is-loading {
     margin: 0 auto;
 }
 
-/* â”€â”€ Header â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Header Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-header {
     margin-bottom: 70px;
 }
@@ -3009,7 +3009,7 @@ body.is-loading {
     opacity: 0;
 }
 
-/* â”€â”€ Stats Row â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Stats Row Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-stats-row {
     display: flex;
     align-items: center;
@@ -3057,13 +3057,13 @@ body.is-loading {
     background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
 }
 
-/* â”€â”€ Timeline â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Timeline Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-timeline {
     position: relative;
     padding: 20px 0 40px;
 }
 
-/* â”€â”€ Spine â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Spine Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-spine {
     position: absolute;
     left: 50%;
@@ -3085,7 +3085,7 @@ body.is-loading {
     transform-origin: top center;
 }
 
-/* â”€â”€ Timeline Node â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Timeline Node Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-node {
     position: relative;
     display: flex;
@@ -3104,7 +3104,7 @@ body.is-loading {
     padding-left: 60px;
 }
 
-/* â”€â”€ Node Dot â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Node Dot Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-node__dot {
     position: absolute;
     width: 44px; height: 44px;
@@ -3136,7 +3136,7 @@ body.is-loading {
     100% { transform: scale(1.9); opacity: 0; }
 }
 
-/* â”€â”€ Card â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Card Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-card {
     position: relative;
     background: rgba(8,8,12,0.85);
@@ -3338,10 +3338,10 @@ body.is-loading {
     margin-top: 1px;
 }
 
-/* â”€â”€ SVG Defs (injected inline for ring gradient) â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ SVG Defs (injected inline for ring gradient) Ã¢â€â‚¬Ã¢â€â‚¬ */
 .edu-ring-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* â”€â”€ Responsive â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Responsive Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
     .edu-node, .edu-node--left, .edu-node--right {
         width: 100%;
@@ -3374,7 +3374,7 @@ body.is-loading {
 /* Project Stack Section */
 
 /* ============================================================
-   MODERN CARD FOOTER â€” Inspired by Faizur's Design
+   MODERN CARD FOOTER Ã¢â‚¬â€ Inspired by Faizur's Design
    ============================================================ */
 .modern-card-footer {
     padding: 100px var(--side-padding) 40px;
@@ -5133,7 +5133,7 @@ img, video, svg, canvas {
 
 
 /* ============================================================
-   SAFE MOBILE PATCH — only applies to max-width: 768px and below
+   SAFE MOBILE PATCH â€” only applies to max-width: 768px and below
    Desktop (769px+) is completely untouched
    ============================================================ */
 
@@ -5184,7 +5184,7 @@ img, video, svg, canvas {
 /* END OF SAFE MOBILE PATCH */
 
 /* ============================================================
-   PAGE1 — make canvas 3D model visible behind page1 content
+   PAGE1 â€” make canvas 3D model visible behind page1 content
    ============================================================ */
 #page1 {
     background: transparent !important;
