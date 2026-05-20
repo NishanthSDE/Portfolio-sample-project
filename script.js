@@ -342,11 +342,19 @@ initSiteLoader().finally(() => {
         function render() {
             const img = images[imageSeq.frame];
             if (img && img.complete) {
-                const hRatio = canvas.width / (isTouchDevice ? 1 : getDpr()) / img.width;
-                const vRatio = canvas.height / (isTouchDevice ? 1 : getDpr()) / img.height;
-                const ratio = Math.max(hRatio, vRatio);
-                const centerShift_x = (canvas.width / (isTouchDevice ? 1 : getDpr()) - img.width * ratio) / 2;
-                const centerShift_y = (canvas.height / (isTouchDevice ? 1 : getDpr()) - img.height * ratio) / 2;
+                const dprFactor = isTouchDevice ? 1 : getDpr();
+                const hRatio = canvas.width / dprFactor / img.width;
+                const vRatio = canvas.height / dprFactor / img.height;
+                let ratio = Math.max(hRatio, vRatio);
+
+                // Dynamically scale down the 3D model on screen sizes below 1025px
+                if (window.innerWidth < 1025) {
+                    const scaleFactor = Math.min(1, window.innerWidth / 1024);
+                    ratio = ratio * 0.85 * scaleFactor;
+                }
+
+                const centerShift_x = (canvas.width / dprFactor - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height / dprFactor - img.height * ratio) / 2;
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
             }
