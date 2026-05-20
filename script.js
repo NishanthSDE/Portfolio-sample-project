@@ -408,6 +408,22 @@ initSiteLoader().finally(() => {
             });
         }
 
+        const certCards = gsap.utils.toArray(".card-sticky");
+        if (certCards.length > 0) {
+            certCards.forEach((card, index) => {
+                ScrollTrigger.create({
+                    trigger: card,
+                    scroller: "#main",
+                    start: () => isTouchDevice ? "top 10%" : "top " + (15 + (index * 5)) + "%",
+                    endTrigger: ".card-container",
+                    end: "bottom bottom",
+                    pin: !isTouchDevice,
+                    pinSpacing: false,
+                    invalidateOnRefresh: true,
+                });
+            });
+        }
+
         gsap.utils.toArray(".transmission-reveal").forEach(el => {
             gsap.fromTo(el, {
                 opacity: 0,
@@ -522,10 +538,17 @@ initSiteLoader().finally(() => {
     // Initialize all
     initScroll();
     initCanvas();
-    initAnimations();
     initMobileMenu();
-    initProjectStack();
-    initExperienceShowcase();
+
+    window.sectionsReady.then(() => {
+        initAnimations();
+        initProjectStack();
+        initExperienceShowcase();
+        initFooterAnimation();
+        
+        // Refresh ScrollTrigger to account for newly injected elements
+        ScrollTrigger.refresh();
+    });
 
     function initFooterAnimation() {
         if (document.querySelector('#footer')) {
@@ -538,7 +561,6 @@ initSiteLoader().finally(() => {
             );
         }
     }
-    initFooterAnimation();
     
     // FINAL REFRESH
     setTimeout(() => { ScrollTrigger.refresh(); }, 1000);
