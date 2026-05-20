@@ -13,15 +13,10 @@
     "cybersecurity",
     "security"
   ],
-  "author": "",
+  "author": "Jeevananthan M",
   "license": "MIT",
   "devDependencies": {
     "http-server": "^14.1.1"
-  },
-  "dependencies": {
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^1.14.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
   }
 }
+
