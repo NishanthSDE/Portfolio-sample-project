@@ -362,6 +362,21 @@ initSiteLoader().finally(() => {
             invalidateOnRefresh: true,
             onRefresh: () => render()
         });
+
+        // Fade out canvas completely as soon as #page1 bottom exits viewport
+        gsap.to(canvas, {
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#page1",
+                scroller: "#main",
+                start: "bottom 60%",
+                end: "bottom top",
+                scrub: true,
+                onLeave: () => { canvas.style.display = "none"; },
+                onEnterBack: () => { canvas.style.display = "block"; }
+            }
+        });
     }
 
     // 3. Pinning Pages & Reveal Animations
