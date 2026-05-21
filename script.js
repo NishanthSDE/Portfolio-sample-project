@@ -227,72 +227,17 @@ initSiteLoader().finally(() => {
         const scrollTopBtn = document.querySelector("#scroll-to-top");
         const scrollFooterBtn = document.querySelector("#scroll-to-footer");
 
-        if (isTouchDevice) {
-            // MOBILE: Use native scroll — no LocomotiveScroll, no proxy
-            // This is the fix for the black screen and lag on mobile
-            const mainEl = document.querySelector("#main");
-            if (mainEl) {
-                mainEl.style.overflow = "visible";
-                mainEl.style.height = "auto";
-            }
-            document.body.style.overflowY = "auto";
-            document.body.style.overflowX = "hidden";
-
-            // Use window scroll for ScrollTrigger on mobile
-            ScrollTrigger.defaults({ scroller: window });
-
-            // Native scroll event for nav / corner controls
-            window.addEventListener("scroll", () => {
-                const y = window.pageYOffset || document.documentElement.scrollTop;
-                if (cornerControls) cornerControls.classList.toggle("visible", y > 120);
-                if (nav) nav.classList.toggle("scrolled", y > 50);
-            }, { passive: true });
-
-            // Scroll-to handler for nav links on mobile
-            const handleScrollToMobile = (e) => {
-                const link = e.target.closest("[data-scroll-to]");
-                if (!link) return;
-                e.preventDefault();
-                const targetSel = link.getAttribute("href");
-                if (targetSel) {
-                    const targetEl = document.querySelector(targetSel);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: "smooth" });
-                    }
-                    const menuToggle = document.querySelector("#menu-toggle");
-                    const linksContainer = document.querySelector(".nav-links");
-                    if (menuToggle) menuToggle.classList.remove("active");
-                    if (linksContainer) linksContainer.classList.remove("active");
-                    if (nav) nav.classList.remove("nav-open");
-                    document.body.classList.remove("menu-open");
-                }
-            };
-            document.addEventListener("click", handleScrollToMobile);
-
-            if (scrollTopBtn) {
-                scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-            }
-            if (scrollFooterBtn) {
-                scrollFooterBtn.addEventListener("click", () => {
-                    const footer = document.querySelector("#footer");
-                    if (footer) footer.scrollIntoView({ behavior: "smooth" });
-                });
-            }
-
-            if (typeof window.resolveScrollerReady === "function") {
-                window.resolveScrollerReady();
-            }
-            return;
-        }
-
-        // DESKTOP: Use LocomotiveScroll as before
+        // DESKTOP & MOBILE: Use LocomotiveScroll
+        // By setting smartphone: { smooth: true }, Locomotive uses CSS transforms
+        // for scrolling on mobile. This ensures GSAP ScrollTrigger stays in sync,
+        // and pinType becomes "transform" instead of "fixed", which fixes the black screen!
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
             smooth: true,
             multiplier: 1,
             lerp: 0.1,
-            smartphone: { smooth: false },
-            tablet: { smooth: false }
+            smartphone: { smooth: true },
+            tablet: { smooth: true }
         });
 
         locoScroll.on("scroll", ScrollTrigger.update);
@@ -403,7 +348,7 @@ initSiteLoader().finally(() => {
                     ease: "none",
                     scrollTrigger: {
                         trigger: "#page",
-                        scroller: window,
+                        scroller: "#main",
                         start: "bottom 80%",
                         end: "bottom top",
                         scrub: true,
@@ -562,7 +507,7 @@ initSiteLoader().finally(() => {
             certCards.forEach((card, index) => {
                 ScrollTrigger.create({
                     trigger: card,
-                    scroller: isTouchDevice ? window : "#main",
+                    scroller: "#main",
                     start: () => isTouchDevice ? "top 10%" : "top " + (15 + (index * 5)) + "%",
                     endTrigger: ".card-container",
                     end: "bottom bottom",
@@ -587,7 +532,7 @@ initSiteLoader().finally(() => {
                 ease: isTouchDevice ? "power2.out" : "power4.out",
                 scrollTrigger: {
                     trigger: el,
-                    scroller: isTouchDevice ? window : "#main",
+                    scroller: "#main",
                     start: "top 92%",
                     toggleActions: isTouchDevice ? "play none none none" : "play none none reverse"
                 }
@@ -708,7 +653,7 @@ initSiteLoader().finally(() => {
                 duration: isTouchDevice ? 0.4 : 0.6,
                 scrollTrigger: {
                     trigger: section,
-                    scroller: isTouchDevice ? window : "#main",
+                    scroller: "#main",
                     start: "top 85%",
                 }
             }
@@ -783,7 +728,7 @@ initSiteLoader().finally(() => {
                     opacity: 1, y: 0, duration: isTouchDevice ? 0.4 : 0.8,
                     scrollTrigger: { 
                         trigger: '#footer', 
-                        scroller: isTouchDevice ? window : '#main', 
+                        scroller: '#main', 
                         start: "top 95%"
                     }
                 }

@@ -4943,48 +4943,19 @@ img, video, svg, canvas {
 }
 
 /* ============================================================
-   MOBILE PERFORMANCE MASTER BLOCK — uses body.is-touch class
-   set by JavaScript after reliable touch detection.
-   Disables GPU-expensive effects that cause lag & black screens.
-   Desktop (no .is-touch): completely untouched.
+   MOBILE PERFORMANCE MASTER BLOCK
+   Only keep safe overrides (overflow, backdrop-filter)
+   so we don't break GSAP animations or parallax.
    ============================================================ */
-
-/* === FIX: #main MUST be visible on mobile for native scroll === */
-body.is-touch #main {
-    overflow: visible !important;
-    height: auto !important;
-    position: relative !important;
-}
-
-body.is-touch {
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
 
 /* === FIX: Ensure hero sections never show black === */
 body.is-touch #page,
 body.is-touch #page1 {
     background-color: #050505 !important;
-    position: relative !important;
-    height: auto !important;
     min-height: 100svh !important;
 }
 
-/* On mobile, canvas is static inside #page - not fixed/pinned */
-body.is-touch #hero-canvas {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    will-change: auto !important;
-    backface-visibility: visible !important;
-    transform: none !important;
-    z-index: 5 !important;
-}
-
-/* === DISABLE BACKDROP-FILTER (biggest GPU killer on mobile) === */
+/* === DISABLE BACKDROP-FILTER (GPU killer on mobile) === */
 body.is-touch #nav,
 body.is-touch #nav.scrolled,
 body.is-touch .skill-card,
@@ -5001,36 +4972,9 @@ body.is-touch [class*="glass"] {
     -webkit-backdrop-filter: none !important;
 }
 
-/* === DISABLE WILL-CHANGE EVERYWHERE ON MOBILE === */
-body.is-touch *, body.is-touch *::before, body.is-touch *::after {
-    will-change: auto !important;
-}
-
-/* === DISABLE 3D PERSPECTIVE (crashes some mobile GPU) === */
+/* === DISABLE 3D PERSPECTIVE ON LOADER (crashes some mobile GPU) === */
 body.is-touch #site-loader {
     perspective: none !important;
-}
-
-body.is-touch .card-inner {
-    transform: none !important;
-    transition: none !important;
-    perspective: none !important;
-}
-
-/* === DISABLE EXPENSIVE CSS ANIMATIONS ON MOBILE === */
-body.is-touch #loop > h1:nth-child(2),
-body.is-touch #loop > h1:nth-child(3) {
-    display: none !important;
-}
-
-body.is-touch #loop > h1:nth-child(1) {
-    animation-duration: 20s !important;
-}
-
-body.is-touch .btn-glitch-content::before,
-body.is-touch .btn-glitch-content::after {
-    display: none !important;
-    animation: none !important;
 }
 
 /* === FIX PAGE1 LAYOUT ON MOBILE === */
