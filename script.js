@@ -257,17 +257,25 @@ initSiteLoader().finally(() => {
                 if (!link) return;
                 e.preventDefault();
                 const targetSel = link.getAttribute("href");
+                
+                // Close menu FIRST so changing overflow doesn't cancel the scroll animation
+                const menuToggle = document.querySelector("#menu-toggle");
+                const linksContainer = document.querySelector(".nav-links");
+                const nav = document.querySelector("#nav");
+                if (menuToggle) menuToggle.classList.remove("active");
+                if (linksContainer) linksContainer.classList.remove("active");
+                if (nav) nav.classList.remove("nav-open");
+                document.body.classList.remove("menu-open");
+
                 if (targetSel) {
                     const targetEl = document.querySelector(targetSel);
                     if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: "smooth" });
+                        // Small timeout to let the menu closing finish before scrolling
+                        setTimeout(() => {
+                            const offset = targetEl.getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({ top: offset, behavior: "smooth" });
+                        }, 50);
                     }
-                    const menuToggle = document.querySelector("#menu-toggle");
-                    const linksContainer = document.querySelector(".nav-links");
-                    if (menuToggle) menuToggle.classList.remove("active");
-                    if (linksContainer) linksContainer.classList.remove("active");
-                    if (nav) nav.classList.remove("nav-open");
-                    document.body.classList.remove("menu-open");
                 }
             };
             document.addEventListener("click", handleScrollToMobile);
@@ -615,18 +623,21 @@ initSiteLoader().finally(() => {
         if (!items.length) return;
         
         items.forEach(item => {
-            // Use mouseenter for automatic opening
-            item.addEventListener("mouseenter", () => {
-                // Close others to keep it clean
-                items.forEach(it => { if(it !== item) it.classList.remove("is-open"); });
-                // Open current
-                item.classList.add("is-open");
-            });
+            // Only apply hover events if the device supports hover (prevents click conflicts on mobile)
+            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+                // Use mouseenter for automatic opening
+                item.addEventListener("mouseenter", () => {
+                    // Close others to keep it clean
+                    items.forEach(it => { if(it !== item) it.classList.remove("is-open"); });
+                    // Open current
+                    item.classList.add("is-open");
+                });
 
-            // Use mouseleave for automatic closing
-            item.addEventListener("mouseleave", () => {
-                item.classList.remove("is-open");
-            });
+                // Use mouseleave for automatic closing
+                item.addEventListener("mouseleave", () => {
+                    item.classList.remove("is-open");
+                });
+            }
 
             // Keep click for mobile support
             const toggle = item.querySelector("[data-exp-toggle]");
