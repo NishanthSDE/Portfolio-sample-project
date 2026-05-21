@@ -1,13 +1,13 @@
-const CACHE_NAME = 'jeevananthan-offline-v12';
+const CACHE_NAME = 'jeevananthan-offline-v13';
 const OFFLINE_URL = 'offline.html';
 
 // Critical core assets to pre-cache on service worker install
 const CORE_ASSETS = [
     './',
     './index.html',
-    './style.css?v=10',
+    './style.css?v=11',
     './sections/projects_v2.css?v=7',
-    './script.js?v=10',
+    './script.js?v=11',
     './section-loader.js?v=7',
     './offline.html',
     './favicon.ico'

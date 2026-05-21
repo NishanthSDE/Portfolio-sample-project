@@ -409,7 +409,7 @@ initSiteLoader().finally(() => {
         function getFilePath(index) {
             const rawFrameNumber = (index * frameSkipStep) + 1;
             const formattedNumber = rawFrameNumber.toString().padStart(4, '0');
-            return `./CYBERFICTION-IMAGES/male${formattedNumber}.png`;
+            return `./CYBERFICTION-IMAGES/male${formattedNumber}.webp`;
         }
 
         function loadFrame(index) {
