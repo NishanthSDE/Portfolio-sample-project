@@ -384,6 +384,8 @@ initSiteLoader().finally(() => {
         const frameCache = new Map();
         const maxCacheSize = isTouchDevice ? 75 : 100; // Cache all mobile frames or up to 100 on desktop
 
+        let lastRenderedFrame = -1;
+
         function resizeCanvas() {
             const dpr = getDpr();
             const parent = canvas.parentElement || document.body;
@@ -394,6 +396,9 @@ initSiteLoader().finally(() => {
             canvas.style.width = "100%";
             canvas.style.height = "100%";
             context.setTransform(dpr, 0, 0, dpr, 0, 0);
+            
+            // Force redraw on resize
+            lastRenderedFrame = -1;
             render();
         }
 
@@ -422,7 +427,9 @@ initSiteLoader().finally(() => {
                         const firstKey = frameCache.keys().next().value;
                         frameCache.delete(firstKey);
                     }
-                    if (index === 0) render();
+                    if (index === 0 || index === Math.round(imageSeq.frame)) {
+                        render();
+                    }
                     resolve();
                 };
                 img.onerror = resolve;
@@ -435,8 +442,24 @@ initSiteLoader().finally(() => {
             // Load initial frames sequentially so user sees first frame immediately
             const initialFrames = isTouchDevice ? 10 : 15;
             for (let i = 0; i < initialFrames; i++) await loadFrame(i);
-            // Load rest in parallel
-            for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
+            
+            // Wait for sections to be completely fetched and loaded first to prevent blocking network requests
+            await window.sectionsReady;
+
+            if (isTouchDevice) {
+                // MOBILE: Load remaining frames sequentially to prevent network/CPU spikes
+                for (let i = initialFrames; i < totalFrames; i++) {
+                    const img = images[i];
+                    if (!img || !img.complete) {
+                        await loadFrame(i);
+                        // Add a tiny delay (40ms) to let the main thread breathe
+                        await new Promise(r => setTimeout(r, 40));
+                    }
+                }
+            } else {
+                // DESKTOP: Load rest in parallel
+                for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
+            }
         }
 
         resizeCanvas();
@@ -462,9 +485,15 @@ initSiteLoader().finally(() => {
         // Cover calculations emulating CSS 'background-size: cover'
         function render() {
             const activeFrameIndex = Math.round(imageSeq.frame);
+            if (activeFrameIndex === lastRenderedFrame) return; // Skip redundant draws
+
             const img = images[activeFrameIndex] || frameCache.get(activeFrameIndex);
             
-            if (!img || !img.complete) return;
+            if (!img || !img.complete) {
+                // Prioritize loading the frame that the user is currently looking at
+                loadFrame(activeFrameIndex);
+                return;
+            }
 
             const dpr = getDpr();
             
@@ -513,6 +542,7 @@ initSiteLoader().finally(() => {
             }
 
             context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+            lastRenderedFrame = activeFrameIndex; // Mark this frame as rendered
         }
 
         ScrollTrigger.create({
