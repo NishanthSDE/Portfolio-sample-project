@@ -215,11 +215,70 @@ initSiteLoader().finally(() => {
         const scrollTopBtn = document.querySelector("#scroll-to-top");
         const scrollFooterBtn = document.querySelector("#scroll-to-footer");
 
+        if (isTouchDevice) {
+            // MOBILE: Use native scroll — no LocomotiveScroll, no proxy
+            // This is the fix for the black screen and lag on mobile
+            const mainEl = document.querySelector("#main");
+            if (mainEl) {
+                mainEl.style.overflow = "visible";
+                mainEl.style.height = "auto";
+            }
+            document.body.style.overflowY = "auto";
+            document.body.style.overflowX = "hidden";
+
+            // Use window scroll for ScrollTrigger on mobile
+            ScrollTrigger.defaults({ scroller: window });
+
+            // Native scroll event for nav / corner controls
+            window.addEventListener("scroll", () => {
+                const y = window.pageYOffset || document.documentElement.scrollTop;
+                if (cornerControls) cornerControls.classList.toggle("visible", y > 120);
+                if (nav) nav.classList.toggle("scrolled", y > 50);
+            }, { passive: true });
+
+            // Scroll-to handler for nav links on mobile
+            const handleScrollToMobile = (e) => {
+                const link = e.target.closest("[data-scroll-to]");
+                if (!link) return;
+                e.preventDefault();
+                const targetSel = link.getAttribute("href");
+                if (targetSel) {
+                    const targetEl = document.querySelector(targetSel);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: "smooth" });
+                    }
+                    const menuToggle = document.querySelector("#menu-toggle");
+                    const linksContainer = document.querySelector(".nav-links");
+                    if (menuToggle) menuToggle.classList.remove("active");
+                    if (linksContainer) linksContainer.classList.remove("active");
+                    if (nav) nav.classList.remove("nav-open");
+                    document.body.classList.remove("menu-open");
+                }
+            };
+            document.addEventListener("click", handleScrollToMobile);
+
+            if (scrollTopBtn) {
+                scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+            }
+            if (scrollFooterBtn) {
+                scrollFooterBtn.addEventListener("click", () => {
+                    const footer = document.querySelector("#footer");
+                    if (footer) footer.scrollIntoView({ behavior: "smooth" });
+                });
+            }
+
+            if (typeof window.resolveScrollerReady === "function") {
+                window.resolveScrollerReady();
+            }
+            return;
+        }
+
+        // DESKTOP: Use LocomotiveScroll as before
         const locoScroll = new LocomotiveScroll({
             el: document.querySelector("#main"),
-            smooth: !isTouchDevice,
-            multiplier: isTouchDevice ? 0.8 : 1,  // Smoother scroll speed on mobile
-            lerp: isTouchDevice ? 0.05 : 0.1,  // Faster lerp on mobile for responsiveness
+            smooth: true,
+            multiplier: 1,
+            lerp: 0.1,
             smartphone: { smooth: false },
             tablet: { smooth: false }
         });
@@ -236,7 +295,7 @@ initSiteLoader().finally(() => {
                 if (arguments.length) {
                     locoScroll.scrollTo(value, 0, 0);
                 }
-                return isTouchDevice ? (window.pageYOffset || document.documentElement.scrollTop) : locoScroll.scroll.instance.scroll.y;
+                return locoScroll.scroll.instance.scroll.y;
             },
             getBoundingClientRect() {
                 return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
@@ -289,14 +348,15 @@ initSiteLoader().finally(() => {
         const context = canvas.getContext("2d");
         const getDpr = () => isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
         
-        // PERFORMANCE FIX: Reduce frames on mobile, optimize memory
-        const totalFrames = isTouchDevice ? 60 : 150;  // 60 frames on mobile, 150 on desktop
-        const heroPinEnd = isTouchDevice ? "100% top" : "600% top";
+        // MOBILE FIX: Drastically reduce frames on mobile to prevent OOM crashes
+        const totalFrames = isTouchDevice ? 30 : 150;
+        // On mobile, pin covers the whole page but at natural scale - no 600% scroll trap
+        const heroPinEnd = isTouchDevice ? "+=2000" : "600% top";
         const loaderText = document.querySelector("#hero-footer h4");
         
-        // Frame cache to prevent memory bloat
+        // Frame cache — small limit on mobile
         const frameCache = new Map();
-        const maxCacheSize = isTouchDevice ? 30 : 100;
+        const maxCacheSize = isTouchDevice ? 20 : 100;
 
         function resizeCanvas() {
             const dpr = getDpr();
@@ -383,11 +443,11 @@ initSiteLoader().finally(() => {
             snap: "frame",
             ease: "none",
             scrollTrigger: {
-                scrub: isTouchDevice ? 0.25 : 0.15,  // Higher scrub on mobile for smoother feel
+                scrub: isTouchDevice ? 0.5 : 0.15,
                 trigger: "#page",
                 start: "top top",
                 end: heroPinEnd,
-                scroller: "#main",
+                scroller: isTouchDevice ? window : "#main",
             },
             onUpdate: render
         });
@@ -425,7 +485,7 @@ initSiteLoader().finally(() => {
         ScrollTrigger.create({
             trigger: "#hero-canvas",
             pin: true,
-            scroller: "#main",
+            scroller: isTouchDevice ? window : "#main",
             start: "top top",
             end: heroPinEnd,
             anticipatePin: 1,
@@ -439,16 +499,14 @@ initSiteLoader().finally(() => {
             ease: "none",
             scrollTrigger: {
                 trigger: "#page1",
-                scroller: "#main",
+                scroller: isTouchDevice ? window : "#main",
                 start: "bottom 60%",
                 end: "bottom top",
                 scrub: true,
                 onLeave: () => { 
                     canvas.style.display = "none";
                     // PERFORMANCE: Clear frame cache when canvas is hidden
-                    if (isTouchDevice) {
-                        frameCache.clear();
-                    }
+                    frameCache.clear();
                 },
                 onEnterBack: () => { canvas.style.display = "block"; }
             }
@@ -477,7 +535,7 @@ initSiteLoader().finally(() => {
             certCards.forEach((card, index) => {
                 ScrollTrigger.create({
                     trigger: card,
-                    scroller: "#main",
+                    scroller: isTouchDevice ? window : "#main",
                     start: () => isTouchDevice ? "top 10%" : "top " + (15 + (index * 5)) + "%",
                     endTrigger: ".card-container",
                     end: "bottom bottom",
@@ -492,19 +550,19 @@ initSiteLoader().finally(() => {
         gsap.utils.toArray(".transmission-reveal").forEach(el => {
             gsap.fromTo(el, {
                 opacity: 0,
-                y: 40,
+                y: isTouchDevice ? 20 : 40,
                 clipPath: isTouchDevice ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)" : "polygon(0 0, 100% 0, 100% 0, 0 0)"
             }, {
                 opacity: 1,
                 y: 0,
                 clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                duration: isTouchDevice ? 0.8 : 1.2,
+                duration: isTouchDevice ? 0.6 : 1.2,
                 ease: isTouchDevice ? "power2.out" : "power4.out",
                 scrollTrigger: {
                     trigger: el,
-                    scroller: "#main",
-                    start: "top 90%",
-                    toggleActions: isTouchDevice ? "play none" : "play none none reverse"
+                    scroller: isTouchDevice ? window : "#main",
+                    start: "top 92%",
+                    toggleActions: isTouchDevice ? "play none none none" : "play none none reverse"
                 }
             });
         });
@@ -619,11 +677,11 @@ initSiteLoader().finally(() => {
             { autoAlpha: 0, y: 30 },
             {
                 autoAlpha: 1, y: 0, 
-                stagger: isTouchDevice ? 0.05 : 0.1,  // Reduce stagger on mobile
-                duration: isTouchDevice ? 0.5 : 0.6,
+                stagger: isTouchDevice ? 0.05 : 0.1,
+                duration: isTouchDevice ? 0.4 : 0.6,
                 scrollTrigger: {
                     trigger: section,
-                    scroller: "#main",
+                    scroller: isTouchDevice ? window : "#main",
                     start: "top 85%",
                 }
             }
@@ -693,12 +751,12 @@ initSiteLoader().finally(() => {
     function initFooterAnimation() {
         if (document.querySelector('#footer')) {
             gsap.fromTo('#footer', 
-                { opacity: 0, y: 30 },
+                { opacity: 0, y: 20 },
                 {
-                    opacity: 1, y: 0, duration: isTouchDevice ? 0.5 : 0.8,  // Faster on mobile
+                    opacity: 1, y: 0, duration: isTouchDevice ? 0.4 : 0.8,
                     scrollTrigger: { 
                         trigger: '#footer', 
-                        scroller: '#main', 
+                        scroller: isTouchDevice ? window : '#main', 
                         start: "top 95%"
                     }
                 }

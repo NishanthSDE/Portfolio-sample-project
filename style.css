@@ -383,6 +383,13 @@ body.is-loading {
     perspective: 1400px;
 }
 
+/* Disable 3D perspective on mobile to prevent rendering crashes */
+@media (hover: none), (pointer: coarse) {
+    #site-loader {
+        perspective: none;
+    }
+}
+
 .site-loader-atmo {
     position: absolute;
     inset: -20%;
@@ -763,6 +770,18 @@ body.is-loading {
     background-color: var(--bg-dark);
 }
 
+/* On mobile, native scroll requires overflow to be visible/auto - NOT hidden */
+@media (hover: none), (pointer: coarse) {
+    #main {
+        overflow: visible;
+        height: auto;
+    }
+    /* Prevent horizontal scroll on mobile only */
+    body {
+        overflow-x: hidden;
+    }
+}
+
 
 #page {
     position: relative;
@@ -802,6 +821,15 @@ body.is-loading {
     transform: translateZ(0);
     backface-visibility: hidden;
     will-change: transform;
+}
+
+/* Mobile: remove will-change and backface to save GPU memory */
+@media (hover: none), (pointer: coarse) {
+    #hero-canvas {
+        will-change: auto;
+        backface-visibility: visible;
+        transform: none;
+    }
 }
 
 #loop {
@@ -4912,4 +4940,122 @@ img, video, svg, canvas {
     font-family: 'Oswald', sans-serif !important;
     font-weight: 700 !important;
     text-transform: uppercase;
+}
+
+/* ============================================================
+   MOBILE PERFORMANCE MASTER BLOCK
+   Disables GPU-expensive effects that cause lag, black screens,
+   and crashes on mobile devices. Desktop untouched.
+   ============================================================ */
+@media (hover: none), (pointer: coarse) {
+
+    /* === DISABLE BACKDROP-FILTER (biggest GPU killer on mobile) === */
+    #nav,
+    #nav.scrolled,
+    .skill-card,
+    .soft-skill-card,
+    .nav-btn,
+    .site-loader-slider,
+    .tool-card,
+    .cert-item,
+    .exp-card,
+    .contact-form,
+    .footer-glass,
+    [style*="backdrop-filter"],
+    [class*="glass"] {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* === DISABLE WILL-CHANGE (causes GPU layer exhaustion) === */
+    *, *::before, *::after {
+        will-change: auto !important;
+    }
+
+    /* === DISABLE EXPENSIVE CSS ANIMATIONS ON MOBILE === */
+    /* Only keep 1 loop h1 visible, hide duplicates */
+    #loop > h1:nth-child(2),
+    #loop > h1:nth-child(3) {
+        display: none !important;
+    }
+    #loop > h1:nth-child(1) {
+        animation-duration: 20s !important;
+    }
+
+    /* Disable glitch animations - too expensive */
+    .btn-glitch-content::before,
+    .btn-glitch-content::after {
+        display: none !important;
+        animation: none !important;
+    }
+
+    /* === FIX PAGE1 LAYOUT ON MOBILE === */
+    /* Absolute positioned left/right text overlaps on small screens */
+    #page1 {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        padding: 80px 5% 60px !important;
+        height: auto !important;
+        min-height: 100svh !important;
+        gap: 48px !important;
+    }
+
+    #page1 > #left-text,
+    #page1 > #right-text {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        max-width: 100% !important;
+        text-align: left !important;
+    }
+
+    /* === DISABLE 3D CARD TILT (perspective can crash mobile GPU) === */
+    .card-inner {
+        transform: none !important;
+        transition: none !important;
+        perspective: none !important;
+    }
+
+    /* === SIMPLIFY HOVER TRANSFORMS TO AVOID JANK === */
+    .skill-card:hover {
+        transform: none !important;
+    }
+
+    /* === FIX SKILLS GRID MIN-WIDTH (too wide for mobile) === */
+    .skills-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* === ENSURE FLUID PAGES SCROLL NATURALLY === */
+    .fluid-page {
+        min-height: 100svh;
+    }
+
+    /* === FIX HERO FOOTER TEXT SIZE ON MOBILE === */
+    #hero-footer h3 {
+        font-size: clamp(9px, 2.5vw, 12px) !important;
+        max-width: 90vw !important;
+    }
+
+    #hero-footer {
+        bottom: 8% !important;
+        max-width: 90vw !important;
+    }
+
+    /* === SMOOTH NATIVE SCROLL ON IOS === */
+    #main, body {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+    #page1 {
+        padding: 70px 4% 50px !important;
+        gap: 32px !important;
+    }
+    #page1 h1 {
+        font-size: clamp(24px, 9vw, 38px) !important;
+    }
 }
