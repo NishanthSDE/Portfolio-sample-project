@@ -221,7 +221,7 @@
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: category,
-                    scroller: '#main',
+                    scroller: window.getScroller(),
                     start: 'top 85%',
                     toggleActions: 'play none none reverse',
                 }
