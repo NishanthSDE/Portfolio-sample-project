@@ -310,56 +310,9 @@ initSiteLoader().finally(() => {
         // This is the fix for the black screen on mobile.
         // =====================================================
         if (isTouchDevice) {
-            canvas.style.position = "absolute";
-            canvas.style.top = "0";
-            canvas.style.left = "0";
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            canvas.style.zIndex = "5";
-            canvas.style.pointerEvents = "none";
-            canvas.style.opacity = "0.85";
-
-            // Resize canvas to match parent
-            function resizeCanvasMobile() {
-                const parent = canvas.parentElement || document.body;
-                canvas.width = parent.clientWidth;
-                canvas.height = parent.clientHeight;
-                canvas.style.width = "100%";
-                canvas.style.height = "100%";
-            }
-            resizeCanvasMobile();
-            window.addEventListener("resize", resizeCanvasMobile, { passive: true });
-
-            // Load and display only the first frame — static image
-            const firstFrame = new Image();
-            firstFrame.onload = () => {
-                const w = canvas.width, h = canvas.height;
-                const hRatio = w / firstFrame.width;
-                const vRatio = h / firstFrame.height;
-                const ratio = Math.max(hRatio, vRatio) * 0.8;
-                const cx = (w - firstFrame.width * ratio) / 2;
-                const cy = (h - firstFrame.height * ratio) / 2;
-                context.clearRect(0, 0, w, h);
-                context.drawImage(firstFrame, 0, 0, firstFrame.width, firstFrame.height, cx, cy, firstFrame.width * ratio, firstFrame.height * ratio);
-                
-                // Fade canvas out as user scrolls away from hero
-                gsap.to(canvas, {
-                    opacity: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#page",
-                        scroller: "#main",
-                        start: "bottom 80%",
-                        end: "bottom top",
-                        scrub: true,
-                        onLeave: () => { canvas.style.visibility = "hidden"; },
-                        onEnterBack: () => { canvas.style.visibility = "visible"; }
-                    }
-                });
-            };
-            firstFrame.onerror = () => { canvas.style.display = "none"; };
-            firstFrame.src = "./CYBERFICTION-IMAGES/male0001.png";
-            return; // Exit early on mobile — no desktop canvas animation
+            // Remove the 3D model entirely on mobile as requested
+            canvas.style.display = "none";
+            return;
         }
 
         // =====================================================

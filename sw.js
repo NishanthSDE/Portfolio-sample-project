@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jeevananthan-offline-v6';
+const CACHE_NAME = 'jeevananthan-offline-v7';
 const OFFLINE_URL = 'offline.html';
 
 // Install event - Cache the offline page
