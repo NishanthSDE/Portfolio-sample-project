@@ -2,11 +2,14 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 // Detect touch device IMMEDIATELY and add class to body
 // This must run before anything else so CSS mobile styles apply right away
-(function() {
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.body.classList.add('is-touch');
-    }
-})();
+const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+if (isTouchDevice) {
+    document.body.classList.add('is-touch');
+}
+
+window.getScroller = function() {
+    return isTouchDevice ? window : "#main";
+};
 
 window.sectionsReady = window.sectionsReady || Promise.resolve();
 
