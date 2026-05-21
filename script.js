@@ -1,5 +1,10 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
+// Prevents aggressive visual jumps when the mobile address bar pops up/down
+ScrollTrigger.config({ 
+    ignoreMobileResize: true 
+});
+
 // Detect touch device IMMEDIATELY and add class to body
 // This must run before anything else so CSS mobile styles apply right away
 const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -369,26 +374,15 @@ initSiteLoader().finally(() => {
         if (!canvas) return;
         const context = canvas.getContext("2d");
 
-        // =====================================================
-        // MOBILE: Skip ALL pinning and complex scroll triggers.
-        // Just show a static first frame. No position:fixed.
-        // This is the fix for the black screen on mobile.
-        // =====================================================
-        if (isTouchDevice) {
-            // Remove the 3D model entirely on mobile as requested
-            canvas.style.display = "none";
-            return;
-        }
-
-        // =====================================================
-        // DESKTOP: Full canvas scroll animation with pinning
-        // =====================================================
-        const getDpr = () => Math.min(window.devicePixelRatio || 1, 2);
-        const totalFrames = 150;
-        const heroPinEnd = "600% top";
+        // Determine if we cap DPR or use raw devicePixelRatio (following user's request for high-DPI scaling)
+        const getDpr = () => window.devicePixelRatio || 1;
+        
+        // Frame skipping parameters for mobile crash protection
+        const totalFrames = isTouchDevice ? 75 : 150;
+        const frameSkipStep = isTouchDevice ? 2 : 1;
         
         const frameCache = new Map();
-        const maxCacheSize = 100;
+        const maxCacheSize = isTouchDevice ? 75 : 100; // Cache all mobile frames or up to 100 on desktop
 
         function resizeCanvas() {
             const dpr = getDpr();
@@ -400,17 +394,17 @@ initSiteLoader().finally(() => {
             canvas.style.width = "100%";
             canvas.style.height = "100%";
             context.setTransform(dpr, 0, 0, dpr, 0, 0);
+            render();
         }
-
-        resizeCanvas();
-        window.addEventListener("resize", () => { resizeCanvas(); render(); });
 
         const images = [];
         const imageSeq = { frame: 0 };
         let loadedCount = 0;
 
         function getFilePath(index) {
-            return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
+            const rawFrameNumber = (index * frameSkipStep) + 1;
+            const formattedNumber = rawFrameNumber.toString().padStart(4, '0');
+            return `./CYBERFICTION-IMAGES/male${formattedNumber}.png`;
         }
 
         function loadFrame(index) {
@@ -438,43 +432,87 @@ initSiteLoader().finally(() => {
         }
 
         async function startLoading() {
-            const initialFrames = 15;
+            // Load initial frames sequentially so user sees first frame immediately
+            const initialFrames = isTouchDevice ? 10 : 15;
             for (let i = 0; i < initialFrames; i++) await loadFrame(i);
+            // Load rest in parallel
             for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
         }
 
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
         startLoading();
 
+        // Canvas scrubbing trigger mapping
         gsap.to(imageSeq, {
             frame: totalFrames - 1,
             snap: "frame",
             ease: "none",
             scrollTrigger: {
-                scrub: 0.15,
+                scrub: isTouchDevice ? 0.3 : 0.15, // Slightly higher scrub smoothing on mobile to prevent jitter
                 trigger: "#page",
                 start: "top top",
-                end: heroPinEnd,
+                end: "600% top",
                 scroller: window.getScroller(),
             },
             onUpdate: render
         });
 
+        // Cover calculations emulating CSS 'background-size: cover'
         function render() {
-            const img = images[imageSeq.frame] || frameCache.get(imageSeq.frame);
-            if (img && img.complete) {
-                const dpr = getDpr();
-                const hRatio = canvas.width / dpr / img.width;
-                const vRatio = canvas.height / dpr / img.height;
-                let ratio = Math.max(hRatio, vRatio);
-                if (window.innerWidth < 1025) {
-                    const scaleFactor = Math.min(1, window.innerWidth / 1024);
-                    ratio = ratio * 0.85 * scaleFactor;
-                }
-                const centerShift_x = (canvas.width / dpr - img.width * ratio) / 2;
-                const centerShift_y = (canvas.height / dpr - img.height * ratio) / 2;
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            const activeFrameIndex = Math.round(imageSeq.frame);
+            const img = images[activeFrameIndex] || frameCache.get(activeFrameIndex);
+            
+            if (!img || !img.complete) return;
+
+            const dpr = getDpr();
+            
+            // Completely clear active pixel arrays to remove ghost artifacts
+            context.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+            const windowWidth = canvas.width / dpr;
+            const windowHeight = canvas.height / dpr;
+            
+            const imageRatio = img.width / img.height;
+            const windowRatio = windowWidth / windowHeight;
+            
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (windowRatio > imageRatio) {
+                drawWidth = windowWidth;
+                drawHeight = windowWidth / imageRatio;
+                offsetX = 0;
+                offsetY = (windowHeight - drawHeight) / 2;
+            } else {
+                drawWidth = windowHeight * imageRatio;
+                drawHeight = windowHeight;
+                offsetX = (windowWidth - drawWidth) / 2;
+                offsetY = 0;
             }
+
+            // Mobile-friendly adjustment or tablet/desktop scaling to match original feel
+            if (!isTouchDevice && windowWidth < 1025) {
+                const scaleFactor = Math.min(1, windowWidth / 1024);
+                const scale = 0.85 * scaleFactor;
+                const prevDrawWidth = drawWidth;
+                const prevDrawHeight = drawHeight;
+                drawWidth *= scale;
+                drawHeight *= scale;
+                offsetX += (prevDrawWidth - drawWidth) / 2;
+                offsetY += (prevDrawHeight - drawHeight) / 2;
+            } else if (isTouchDevice && windowWidth < 768) {
+                // Subtle scaling down of the character on mobile to fit nicely inside the screen
+                const scale = 0.9;
+                const prevDrawWidth = drawWidth;
+                const prevDrawHeight = drawHeight;
+                drawWidth *= scale;
+                drawHeight *= scale;
+                offsetX += (prevDrawWidth - drawWidth) / 2;
+                offsetY += (prevDrawHeight - drawHeight) / 2;
+            }
+
+            context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
         }
 
         ScrollTrigger.create({
@@ -482,7 +520,7 @@ initSiteLoader().finally(() => {
             pin: true,
             scroller: window.getScroller(),
             start: "top top",
-            end: heroPinEnd,
+            end: "600% top",
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onRefresh: () => render()
