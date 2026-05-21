@@ -32,16 +32,17 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache CSS and JS for 1 week
+# CSS: always revalidate (prevent stale code after deployments)
 [[headers]]
   for = "/*.css"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+    Cache-Control = "public, no-cache, must-revalidate"
 
+# JS: always revalidate (prevent stale code after deployments)
 [[headers]]
   for = "/*.js"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+    Cache-Control = "public, no-cache, must-revalidate"
 
 # Never cache HTML (always fresh)
 [[headers]]
