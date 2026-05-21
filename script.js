@@ -224,8 +224,9 @@ initSiteLoader().finally(() => {
     // 1. Locomotive Scroll & ScrollTrigger Proxy
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
-    // Add class to body for reliable CSS targeting
+    // Add class to html/body for reliable CSS targeting
     if (isTouchDevice) {
+        document.documentElement.classList.add('is-touch');
         document.body.classList.add('is-touch');
     }
 
@@ -238,13 +239,16 @@ initSiteLoader().finally(() => {
         if (isTouchDevice) {
             // MOBILE: Use native scroll — no LocomotiveScroll, no proxy
             // This is the fix for the black screen, lag, and dead buttons on mobile
+            document.documentElement.style.height = "auto";
+            document.documentElement.style.overflowY = "auto";
+            document.body.style.height = "auto";
+            document.body.style.overflowY = "auto";
+            document.body.style.overflowX = "hidden";
             const mainEl = document.querySelector("#main");
             if (mainEl) {
                 mainEl.style.overflow = "visible";
                 mainEl.style.height = "auto";
             }
-            document.body.style.overflowY = "auto";
-            document.body.style.overflowX = "hidden";
 
             // Use window scroll for ScrollTrigger on mobile
             ScrollTrigger.defaults({ scroller: window });
@@ -368,208 +372,7 @@ initSiteLoader().finally(() => {
         }
     }
 
-    // 2. Canvas Animation
-    function initCanvas() {
-        const canvas = document.querySelector("#hero-canvas");
-        if (!canvas) return;
-        const context = canvas.getContext("2d");
-
-        // Determine if we cap DPR or use raw devicePixelRatio (following user's request for high-DPI scaling)
-        const getDpr = () => window.devicePixelRatio || 1;
-        
-        // Frame skipping parameters for mobile crash protection
-        const totalFrames = isTouchDevice ? 75 : 150;
-        const frameSkipStep = isTouchDevice ? 2 : 1;
-        
-        const frameCache = new Map();
-        const maxCacheSize = isTouchDevice ? 75 : 100; // Cache all mobile frames or up to 100 on desktop
-
-        let lastRenderedFrame = -1;
-
-        function resizeCanvas() {
-            const dpr = getDpr();
-            const parent = canvas.parentElement || document.body;
-            const width = parent.clientWidth;
-            const height = parent.clientHeight;
-            canvas.width = Math.ceil(width * dpr);
-            canvas.height = Math.ceil(height * dpr);
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            context.setTransform(dpr, 0, 0, dpr, 0, 0);
-            
-            // Force redraw on resize
-            lastRenderedFrame = -1;
-            render();
-        }
-
-        const images = [];
-        const imageSeq = { frame: 0 };
-        let loadedCount = 0;
-
-        function getFilePath(index) {
-            const rawFrameNumber = (index * frameSkipStep) + 1;
-            const formattedNumber = rawFrameNumber.toString().padStart(4, '0');
-            return `./CYBERFICTION-IMAGES/male${formattedNumber}.webp`;
-        }
-
-        function loadFrame(index) {
-            return new Promise((resolve) => {
-                if (frameCache.has(index)) {
-                    images[index] = frameCache.get(index);
-                    resolve();
-                    return;
-                }
-                const img = new Image();
-                img.onload = () => {
-                    loadedCount++;
-                    frameCache.set(index, img);
-                    if (frameCache.size > maxCacheSize) {
-                        const firstKey = frameCache.keys().next().value;
-                        frameCache.delete(firstKey);
-                    }
-                    if (index === 0 || index === Math.round(imageSeq.frame)) {
-                        render();
-                    }
-                    resolve();
-                };
-                img.onerror = resolve;
-                img.src = getFilePath(index);
-                images[index] = img;
-            });
-        }
-
-        async function startLoading() {
-            // Load initial frames sequentially so user sees first frame immediately
-            const initialFrames = isTouchDevice ? 10 : 15;
-            for (let i = 0; i < initialFrames; i++) await loadFrame(i);
-            
-            // Wait for sections to be completely fetched and loaded first to prevent blocking network requests
-            await window.sectionsReady;
-
-            if (isTouchDevice) {
-                // MOBILE: Load remaining frames sequentially to prevent network/CPU spikes
-                for (let i = initialFrames; i < totalFrames; i++) {
-                    const img = images[i];
-                    if (!img || !img.complete) {
-                        await loadFrame(i);
-                        // Add a tiny delay (40ms) to let the main thread breathe
-                        await new Promise(r => setTimeout(r, 40));
-                    }
-                }
-            } else {
-                // DESKTOP: Load rest in parallel
-                for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
-            }
-        }
-
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
-
-        startLoading();
-
-        // Canvas scrubbing trigger mapping
-        gsap.to(imageSeq, {
-            frame: totalFrames - 1,
-            snap: "frame",
-            ease: "none",
-            scrollTrigger: {
-                scrub: isTouchDevice ? 0.3 : 0.15, // Slightly higher scrub smoothing on mobile to prevent jitter
-                trigger: "#page",
-                start: "top top",
-                end: "600% top",
-                scroller: window.getScroller(),
-            },
-            onUpdate: render
-        });
-
-        // Cover calculations emulating CSS 'background-size: cover'
-        function render() {
-            const activeFrameIndex = Math.round(imageSeq.frame);
-            if (activeFrameIndex === lastRenderedFrame) return; // Skip redundant draws
-
-            const img = images[activeFrameIndex] || frameCache.get(activeFrameIndex);
-            
-            if (!img || !img.complete) {
-                // Prioritize loading the frame that the user is currently looking at
-                loadFrame(activeFrameIndex);
-                return;
-            }
-
-            const dpr = getDpr();
-            
-            // Completely clear active pixel arrays to remove ghost artifacts
-            context.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-
-            const windowWidth = canvas.width / dpr;
-            const windowHeight = canvas.height / dpr;
-            
-            const imageRatio = img.width / img.height;
-            const windowRatio = windowWidth / windowHeight;
-            
-            let drawWidth, drawHeight, offsetX, offsetY;
-
-            if (windowRatio > imageRatio) {
-                drawWidth = windowWidth;
-                drawHeight = windowWidth / imageRatio;
-                offsetX = 0;
-                offsetY = (windowHeight - drawHeight) / 2;
-            } else {
-                drawWidth = windowHeight * imageRatio;
-                drawHeight = windowHeight;
-                offsetX = (windowWidth - drawWidth) / 2;
-                offsetY = 0;
-            }
-
-            // Mobile-friendly adjustment or tablet/desktop scaling to match original feel
-            if (!isTouchDevice && windowWidth < 1025) {
-                const scaleFactor = Math.min(1, windowWidth / 1024);
-                const scale = 0.85 * scaleFactor;
-                const prevDrawWidth = drawWidth;
-                const prevDrawHeight = drawHeight;
-                drawWidth *= scale;
-                drawHeight *= scale;
-                offsetX += (prevDrawWidth - drawWidth) / 2;
-                offsetY += (prevDrawHeight - drawHeight) / 2;
-            } else if (isTouchDevice && windowWidth < 768) {
-                // Subtle scaling down of the character on mobile to fit nicely inside the screen
-                const scale = 0.9;
-                const prevDrawWidth = drawWidth;
-                const prevDrawHeight = drawHeight;
-                drawWidth *= scale;
-                drawHeight *= scale;
-                offsetX += (prevDrawWidth - drawWidth) / 2;
-                offsetY += (prevDrawHeight - drawHeight) / 2;
-            }
-
-            context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-            lastRenderedFrame = activeFrameIndex; // Mark this frame as rendered
-        }
-
-        ScrollTrigger.create({
-            trigger: "#hero-canvas",
-            pin: true,
-            scroller: window.getScroller(),
-            start: "top top",
-            end: "600% top",
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onRefresh: () => render()
-        });
-
-        gsap.to(canvas, {
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#page1",
-                scroller: window.getScroller(),
-                start: "bottom 60%",
-                end: "bottom top",
-                scrub: true,
-                onLeave: () => { canvas.style.display = "none"; frameCache.clear(); },
-                onEnterBack: () => { canvas.style.display = "block"; }
-            }
-        });
-    }
+    // 2. Canvas Animation (Removed)
 
     // 3. Pinning Pages & Reveal Animations
     function initAnimations() {
@@ -795,7 +598,6 @@ initSiteLoader().finally(() => {
 
     // Initialize all
     initScroll();
-    initCanvas();
     initNavbar();
 
     window.sectionsReady.then(() => {

@@ -809,28 +809,6 @@ body.is-loading {
     z-index: 10;
 }
 
-#hero-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: none;
-    display: block;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-}
-
-/* Mobile: keep hardware acceleration active for smooth scrolling canvas */
-@media (hover: none), (pointer: coarse) {
-    #hero-canvas {
-        will-change: transform;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-    }
-}
 
 #loop {
     display: flex;
@@ -2342,16 +2320,6 @@ body.is-loading {
         text-align: center !important;
         margin-top: auto;
         padding-bottom: 8vh;
-    }
-
-    #hero-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 5 !important;
-        pointer-events: none;
     }
 
     #loop {
@@ -4922,19 +4890,7 @@ img, video, svg, canvas {
     z-index: 10;
     position: absolute;
 }
-#hero-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: none;
-    display: block;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-}
+
 
 .about-name-heading {
     font-family: 'Oswald', sans-serif !important;
@@ -5020,4 +4976,13 @@ body.is-touch #hero-footer h3 {
     body.is-touch #page1 h1 {
         font-size: clamp(24px, 9vw, 38px) !important;
     }
+}
+
+/* === FIX: Reset scroll locks on mobile/touch === */
+html.is-touch,
+body.is-touch,
+body.is-touch #main {
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
