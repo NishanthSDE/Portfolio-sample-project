@@ -1,5 +1,12 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
-console.log(">>> [MOBILE STABILITY FIX] RESTORING 3D & NATIVE TOUCH SCROLL <<<");
+
+// Detect touch device IMMEDIATELY and add class to body
+// This must run before anything else so CSS mobile styles apply right away
+(function() {
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.body.classList.add('is-touch');
+    }
+})();
 
 window.sectionsReady = window.sectionsReady || Promise.resolve();
 
@@ -208,6 +215,11 @@ initInteractiveCursor();
 initSiteLoader().finally(() => {
     // 1. Locomotive Scroll & ScrollTrigger Proxy
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Add class to body for reliable CSS targeting
+    if (isTouchDevice) {
+        document.body.classList.add('is-touch');
+    }
 
     function initScroll() {
         const nav = document.querySelector("#nav");
@@ -341,29 +353,85 @@ initSiteLoader().finally(() => {
         }
     }
 
-    // 2. RESTORED: Canvas Animation
+    // 2. Canvas Animation
     function initCanvas() {
         const canvas = document.querySelector("#hero-canvas");
         if (!canvas) return;
         const context = canvas.getContext("2d");
-        const getDpr = () => isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+
+        // =====================================================
+        // MOBILE: Skip ALL pinning and complex scroll triggers.
+        // Just show a static first frame. No position:fixed.
+        // This is the fix for the black screen on mobile.
+        // =====================================================
+        if (isTouchDevice) {
+            canvas.style.position = "absolute";
+            canvas.style.top = "0";
+            canvas.style.left = "0";
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            canvas.style.zIndex = "5";
+            canvas.style.pointerEvents = "none";
+            canvas.style.opacity = "0.85";
+
+            // Resize canvas to match parent
+            function resizeCanvasMobile() {
+                const parent = canvas.parentElement || document.body;
+                canvas.width = parent.clientWidth;
+                canvas.height = parent.clientHeight;
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+            }
+            resizeCanvasMobile();
+            window.addEventListener("resize", resizeCanvasMobile, { passive: true });
+
+            // Load and display only the first frame — static image
+            const firstFrame = new Image();
+            firstFrame.onload = () => {
+                const w = canvas.width, h = canvas.height;
+                const hRatio = w / firstFrame.width;
+                const vRatio = h / firstFrame.height;
+                const ratio = Math.max(hRatio, vRatio) * 0.8;
+                const cx = (w - firstFrame.width * ratio) / 2;
+                const cy = (h - firstFrame.height * ratio) / 2;
+                context.clearRect(0, 0, w, h);
+                context.drawImage(firstFrame, 0, 0, firstFrame.width, firstFrame.height, cx, cy, firstFrame.width * ratio, firstFrame.height * ratio);
+                
+                // Fade canvas out as user scrolls away from hero
+                gsap.to(canvas, {
+                    opacity: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#page",
+                        scroller: window,
+                        start: "bottom 80%",
+                        end: "bottom top",
+                        scrub: true,
+                        onLeave: () => { canvas.style.visibility = "hidden"; },
+                        onEnterBack: () => { canvas.style.visibility = "visible"; }
+                    }
+                });
+            };
+            firstFrame.onerror = () => { canvas.style.display = "none"; };
+            firstFrame.src = "./CYBERFICTION-IMAGES/male0001.png";
+            return; // Exit early on mobile — no desktop canvas animation
+        }
+
+        // =====================================================
+        // DESKTOP: Full canvas scroll animation with pinning
+        // =====================================================
+        const getDpr = () => Math.min(window.devicePixelRatio || 1, 2);
+        const totalFrames = 150;
+        const heroPinEnd = "600% top";
         
-        // MOBILE FIX: Drastically reduce frames on mobile to prevent OOM crashes
-        const totalFrames = isTouchDevice ? 30 : 150;
-        // On mobile, pin covers the whole page but at natural scale - no 600% scroll trap
-        const heroPinEnd = isTouchDevice ? "+=2000" : "600% top";
-        const loaderText = document.querySelector("#hero-footer h4");
-        
-        // Frame cache — small limit on mobile
         const frameCache = new Map();
-        const maxCacheSize = isTouchDevice ? 20 : 100;
+        const maxCacheSize = 100;
 
         function resizeCanvas() {
             const dpr = getDpr();
             const parent = canvas.parentElement || document.body;
             const width = parent.clientWidth;
             const height = parent.clientHeight;
-            
             canvas.width = Math.ceil(width * dpr);
             canvas.height = Math.ceil(height * dpr);
             canvas.style.width = "100%";
@@ -372,15 +440,11 @@ initSiteLoader().finally(() => {
         }
 
         resizeCanvas();
-        window.addEventListener("resize", () => {
-            resizeCanvas();
-            render();
-        });
+        window.addEventListener("resize", () => { resizeCanvas(); render(); });
 
         const images = [];
         const imageSeq = { frame: 0 };
         let loadedCount = 0;
-        let renderThrottle = false;
 
         function getFilePath(index) {
             return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
@@ -388,52 +452,32 @@ initSiteLoader().finally(() => {
 
         function loadFrame(index) {
             return new Promise((resolve) => {
-                // Check cache first
                 if (frameCache.has(index)) {
                     images[index] = frameCache.get(index);
                     resolve();
                     return;
                 }
-                
                 const img = new Image();
                 img.onload = () => {
                     loadedCount++;
                     frameCache.set(index, img);
-                    
-                    // Clear old frames from cache if too large
                     if (frameCache.size > maxCacheSize) {
                         const firstKey = frameCache.keys().next().value;
                         frameCache.delete(firstKey);
                     }
-                    
-                    if (index === 0) render(); 
+                    if (index === 0) render();
                     resolve();
                 };
-                img.onerror = resolve; 
+                img.onerror = resolve;
                 img.src = getFilePath(index);
                 images[index] = img;
             });
         }
 
         async function startLoading() {
-            // Load first 15 frames immediately, rest on demand
-            const initialFrames = Math.min(15, totalFrames);
+            const initialFrames = 15;
             for (let i = 0; i < initialFrames; i++) await loadFrame(i);
-            
-            // Load remaining frames in chunks on mobile, background on desktop
-            if (isTouchDevice) {
-                // Load in smaller chunks on mobile to avoid blocking
-                for (let i = initialFrames; i < totalFrames; i += 10) {
-                    setTimeout(() => {
-                        for (let j = i; j < Math.min(i + 10, totalFrames); j++) {
-                            loadFrame(j);
-                        }
-                    }, 100);
-                }
-            } else {
-                // Load all in background on desktop
-                for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
-            }
+            for (let i = initialFrames; i < totalFrames; i++) loadFrame(i);
         }
 
         startLoading();
@@ -443,49 +487,37 @@ initSiteLoader().finally(() => {
             snap: "frame",
             ease: "none",
             scrollTrigger: {
-                scrub: isTouchDevice ? 0.5 : 0.15,
+                scrub: 0.15,
                 trigger: "#page",
                 start: "top top",
                 end: heroPinEnd,
-                scroller: isTouchDevice ? window : "#main",
+                scroller: "#main",
             },
             onUpdate: render
         });
 
         function render() {
-            // Throttle renders on mobile
-            if (isTouchDevice && renderThrottle) return;
-            
             const img = images[imageSeq.frame] || frameCache.get(imageSeq.frame);
             if (img && img.complete) {
-                const dprFactor = isTouchDevice ? 1 : getDpr();
-                const hRatio = canvas.width / dprFactor / img.width;
-                const vRatio = canvas.height / dprFactor / img.height;
+                const dpr = getDpr();
+                const hRatio = canvas.width / dpr / img.width;
+                const vRatio = canvas.height / dpr / img.height;
                 let ratio = Math.max(hRatio, vRatio);
-
-                // Dynamically scale down the 3D model on screen sizes below 1025px
                 if (window.innerWidth < 1025) {
                     const scaleFactor = Math.min(1, window.innerWidth / 1024);
                     ratio = ratio * 0.85 * scaleFactor;
                 }
-
-                const centerShift_x = (canvas.width / dprFactor - img.width * ratio) / 2;
-                const centerShift_y = (canvas.height / dprFactor - img.height * ratio) / 2;
+                const centerShift_x = (canvas.width / dpr - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height / dpr - img.height * ratio) / 2;
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
-                
-                // Enable next render after a short delay on mobile
-                if (isTouchDevice) {
-                    renderThrottle = true;
-                    requestAnimationFrame(() => { renderThrottle = false; });
-                }
             }
         }
 
         ScrollTrigger.create({
             trigger: "#hero-canvas",
             pin: true,
-            scroller: isTouchDevice ? window : "#main",
+            scroller: "#main",
             start: "top top",
             end: heroPinEnd,
             anticipatePin: 1,
@@ -493,21 +525,16 @@ initSiteLoader().finally(() => {
             onRefresh: () => render()
         });
 
-        // Fade out canvas completely as soon as #page1 bottom exits viewport
         gsap.to(canvas, {
             opacity: 0,
             ease: "none",
             scrollTrigger: {
                 trigger: "#page1",
-                scroller: isTouchDevice ? window : "#main",
+                scroller: "#main",
                 start: "bottom 60%",
                 end: "bottom top",
                 scrub: true,
-                onLeave: () => { 
-                    canvas.style.display = "none";
-                    // PERFORMANCE: Clear frame cache when canvas is hidden
-                    frameCache.clear();
-                },
+                onLeave: () => { canvas.style.display = "none"; frameCache.clear(); },
                 onEnterBack: () => { canvas.style.display = "block"; }
             }
         });

@@ -4943,119 +4943,137 @@ img, video, svg, canvas {
 }
 
 /* ============================================================
-   MOBILE PERFORMANCE MASTER BLOCK
-   Disables GPU-expensive effects that cause lag, black screens,
-   and crashes on mobile devices. Desktop untouched.
+   MOBILE PERFORMANCE MASTER BLOCK — uses body.is-touch class
+   set by JavaScript after reliable touch detection.
+   Disables GPU-expensive effects that cause lag & black screens.
+   Desktop (no .is-touch): completely untouched.
    ============================================================ */
-@media (hover: none), (pointer: coarse) {
 
-    /* === DISABLE BACKDROP-FILTER (biggest GPU killer on mobile) === */
-    #nav,
-    #nav.scrolled,
-    .skill-card,
-    .soft-skill-card,
-    .nav-btn,
-    .site-loader-slider,
-    .tool-card,
-    .cert-item,
-    .exp-card,
-    .contact-form,
-    .footer-glass,
-    [style*="backdrop-filter"],
-    [class*="glass"] {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
+/* === FIX: #main MUST be visible on mobile for native scroll === */
+body.is-touch #main {
+    overflow: visible !important;
+    height: auto !important;
+    position: relative !important;
+}
 
-    /* === DISABLE WILL-CHANGE (causes GPU layer exhaustion) === */
-    *, *::before, *::after {
-        will-change: auto !important;
-    }
+body.is-touch {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-    /* === DISABLE EXPENSIVE CSS ANIMATIONS ON MOBILE === */
-    /* Only keep 1 loop h1 visible, hide duplicates */
-    #loop > h1:nth-child(2),
-    #loop > h1:nth-child(3) {
-        display: none !important;
-    }
-    #loop > h1:nth-child(1) {
-        animation-duration: 20s !important;
-    }
+/* === FIX: Ensure hero sections never show black === */
+body.is-touch #page,
+body.is-touch #page1 {
+    background-color: #050505 !important;
+    position: relative !important;
+    height: auto !important;
+    min-height: 100svh !important;
+}
 
-    /* Disable glitch animations - too expensive */
-    .btn-glitch-content::before,
-    .btn-glitch-content::after {
-        display: none !important;
-        animation: none !important;
-    }
+/* On mobile, canvas is static inside #page - not fixed/pinned */
+body.is-touch #hero-canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    will-change: auto !important;
+    backface-visibility: visible !important;
+    transform: none !important;
+    z-index: 5 !important;
+}
 
-    /* === FIX PAGE1 LAYOUT ON MOBILE === */
-    /* Absolute positioned left/right text overlaps on small screens */
-    #page1 {
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-        padding: 80px 5% 60px !important;
-        height: auto !important;
-        min-height: 100svh !important;
-        gap: 48px !important;
-    }
+/* === DISABLE BACKDROP-FILTER (biggest GPU killer on mobile) === */
+body.is-touch #nav,
+body.is-touch #nav.scrolled,
+body.is-touch .skill-card,
+body.is-touch .soft-skill-card,
+body.is-touch .nav-btn,
+body.is-touch .site-loader-slider,
+body.is-touch .tool-card,
+body.is-touch .cert-item,
+body.is-touch .exp-card,
+body.is-touch .contact-form,
+body.is-touch .footer-glass,
+body.is-touch [class*="glass"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
 
-    #page1 > #left-text,
-    #page1 > #right-text {
-        position: relative !important;
-        left: auto !important;
-        right: auto !important;
-        max-width: 100% !important;
-        text-align: left !important;
-    }
+/* === DISABLE WILL-CHANGE EVERYWHERE ON MOBILE === */
+body.is-touch *, body.is-touch *::before, body.is-touch *::after {
+    will-change: auto !important;
+}
 
-    /* === DISABLE 3D CARD TILT (perspective can crash mobile GPU) === */
-    .card-inner {
-        transform: none !important;
-        transition: none !important;
-        perspective: none !important;
-    }
+/* === DISABLE 3D PERSPECTIVE (crashes some mobile GPU) === */
+body.is-touch #site-loader {
+    perspective: none !important;
+}
 
-    /* === SIMPLIFY HOVER TRANSFORMS TO AVOID JANK === */
-    .skill-card:hover {
-        transform: none !important;
-    }
+body.is-touch .card-inner {
+    transform: none !important;
+    transition: none !important;
+    perspective: none !important;
+}
 
-    /* === FIX SKILLS GRID MIN-WIDTH (too wide for mobile) === */
-    .skills-grid {
-        grid-template-columns: 1fr !important;
-    }
+/* === DISABLE EXPENSIVE CSS ANIMATIONS ON MOBILE === */
+body.is-touch #loop > h1:nth-child(2),
+body.is-touch #loop > h1:nth-child(3) {
+    display: none !important;
+}
 
-    /* === ENSURE FLUID PAGES SCROLL NATURALLY === */
-    .fluid-page {
-        min-height: 100svh;
-    }
+body.is-touch #loop > h1:nth-child(1) {
+    animation-duration: 20s !important;
+}
 
-    /* === FIX HERO FOOTER TEXT SIZE ON MOBILE === */
-    #hero-footer h3 {
-        font-size: clamp(9px, 2.5vw, 12px) !important;
-        max-width: 90vw !important;
-    }
+body.is-touch .btn-glitch-content::before,
+body.is-touch .btn-glitch-content::after {
+    display: none !important;
+    animation: none !important;
+}
 
-    #hero-footer {
-        bottom: 8% !important;
-        max-width: 90vw !important;
-    }
+/* === FIX PAGE1 LAYOUT ON MOBILE === */
+body.is-touch #page1 {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 80px 5% 60px !important;
+    gap: 48px !important;
+}
 
-    /* === SMOOTH NATIVE SCROLL ON IOS === */
-    #main, body {
-        -webkit-overflow-scrolling: touch;
-    }
+body.is-touch #page1 > #left-text,
+body.is-touch #page1 > #right-text {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    max-width: 100% !important;
+    text-align: left !important;
+}
+
+/* === FIX SKILLS GRID === */
+body.is-touch .skills-grid {
+    grid-template-columns: 1fr !important;
+}
+
+/* === FIX HERO FOOTER === */
+body.is-touch #hero-footer {
+    bottom: 8% !important;
+    max-width: 90vw !important;
+}
+
+body.is-touch #hero-footer h3 {
+    font-size: clamp(9px, 2.5vw, 12px) !important;
+    max-width: 90vw !important;
 }
 
 /* Extra small phones */
 @media (max-width: 360px) {
-    #page1 {
+    body.is-touch #page1 {
         padding: 70px 4% 50px !important;
         gap: 32px !important;
     }
-    #page1 h1 {
+    body.is-touch #page1 h1 {
         font-size: clamp(24px, 9vw, 38px) !important;
     }
 }
