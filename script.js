@@ -372,7 +372,123 @@ initSiteLoader().finally(() => {
         }
     }
 
-    // 2. Canvas Animation (Removed)
+    // 2. RESTORED: Canvas Animation
+    function initCanvas() {
+        const canvas = document.querySelector("#hero-canvas");
+        if (!canvas) return;
+        const context = canvas.getContext("2d");
+        const dpr = isTouchDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        const totalFrames = 150;
+        const heroPinEnd = isTouchDevice ? "100% top" : "600% top";
+
+        function resizeCanvas() {
+            const parent = canvas.parentElement || document.body;
+            const width = parent.clientWidth;
+            const height = parent.clientHeight;
+            
+            canvas.width = Math.ceil(width * dpr);
+            canvas.height = Math.ceil(height * dpr);
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", () => {
+            resizeCanvas();
+            render();
+        });
+
+        const images = [];
+        const imageSeq = { frame: 0 };
+        let loadedCount = 0;
+
+        function getFilePath(index) {
+            return `./CYBERFICTION-IMAGES/male${(index + 1).toString().padStart(4, '0')}.png`;
+        }
+
+        function loadFrame(index) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedCount++;
+                    if (index === 0) render(); 
+                    resolve();
+                };
+                img.onerror = resolve; 
+                img.src = getFilePath(index);
+                images[index] = img;
+            });
+        }
+
+        async function startLoading() {
+            // Load first 10 frames fast, then rest in bg
+            for (let i = 0; i < 10; i++) await loadFrame(i);
+            for (let i = 10; i < totalFrames; i++) loadFrame(i);
+        }
+
+        startLoading();
+
+        gsap.to(imageSeq, {
+            frame: totalFrames - 1,
+            snap: "frame",
+            ease: "none",
+            scrollTrigger: {
+                scrub: 0.15,
+                trigger: "#page",
+                start: "top top",
+                end: heroPinEnd,
+                scroller: window.getScroller(),
+            },
+            onUpdate: render
+        });
+
+        function render() {
+            const img = images[imageSeq.frame];
+            if (img && img.complete) {
+                const hRatio = canvas.width / dpr / img.width;
+                const vRatio = canvas.height / dpr / img.height;
+                let ratio = Math.max(hRatio, vRatio);
+
+                // Dynamically scale down the 3D model on screen sizes below 1025px
+                if (window.innerWidth < 1025) {
+                    const scaleFactor = Math.min(1, window.innerWidth / 1024);
+                    ratio = ratio * 0.85 * scaleFactor;
+                }
+
+                const centerShift_x = (canvas.width / dpr - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height / dpr - img.height * ratio) / 2;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            }
+        }
+
+        ScrollTrigger.create({
+            trigger: "#hero-canvas",
+            pin: true,
+            scroller: window.getScroller(),
+            start: "top top",
+            end: heroPinEnd,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onRefresh: () => render()
+        });
+
+        // Fade out canvas completely as soon as #page1 bottom exits viewport
+        gsap.to(canvas, {
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#page1",
+                scroller: window.getScroller(),
+                start: "bottom 60%",
+                end: "bottom top",
+                scrub: true,
+                onLeave: () => { canvas.style.display = "none"; },
+                onEnterBack: () => { canvas.style.display = "block"; }
+            }
+        });
+    }
 
     // 3. Pinning Pages & Reveal Animations
     function initAnimations() {

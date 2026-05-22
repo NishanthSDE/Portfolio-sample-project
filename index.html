@@ -9,11 +9,761 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Visual Portfolio</title>
+    <title>Jeevananthan M | Cybersecurity Portfolio</title>
+    <meta name="description" content="Cybersecurity portfolio of Jeevananthan M — Ethical Hacker, VAPT Specialist, and Security Researcher. Explore projects, skills, and certifications.">
+    <meta property="og:title" content="Jeevananthan M | Cybersecurity Portfolio">
+    <meta property="og:description" content="Cybersecurity portfolio of Jeevananthan M — Ethical Hacker, VAPT Specialist, and Security Researcher.">
+    <meta property="og:type" content="website">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=22">
     <link rel="stylesheet" href="sections/projects_v2.css?v=7">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+    <style>
+        /* Critical Above-The-Fold Styles for Synth Era Hero Section */
+        #page {
+            background: radial-gradient(circle at center, #1b1b1f 0%, #030303 100%) !important;
+            padding: 80px var(--side-padding) 40px var(--side-padding) !important;
+        }
+
+        .synth-hero-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Center main text group */
+        .synth-hero-main-group {
+            position: relative;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        /* Background Title ("SYNTH ERA") */
+        .synth-bg-wrap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .synth-bg-title {
+            font-family: 'Antonio', 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 15vw, 290px);
+            font-weight: 800;
+            line-height: 0.8;
+            letter-spacing: -0.01em;
+            margin: 0;
+            padding: 0;
+            background: #4c4c4c;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.95));
+        }
+
+        /* Foreground Title Overlay ("Modern Armor") */
+        .synth-overlay-content {
+            position: absolute;
+            top: 62%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .synth-fg-title {
+            font-family: 'Kaushan Script', 'Mr Dafoe', cursive;
+            font-size: clamp(42px, 8.5vw, 130px);
+            color: #9b30ff; /* Vibrant violet/purple */
+            text-shadow: 0 0 20px rgba(155, 48, 255, 0.4), 0 0 40px rgba(155, 48, 255, 0.15);
+            transform: rotate(-6deg) translateY(-5px);
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            filter: drop-shadow(2px 5px 8px rgba(0, 0, 0, 0.9));
+        }
+
+        /* Sub-caption ("CREATED FOR YOU.") */
+        .synth-sub-title {
+            font-family: 'Caveat Brush', 'Caveat', cursive;
+            font-size: clamp(15px, 2.2vw, 30px);
+            color: #ffffff;
+            margin-top: 15px; /* Moved down below Cyber Security text */
+            margin-left: -14vw; /* Offset to align under first word */
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+            transform: rotate(-2deg);
+        }
+
+        /* Loop Background Marquee */
+        #loop {
+            display: flex !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 0 !important;
+            transform: translateY(-50%) !important;
+            width: 100% !important;
+            white-space: nowrap !important;
+            z-index: 0 !important; /* Behind the other elements */
+            opacity: 0.12 !important; /* Subtle background blend */
+            pointer-events: none !important;
+            user-select: none !important;
+            overflow: hidden !important;
+        }
+
+        #loop > h1 {
+            font-family: 'Sharkbit Demo', sans-serif !important;
+            font-weight: 400 !important;
+            font-size: clamp(30px, 7vw, 110px) !important;
+            animation: loop-marquee 30s linear infinite !important;
+            padding-right: 80px !important;
+            letter-spacing: 2px !important;
+            background: none !important;
+            color: transparent !important;
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35) !important;
+            -webkit-text-fill-color: transparent !important;
+            display: inline-block !important;
+            margin: 0 !important;
+        }
+
+        #loop b {
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            -webkit-text-stroke: none !important;
+            color: #9b30ff !important;
+            -webkit-text-fill-color: #9b30ff !important;
+        }
+
+        @keyframes loop-marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Footer Section Grid */
+        .synth-footer-row {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 5;
+            pointer-events: auto;
+        }
+
+        /* Left details */
+        .synth-footer-left {
+            max-width: 340px;
+            text-align: left;
+        }
+
+        .synth-detail-title {
+            font-family: 'Antonio', 'Bebas Neue', sans-serif;
+            font-size: clamp(15px, 1.3vw, 20px);
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .synth-detail-desc {
+            font-family: 'Outfit', 'Montserrat', sans-serif;
+            font-size: clamp(12px, 0.85vw, 14px);
+            line-height: 1.6;
+            color: #8c8c92;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* Right exclusive card */
+        .synth-footer-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .synth-exclusive-card {
+            background: rgba(18, 18, 20, 0.45);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px;
+            max-width: 280px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            transition: all 0.3s ease;
+        }
+
+        .synth-exclusive-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(155, 48, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(155, 48, 255, 0.1);
+        }
+
+        .synth-card-title {
+            font-family: 'Antonio', 'Bebas Neue', sans-serif;
+            font-size: clamp(14px, 1.25vw, 18px);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .synth-card-desc {
+            font-family: 'Outfit', 'Montserrat', sans-serif;
+            font-size: clamp(11px, 0.75vw, 13px);
+            line-height: 1.5;
+            color: #838389;
+            font-weight: 300;
+            margin-bottom: 18px;
+        }
+
+        .synth-card-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 9px 16px;
+            font-family: 'Outfit', 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 30px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .synth-card-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        .synth-eye-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+            margin-left: 8px;
+        }
+
+        .eye-svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .synth-sub-title {
+                margin-left: -8vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #page {
+                padding-top: 100px !important;
+                padding-bottom: 50px !important;
+                height: auto !important;
+                min-height: 100svh !important;
+            }
+
+            .synth-hero-container {
+                justify-content: flex-start;
+                gap: 30px;
+            }
+            
+            .synth-hero-main-group {
+                flex: none;
+                width: 100%;
+                height: 250px;
+                min-height: 250px;
+            }
+
+            .synth-fg-title {
+                font-size: clamp(38px, 10vw, 68px);
+                transform: rotate(-4deg);
+            }
+            
+            .synth-sub-title {
+                margin-left: 0;
+                margin-top: 10px;
+                font-size: clamp(14px, 4vw, 18px);
+                transform: rotate(-1deg);
+            }
+            
+            .synth-footer-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 25px;
+            }
+            
+            .synth-footer-left {
+                max-width: 100%;
+                text-align: center;
+            }
+            
+            .synth-footer-right {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .synth-exclusive-card {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        /* Touch device specific adjustments for performance */
+        body.is-touch .synth-exclusive-card {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            background: rgba(18, 18, 20, 0.95) !important;
+        }
+
+        /* ============================================================
+           PAGE1 REDESIGN — CYBER OPERATION PORTAL LAYOUT
+           ============================================================ */
+
+        .cyber-grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(168, 163, 227, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168, 163, 227, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .cyber-grid-overlay::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168, 163, 227, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cyber-page1-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+            position: relative;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .cyber-card {
+            background: rgba(10, 10, 12, 0.6);
+            border: 1px solid rgba(168, 163, 227, 0.15);
+            padding: 40px;
+            border-radius: 4px;
+            position: relative !important;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(168, 163, 227, 0.02);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-align: left;
+        }
+
+        .cyber-card:hover {
+            border-color: rgba(168, 163, 227, 0.4);
+            box-shadow: 0 30px 60px rgba(168, 163, 227, 0.08), inset 0 0 35px rgba(168, 163, 227, 0.06);
+            transform: translateY(-5px);
+        }
+
+        /* Cyber corner brackets */
+        .cyber-card-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: var(--p7-3);
+            border-style: solid;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-card:hover .cyber-card-corner {
+            opacity: 1;
+            border-color: #ffffff;
+        }
+
+        .cyber-card-corner.top-left {
+            top: -1px;
+            left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+        .cyber-card-corner.top-right {
+            top: -1px;
+            right: -1px;
+            border-width: 2px 2px 0 0;
+        }
+        .cyber-card-corner.bottom-left {
+            bottom: -1px;
+            left: -1px;
+            border-width: 0 0 2px 2px;
+        }
+        .cyber-card-corner.bottom-right {
+            bottom: -1px;
+            right: -1px;
+            border-width: 0 2px 2px 0;
+        }
+
+        /* Tech tag / module name */
+        .cyber-card-tag {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #050505;
+            padding: 0 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--p7-3);
+            border: 1px solid rgba(168, 163, 227, 0.25);
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Accent dot */
+        .tech-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--p7-3);
+            margin-right: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--p7-3);
+            vertical-align: middle;
+        }
+
+        /* ============================================================
+           PAGE1 REDESIGN — NEW CYBER OPERATION PORTAL LAYOUT
+           ============================================================ */
+
+        #page1 {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 100vh !important;
+            padding: 0 var(--side-padding) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            background: radial-gradient(circle at center, #1b1b1f 0%, #030303 100%) !important;
+        }
+
+        .cyber-page1-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+            position: relative;
+            gap: 80px;
+            padding: 0 20px;
+            margin-top: -40px; /* Slight optical adjustment */
+        }
+
+        /* Common Section tag styles */
+        .section-tag-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .purple-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--p7-3);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--p7-3);
+        }
+
+        .section-tag-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--p7-4);
+            text-transform: uppercase;
+        }
+
+        /* Left Section: Mission */
+        .mission-section {
+            flex: 1.1;
+            max-width: 520px;
+        }
+
+        .mission-title {
+            font-family: 'Sharkbit Demo', sans-serif !important;
+            font-size: clamp(3.5rem, 6vw, 6rem);
+            text-transform: uppercase;
+            line-height: 1.05;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .mission-title br {
+            display: block;
+        }
+
+        .mission-title span.purple-text {
+            color: var(--p7-3);
+        }
+
+        .purple-divider {
+            width: 80px;
+            height: 4px;
+            background-color: var(--p7-3);
+            margin-top: 30px;
+            border-radius: 2px;
+        }
+
+        /* Right Section: Capabilities */
+        .capabilities-section {
+            flex: 0.9;
+            max-width: 480px;
+            margin-top: 140px; /* Shifted down to match layout */
+        }
+
+        .capabilities-content p {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+            line-height: 1.7;
+            color: #a0a0a8;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .capabilities-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-purple {
+            color: var(--p7-3);
+            font-weight: 400;
+        }
+
+        /* Page 1 Bottom Footer Row */
+        .page1-footer-row {
+            position: absolute;
+            bottom: 40px;
+            left: 5%;
+            right: 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .page1-footer-socials {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .page1-footer-socials a {
+            color: #66666c;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page1-footer-socials a:hover {
+            color: var(--p7-3);
+            transform: translateY(-2px);
+        }
+
+        .page1-footer-socials .social-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Scroll to Explore (Curved text and arrow) */
+        .page1-footer-scroll {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 120px;
+            height: 90px;
+            margin-top: -35px;
+        }
+
+        .scroll-explore-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .scroll-explore-svg path {
+            fill: none;
+        }
+
+        .scroll-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 7px;
+            letter-spacing: 2px;
+            fill: #66666c;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .scroll-explore-circle {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(168, 163, 227, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: transparent;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .scroll-explore-circle:hover {
+            border-color: var(--p7-3);
+            box-shadow: 0 0 15px rgba(168, 163, 227, 0.4);
+            transform: translateY(2px);
+        }
+
+        .scroll-explore-arrow {
+            width: 16px;
+            height: 16px;
+            color: #ffffff;
+        }
+
+        /* Right Branding Tags */
+        .page1-footer-tags {
+            display: flex;
+            gap: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #66666c;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .page1-footer-tags .highlight-purple {
+            color: var(--p7-3);
+        }
+
+        /* Responsive & Mobile Support for Cyber Operation Portal */
+        @media (max-width: 1024px) {
+            .cyber-page1-container {
+                flex-direction: column;
+                gap: 40px;
+                align-items: stretch;
+                margin-top: 60px;
+                padding-bottom: 120px;
+            }
+
+            .capabilities-section {
+                margin-top: 0;
+                max-width: 100%;
+            }
+
+            .mission-section {
+                max-width: 100%;
+            }
+
+            .mission-title {
+                font-size: clamp(2.5rem, 5vw, 4rem);
+            }
+
+            .page1-footer-row {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                margin-top: 40px;
+                width: 100%;
+                padding: 0 20px 20px;
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #page1 {
+                height: auto !important;
+                min-height: 100vh !important;
+                padding-top: 80px !important;
+                padding-bottom: 40px !important;
+            }
+            
+            .page1-footer-row {
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .page1-footer-scroll {
+                order: -1; /* Put scroll button at top of footer stack */
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -71,32 +821,119 @@
     </div>
     <div id="main">
         <div id="page">
-            <div id="loop">
-                <h1> Yokoso WELCOME TO MY <span>DOMAIN.</span></h1>
-                <h1> Yokoso WELCOME TO MY <span>DOMAIN.</span></h1>
-                <h1> Yokoso WELCOME TO MY <span>DOMAIN.</span></h1>
-            </div>
-            <div id="hero-footer">
-                <h3 class="transmission-reveal">SEO SPECIALIST TRANSITIONING INTO CYBERSECURITY WITH A FOCUS ON ETHICAL HACKING, NETWORK DEFENSE, AND SECURE DIGITAL EXPERIENCES.</h3>
-                <div class="loader-wrap">
-                    <h4 class="transmission-reveal">..INITIALIZING SYNC</h4>
-                    <div class="scroll-arrow" id="hero-scroll-arrow">
-                        <span class="arrow-icon">↓</span>
+            <div class="synth-hero-container">
+                <!-- Wrapper for overlapping titles -->
+                <div class="synth-hero-main-group">
+                    <!-- Text Loop Marquee -->
+                    <div id="loop">
+                        <h1><b>YOKOSO</b> WELCOME TO MY DOMAIN ... <b>YOKOSO</b> WELCOME TO MY DOMAIN ... <b>YOKOSO</b> WELCOME TO MY DOMAIN ... </h1>
+                        <h1><b>YOKOSO</b> WELCOME TO MY DOMAIN ... <b>YOKOSO</b> WELCOME TO MY DOMAIN ... <b>YOKOSO</b> WELCOME TO MY DOMAIN ... </h1>
+                    </div>
+
+                    <!-- Huge Background Title "SYNTH ERA" -->
+                    <div class="synth-bg-wrap">
+                        <h1 class="synth-bg-title">CYBER ERA</h1>
+                    </div>
+
+                    <!-- Centered Cursive Script & Handwriting Subtitle -->
+                    <div class="synth-overlay-content">
+                        <h2 class="synth-fg-title">Cyber Security</h2>
+                        <p class="synth-sub-title">DEFENDING THE DIGITAL FRONTIER.</p>
                     </div>
                 </div>
+
+                <!-- Bottom Details Layout -->
+                <div class="synth-footer-row">
+                    <!-- Left Info Block -->
+                    <div class="synth-footer-left">
+                        <h3 class="synth-detail-title">THREAT INTELLIGENCE & DEFENSE</h3>
+                        <p class="synth-detail-desc">Proactive vulnerability assessment and penetration testing to fortify your digital infrastructure against evolving threats.</p>
+                    </div>
+
+                    <!-- Right Glassmorphic Badge -->
+                    <div class="synth-footer-right">
+                        <div class="synth-exclusive-card">
+                            <h3 class="synth-card-title">SECURE YOUR SYSTEMS</h3>
+                            <p class="synth-card-desc">Explore my cybersecurity projects, VAPT reports, and security research work.</p>
+                            <a href="#projects-section" class="synth-card-btn" data-scroll-to>
+                                <span>View my work</span>
+                                <span class="synth-eye-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-dasharray="" stroke-width="2" class="eye-svg">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="page1">
-            <div id="left-text" class="transmission-reveal">
-                <h3 class="p7-accent">THE MISSION</h3>
-                <h1>SECURE SYSTEMS</h1>
-                <p>BUILDING <span class="p7-light">SCALABLE</span> AND <span class="p7-accent">RESILIENT</span>
-                    DIGITAL <span class="p7-light">INFRASTRUCTURES</span> THROUGH PRACTICAL CYBERSECURITY KNOWLEDGE.</p>
+            <div class="cyber-page1-container">
+                <!-- Left Section (Mission) -->
+                <div class="mission-section transmission-reveal">
+                    <div class="section-tag-row">
+                        <span class="purple-dot"></span>
+                        <span class="section-tag-text">THE MISSION</span>
+                    </div>
+                    <h1 class="mission-title">SECURE<br><span class="purple-text">SYSTEMS</span></h1>
+                    <div class="purple-divider"></div>
+                </div>
+                
+                <!-- Right Section (Capabilities) -->
+                <div class="capabilities-section transmission-reveal">
+                    <div class="section-tag-row">
+                        <span class="purple-dot"></span>
+                        <span class="section-tag-text">CAPABILITIES</span>
+                    </div>
+                    <div class="capabilities-content">
+                        <p>Building <span class="highlight-purple">scalable</span> and <span class="highlight-purple">resilient</span> digital <span class="highlight-purple">infrastructures</span> through practical <span class="highlight-purple">cybersecurity</span> knowledge.</p>
+                        <p>Applying <span class="highlight-purple">VAPT</span> methods to <span class="highlight-purple">identify</span> risks, <span class="highlight-purple">strengthen</span> controls, and <span class="highlight-purple">protect</span> networks.</p>
+                    </div>
+                </div>
             </div>
-            <div id="right-text" class="transmission-reveal">
-                <h3 class="p7-accent">CAPABILITIES</h3>
-                <h1>THREAT DEFENSE</h1>
-                <p>APPLYING <span class="p7-light">VAPT</span> METHODS TO <span class="p7-accent">IDENTIFY</span> RISKS, <span class="p7-light">STRENGTHEN</span> CONTROLS, AND PROTECT NETWORKS.</p>
+
+            <!-- Page 1 Bottom Footer Row -->
+            <div class="page1-footer-row">
+                <!-- Left Social Icons -->
+                <div class="page1-footer-socials">
+                    <a href="https://www.linkedin.com/in/jeevananthan18" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="social-icon"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="social-icon"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#contact-section" data-scroll-to aria-label="Email">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="social-icon"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </a>
+                </div>
+
+                <!-- Center Scroll to Explore -->
+                <div class="page1-footer-scroll">
+                    <svg viewBox="0 0 100 100" class="scroll-explore-svg">
+                        <path id="curve" d="M 10 60 A 40 40 0 0 1 90 60" fill="none" />
+                        <text class="scroll-text">
+                            <textPath href="#curve" startOffset="50%" text-anchor="middle">
+                                SCROLL TO EXPLORE
+                            </textPath>
+                        </text>
+                    </svg>
+                    <a href="#about-section" data-scroll-to class="scroll-explore-circle" aria-label="Scroll to about section">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="scroll-explore-arrow">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Right Branding Tags -->
+                <div class="page1-footer-tags">
+                    <span>BUILDER.</span>
+                    <span class="highlight-purple">DEFENDER.</span>
+                    <span>INNOVATOR.</span>
+                </div>
             </div>
         </div>
         <div data-section="sections/about.html"></div>
