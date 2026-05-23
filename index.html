@@ -21,7 +21,7 @@
     <style>
         /* Critical Above-The-Fold Styles for Synth Era Hero Section */
         #page {
-            background: radial-gradient(circle at center, #1b1b1f 0%, #030303 100%) !important;
+            background: radial-gradient(circle at center, #1b1b1f 0%, #050505 40%, #050505 100%) !important;
             padding: 80px var(--side-padding) 40px var(--side-padding) !important;
         }
 
@@ -67,7 +67,7 @@
             letter-spacing: -0.01em;
             margin: 0;
             padding: 0;
-            background: #4c4c4c;
+            background: linear-gradient(180deg, #a0a0a0 0%, #3a3a3a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.95));
@@ -496,7 +496,7 @@
             padding: 0 var(--side-padding) !important;
             position: relative !important;
             overflow: hidden !important;
-            background: radial-gradient(circle at center, #1b1b1f 0%, #030303 100%) !important;
+            background: radial-gradient(circle at center, #1b1b1f 0%, #050505 45%, #050505 100%) !important;
         }
 
         .cyber-page1-container {
@@ -522,11 +522,16 @@
 
         .purple-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: var(--p7-3);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--p7-3);
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            border: 2px solid var(--p7-3);
+            animation: spin-square 4s linear infinite;
+        }
+
+        @keyframes spin-square {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .section-tag-text {
@@ -561,6 +566,7 @@
 
         .mission-title span.purple-text {
             color: var(--p7-3);
+            font-family: inherit !important;
         }
 
         .purple-divider {
@@ -585,6 +591,14 @@
             color: #a0a0a8;
             margin-bottom: 30px;
             font-weight: 300;
+            transition: all 0.4s ease;
+            position: relative;
+            transform-origin: left center;
+        }
+
+        .capabilities-content p:hover {
+            color: #ffffff;
+            transform: translateX(10px);
         }
 
         .capabilities-content p:last-child {
@@ -640,8 +654,9 @@
             justify-content: center;
             position: relative;
             width: 120px;
-            height: 90px;
+            height: 120px;
             margin-top: -35px;
+            transform: translateX(30px); /* Moved slightly right per user request */
         }
 
         .scroll-explore-svg {
@@ -651,6 +666,12 @@
             top: 0;
             left: 0;
             pointer-events: none;
+            animation: rotate-text-circle 15s linear infinite;
+        }
+
+        @keyframes rotate-text-circle {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .scroll-explore-svg path {
@@ -678,13 +699,15 @@
             transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             background: transparent;
             position: absolute;
-            bottom: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .scroll-explore-circle:hover {
             border-color: var(--p7-3);
             box-shadow: 0 0 15px rgba(168, 163, 227, 0.4);
-            transform: translateY(2px);
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .scroll-explore-arrow {
@@ -710,6 +733,49 @@
         }
 
         /* Responsive & Mobile Support for Cyber Operation Portal */
+        /* Alive Background Effects for Page 1 */
+        .cyber-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: float-orb 15s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(155, 48, 255, 0.3);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(65, 105, 225, 0.2);
+            bottom: 10%;
+            right: 5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float-orb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -50px) scale(1.1); }
+            100% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .mission-title {
+            transition: text-shadow 0.3s ease;
+        }
+        
+        .mission-title:hover {
+            /* removed text-shadow blur effect per user request */
+        }
+
         @media (max-width: 1024px) {
             .cyber-page1-container {
                 flex-direction: column;
@@ -748,10 +814,30 @@
             #page1 {
                 height: auto !important;
                 min-height: 100vh !important;
-                padding-top: 80px !important;
-                padding-bottom: 40px !important;
+                padding-top: 100px !important;
+                padding-bottom: 60px !important;
             }
-            
+            .cyber-page1-container {
+                gap: 20px;
+                margin-top: 20px;
+                align-items: center;
+            }
+            .mission-title {
+                font-size: clamp(2rem, 8vw, 3rem); /* Smaller font for mobile */
+                line-height: 1.1;
+                text-align: center;
+            }
+            .section-tag-row {
+                justify-content: center; /* Center tags on mobile */
+            }
+            .purple-divider {
+                margin: 20px auto 30px; /* Center divider */
+            }
+            .capabilities-content p {
+                font-size: 1rem;
+                text-align: center;
+                line-height: 1.5;
+            }
             .page1-footer-row {
                 flex-direction: column;
                 gap: 30px;
@@ -761,6 +847,9 @@
             
             .page1-footer-scroll {
                 order: -1; /* Put scroll button at top of footer stack */
+            }
+            .cyber-orb {
+                display: none; /* Hide orbs on mobile to reduce clutter */
             }
         }
     </style>
@@ -871,6 +960,8 @@
         </div>
 
         <div id="page1">
+            <div class="cyber-orb orb-1"></div>
+            <div class="cyber-orb orb-2"></div>
             <div class="cyber-page1-container">
                 <!-- Left Section (Mission) -->
                 <div class="mission-section transmission-reveal">
@@ -913,10 +1004,10 @@
                 <!-- Center Scroll to Explore -->
                 <div class="page1-footer-scroll">
                     <svg viewBox="0 0 100 100" class="scroll-explore-svg">
-                        <path id="curve" d="M 10 60 A 40 40 0 0 1 90 60" fill="none" />
+                        <path id="curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
                         <text class="scroll-text">
-                            <textPath href="#curve" startOffset="50%" text-anchor="middle">
-                                SCROLL TO EXPLORE
+                            <textPath href="#curve" startOffset="0" text-anchor="start">
+                                SCROLL TO EXPLORE &nbsp; &bull; &nbsp; SCROLL TO EXPLORE &nbsp; &bull; &nbsp;
                             </textPath>
                         </text>
                     </svg>

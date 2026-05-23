@@ -743,6 +743,29 @@ initSiteLoader().finally(() => {
         }
     }
     
+    function initFooterTime() {
+        const timeEl = document.getElementById("footer-time");
+        if (!timeEl) return;
+        
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            timeEl.textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+
     // FINAL REFRESH
     setTimeout(() => { ScrollTrigger.refresh(); }, 1000);
+    
+    initFooterTime();
 });
