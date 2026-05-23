@@ -14,7 +14,6 @@
     <meta property="og:title" content="Jeevananthan M | Cybersecurity Portfolio">
     <meta property="og:description" content="Cybersecurity portfolio of Jeevananthan M — Ethical Hacker, VAPT Specialist, and Security Researcher.">
     <meta property="og:type" content="website">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="stylesheet" href="style.css?v=22">
     <link rel="stylesheet" href="sections/projects_v2.css?v=7">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
@@ -782,7 +781,7 @@
                 gap: 40px;
                 align-items: stretch;
                 margin-top: 60px;
-                padding-bottom: 120px;
+                padding-bottom: 0px;
             }
 
             .capabilities-section {
@@ -840,13 +839,17 @@
             }
             .page1-footer-row {
                 flex-direction: column;
-                gap: 30px;
+                gap: 35px;
                 align-items: center;
                 text-align: center;
+                margin-top: 20px;
             }
             
             .page1-footer-scroll {
                 order: -1; /* Put scroll button at top of footer stack */
+                transform: translateX(0);
+                margin-top: -40px;
+                margin-bottom: 30px;
             }
             .cyber-orb {
                 display: none; /* Hide orbs on mobile to reduce clutter */
@@ -1003,10 +1006,12 @@
 
                 <!-- Center Scroll to Explore -->
                 <div class="page1-footer-scroll">
-                    <svg viewBox="0 0 100 100" class="scroll-explore-svg">
-                        <path id="curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" class="scroll-explore-svg">
+                        <defs>
+                            <path id="curve" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
+                        </defs>
                         <text class="scroll-text">
-                            <textPath href="#curve" startOffset="0" text-anchor="start">
+                            <textPath href="#curve" xlink:href="#curve" startOffset="0" text-anchor="start">
                                 SCROLL TO EXPLORE &nbsp; &bull; &nbsp; SCROLL TO EXPLORE &nbsp; &bull; &nbsp;
                             </textPath>
                         </text>
