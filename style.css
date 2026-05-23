@@ -5107,7 +5107,7 @@ img, video, svg, canvas {
 /* === FIX: Ensure hero sections never show black === */
 body.is-touch #page,
 body.is-touch #page1 {
-    background-color: #050505 !important;
+    background: radial-gradient(circle at center, #1b1b1f 0%, #050505 40%, #050505 100%) !important;
     min-height: 100svh !important;
 }
 
